@@ -12,7 +12,7 @@ public class Die implements CommandExecutor {
 
         if(sender instanceof Player) {
             Player p = (Player) sender;
-            p.sendMessage("You have just killed yourself");
+            p.sendMessage("You have just killed yourself, good job!");
             p.setHealth(0);
         }
 
