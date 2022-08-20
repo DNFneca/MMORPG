@@ -18,7 +18,7 @@ public class ItemStats {
             ItemStack Item = p.getInventory().getItem(itemSlot);
             ItemMeta itemMeta = Item.getItemMeta();
             data = Objects.requireNonNull(Check.ExistingStats(itemMeta));
-            System.out.println(data);
+//            System.out.println(data);
         }
 
 

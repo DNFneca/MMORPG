@@ -14,6 +14,7 @@ public class Check {
             // [1] strength
             // [2] critdamage
             // [3] critchance
+            // [4] Mana Cost
 
 
             switch (meta.getDisplayName()) {
@@ -22,6 +23,7 @@ public class Check {
                     data[1] = "20";
                     data[2] = "30";
                     data[3] = "10";
+                    data[4] = "0";
                     break;
                 default:
                     data[0] = "0";

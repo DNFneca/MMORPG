@@ -64,6 +64,9 @@ public class Stats {
             case 9:
                 obj.getScore("EffectiveCritDamage").setScore(Integer.parseInt(newEntry));
                 break;
+            case 10:
+                obj.getScore("CurrentHealth").setScore(Integer.parseInt(newEntry));
+                break;
         }
 
         return stats;

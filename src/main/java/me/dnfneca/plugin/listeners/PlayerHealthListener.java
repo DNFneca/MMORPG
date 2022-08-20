@@ -11,9 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Objective;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature.*;
 import static org.bukkit.entity.EntityType.PLAYER;
@@ -81,12 +83,15 @@ public class PlayerHealthListener implements Listener {
 
             }
 
+
             if(player.getItemInHand() != null) {
 //                System.out.println(player.getItemInHand());
-                String[] data = Check.ExistingStats(player.getItemInHand().getItemMeta());
-//                System.out.println(Arrays.toString(data));
-            }
 
+                String[] data = Check.ExistingStats(player.getItemInHand().getItemMeta());
+
+//                System.out.println(Arrays.toString(data));
+
+            }
             switch (tags.get(4)) {
                 case "Rare":
                     nameColor = String.valueOf(ChatColor.BLUE);
@@ -154,8 +159,27 @@ public class PlayerHealthListener implements Listener {
 
         }
 
+        if(e.getEntity().getType() == PLAYER) {
+            Player p = (Player) e.getEntity();
+            Objective obj = p.getScoreboard().getObjective("Stats");
+            double CurrentHealth = Double.parseDouble(Stats.getStats().get(10));
+            System.out.println(CurrentHealth);
+            Object[] tags = e.getDamager().getScoreboardTags().toArray();
+            System.out.println(Arrays.toString(tags));
+
+            CurrentHealth =- Double.parseDouble(String.valueOf(tags[1]));
+//            System.out.println(CurrentHealth);
+            System.out.println(CurrentHealth);
+
+            Stats.setStats(10, String.valueOf(CurrentHealth), obj);
+            //            Stats.setStats(10, String.valueOf(CurrentHealth));
+            if(CurrentHealth >= 0) {
+                p.setHealth(0);
+            }
+        }
 
         if (!(e.getDamager() instanceof Player)) {
+//            Stats.addStats(10, (Integer.parseInt(Stats.getStats().get(0)) -= Integer.parseInt(ItemStats.Weapon()[1])));
             if (e.getDamager().getCustomName() != null) {
                 switch (e.getDamager().getType()) {
                     case SPIDER:
