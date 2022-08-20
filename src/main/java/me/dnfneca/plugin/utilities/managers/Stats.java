@@ -49,6 +49,21 @@ public class Stats {
             case 4:
                 obj.getScore("CritDamage").setScore(Integer.parseInt(newEntry));
                 break;
+            case 5:
+                obj.getScore("EffectiveHealth").setScore(Integer.parseInt(newEntry));
+                break;
+            case 6:
+                obj.getScore("EffectiveDefence").setScore(Integer.parseInt(newEntry));
+                break;
+            case 7:
+                obj.getScore("EffectiveStrength").setScore(Integer.parseInt(newEntry));
+                break;
+            case 8:
+                obj.getScore("EffectiveCritChance").setScore(Integer.parseInt(newEntry));
+                break;
+            case 9:
+                obj.getScore("EffectiveCritDamage").setScore(Integer.parseInt(newEntry));
+                break;
         }
 
         return stats;
@@ -56,10 +71,10 @@ public class Stats {
     public static double getDefence(EntityDamageByEntityEvent e, Player player, ArrayList<String> tags, double defence, boolean isPlayer) {
         double Def = 1;
         if(isPlayer == false) {
-            System.out.println(Arrays.toString(ItemStats.Weapon(player)));
-//            int getPlayerStrength = Integer.parseInt(Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore() + ItemStats.Weapon(player)[1]);
+//            System.out.println(ItemStats.Weapon(player)[1]);
+            int getPlayerStrength = Integer.parseInt(Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore() + ItemStats.Weapon(player)[1]);
             int getAttackedStrength = Integer.parseInt(tags.get(1));
-            int getPlayerStrength = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore();
+//            int getPlayerStrength = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore();
             Def = defence / (getPlayerStrength/25);
         } else
             Def = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Defence").getScore();

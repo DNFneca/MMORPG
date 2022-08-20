@@ -115,9 +115,10 @@ public class PlayerHealthListener implements Listener {
 
             if (health <= 0) {
                 entityHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                entityHit.damage(1000, player);
+                entityHit.setHealth(1);
+                entityHit.damage(20, player);
                 entityHit.setCustomNameVisible(false);
-                entityHit.remove();
+//                entityHit.remove();
             }
 ////            ScoreboardManager manager = Bukkit.getScoreboardManager();
 ////            assert manager != null;

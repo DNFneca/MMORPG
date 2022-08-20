@@ -2,8 +2,6 @@ package me.dnfneca.plugin.utilities.managers.Item;
 
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-
 public class Check {
     public static String[] ExistingStats(ItemMeta meta) {
         String[] data = new String[10];
@@ -24,11 +22,22 @@ public class Check {
                     data[1] = "20";
                     data[2] = "30";
                     data[3] = "10";
-
+                    break;
+                default:
+                    data[0] = "0";
+                    data[1] = "0";
+                    data[2] = "0";
+                    data[3] = "0";
+                    data[4] = "0";
+                    data[5] = "0";
+                    data[6] = "0";
+                    data[7] = "0";
+                    data[8] = "0";
+                    data[9] = "0";
                     break;
             }
 
-            return (String[]) Arrays.stream(data).toArray();
+            return data;
         }
     }
 }

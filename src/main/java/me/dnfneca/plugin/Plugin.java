@@ -13,7 +13,6 @@ public final class Plugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("E");
 
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new @NonNull test());
 //        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
@@ -26,7 +25,8 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobHealthListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerHealthListener(), this);
         getServer().getPluginManager().registerEvents(new MyCreature(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+//        getServer().getPluginManager().registerEvents(new (this), this);
 
 
 

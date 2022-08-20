@@ -5,22 +5,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Objects;
 
 public class ItemStats {
     public static String[] Weapon(Player p) {
         String[] data = new String[10];
-        if (p.getItemInUse() != null) {
-            ItemStack Weapon = p.getItemInUse();
-            ItemMeta meta = Weapon.getItemMeta();
 
-            System.out.println(Arrays.toString(Check.ExistingStats(meta)));
+        int itemSlot = p.getInventory().getHeldItemSlot();
 
 
-
-            data = Check.ExistingStats(meta);
-
+        if(p.getInventory().getItem(itemSlot) != null && p.getInventory().getItem(itemSlot).getItemMeta() != null) {
+            ItemStack Item = p.getInventory().getItem(itemSlot);
+            ItemMeta itemMeta = Item.getItemMeta();
+            data = Objects.requireNonNull(Check.ExistingStats(itemMeta));
+            System.out.println(data);
         }
+
 
 
         return data;
