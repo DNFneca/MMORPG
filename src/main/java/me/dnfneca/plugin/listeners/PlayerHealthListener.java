@@ -15,12 +15,13 @@ import org.bukkit.scoreboard.Objective;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature.*;
 import static org.bukkit.entity.EntityType.PLAYER;
 
 public class PlayerHealthListener implements Listener {
+    ArrayList<String> tags = new ArrayList<>();
+
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager().getType() == PLAYER) {
@@ -35,7 +36,6 @@ public class PlayerHealthListener implements Listener {
             String[] getScores = entityHit.getScoreboardTags().toArray(new String[10]);
             Player player = (Player) e.getDamager();
 
-            ArrayList<String> tags = new ArrayList<>();
             switch (e.getEntityType()) {
                 case SPIDER:
                     if (entityHit.getCustomName().contains("Creature")) {
@@ -162,19 +162,23 @@ public class PlayerHealthListener implements Listener {
         if(e.getEntity().getType() == PLAYER) {
             Player p = (Player) e.getEntity();
             Objective obj = p.getScoreboard().getObjective("Stats");
-            double CurrentHealth = Double.parseDouble(Stats.getStats().get(10));
-            System.out.println(CurrentHealth);
-            Object[] tags = e.getDamager().getScoreboardTags().toArray();
-            System.out.println(Arrays.toString(tags));
 
-            CurrentHealth =- Double.parseDouble(String.valueOf(tags[1]));
+            double CurrentHealth = Double.parseDouble(Stats.getStats().get(10));
+//            System.out.println(CurrentHealth);
+//            Set<String> tags = e.getDamager().getScoreboardTags();
+            System.out.println(Double.parseDouble(tags.get(1)));
+            System.out.println(CurrentHealth * Double.parseDouble(Stats.getStats().get(1)));
+
+            CurrentHealth = (CurrentHealth * Double.parseDouble(Stats.getStats().get(1))) - Double.parseDouble(String.valueOf(tags.get(1)));
+
 //            System.out.println(CurrentHealth);
             System.out.println(CurrentHealth);
 
-            Stats.setStats(10, String.valueOf(CurrentHealth), obj);
+            Stats.setStats(10, String.valueOf((int) CurrentHealth), p.getScoreboard().getObjective("Stats"));
             //            Stats.setStats(10, String.valueOf(CurrentHealth));
-            if(CurrentHealth >= 0) {
+            if(CurrentHealth <= 0) {
                 p.setHealth(0);
+                Stats.setStats(10, Stats.getStats().get(0), p.getScoreboard().getObjective("Stats"));
             }
         }
 

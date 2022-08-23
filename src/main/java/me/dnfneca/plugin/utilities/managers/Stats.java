@@ -138,6 +138,7 @@ public class Stats {
                 break;
         }
 
+
         return rarity;
     }
     public static int getRandomLevel(int min, int max) {
@@ -146,5 +147,4 @@ public class Stats {
 
         return rand.nextInt((max - min) + 1) + min;
     }
-
 }

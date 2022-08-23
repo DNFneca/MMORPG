@@ -4,7 +4,10 @@ package me.dnfneca.plugin.listeners;
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.Stats;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -102,10 +105,13 @@ public class PlayerJoin implements Listener{
         new BukkitRunnable() {
             @Override
             public void run() {
-
+                player.spigot().sendMessage(
+                        ChatMessageType.ACTION_BAR,
+                        new TextComponent(ChatColor.RED + "❤ " + Stats.getStats().get(10) + ChatColor.GRAY + "/" + ChatColor.RED + Stats.getStats().get(0) + "         " + ChatColor.GREEN + "🛡 " + Stats.getStats().get(1))
+                );
                 EffectiveStrength.setScore(Integer.parseInt(Stats.getStats().get(2)) + Integer.parseInt(ItemStats.Weapon(player)[1]));
 
             }
-        }.runTaskTimer(plugin , 0L, 10L);
+        }.runTaskTimer(plugin , 0L, 5L);
     }
 }
