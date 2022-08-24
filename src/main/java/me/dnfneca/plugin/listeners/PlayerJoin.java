@@ -44,7 +44,7 @@ public class PlayerJoin implements Listener{
         Score Strength = obj.getScore("Strength");
         Score CritChance = obj.getScore("CritChance");
         Score CritDamage = obj.getScore("CritDamage");
-        Score EffectiveHealth = obj.getScore("EffectiveHealth");
+        Score Mana = obj.getScore("Mana");
         Score EffectiveDefence = obj.getScore("EffectiveDefence");
         Score EffectiveStrength = obj.getScore("EffectiveStrength");
         Score EffectiveCritChance = obj.getScore("EffectiveCritChance");
@@ -58,6 +58,11 @@ public class PlayerJoin implements Listener{
             Strength.setScore(25);
             CritChance.setScore(0);
             CritDamage.setScore(10);
+            Mana.setScore(0);
+            EffectiveDefence.setScore(0);
+            EffectiveStrength.setScore(0);
+            EffectiveCritChance.setScore(0);
+            EffectiveCritDamage.setScore(0);
             CurrentHealth.setScore(20);
 //            EffectiveStrength.setScore(Strength );
 
@@ -66,7 +71,7 @@ public class PlayerJoin implements Listener{
             Stats.addStats(2, String.valueOf(obj.getScore("Strength").getScore()));
             Stats.addStats(3, String.valueOf(obj.getScore("CritChance").getScore()));
             Stats.addStats(4, String.valueOf(obj.getScore("CritDamage").getScore()));
-            Stats.addStats(5, String.valueOf(obj.getScore("EffectiveHealth").getScore()));
+            Stats.addStats(5, String.valueOf(obj.getScore("Mana").getScore()));
             Stats.addStats(6, String.valueOf(obj.getScore("EffectiveDefence").getScore()));
             Stats.addStats(7, String.valueOf(obj.getScore("EffectiveStrength").getScore()));
             Stats.addStats(8, String.valueOf(obj.getScore("EffectiveCritChance").getScore()));
@@ -87,7 +92,7 @@ public class PlayerJoin implements Listener{
             Stats.setStats(2, String.valueOf(obj.getScore("Strength").getScore()), obj);
             Stats.setStats(3, String.valueOf(obj.getScore("CritChance").getScore()), obj);
             Stats.setStats(4, String.valueOf(obj.getScore("CritDamage").getScore()), obj);
-            Stats.setStats(5, String.valueOf(obj.getScore("EffectiveHealth").getScore()), obj);
+            Stats.setStats(5, String.valueOf(obj.getScore("Mana").getScore()), obj);
             Stats.setStats(6, String.valueOf(obj.getScore("EffectiveDefence").getScore()), obj);
             Stats.setStats(7, String.valueOf(obj.getScore("EffectiveStrength").getScore()), obj);
             Stats.setStats(8, String.valueOf(obj.getScore("EffectiveCritChance").getScore()), obj);
@@ -110,6 +115,9 @@ public class PlayerJoin implements Listener{
                         new TextComponent(ChatColor.RED + "❤ " + Stats.getStats().get(10) + ChatColor.GRAY + "/" + ChatColor.RED + Stats.getStats().get(0) + "         " + ChatColor.GREEN + "🛡 " + Stats.getStats().get(1))
                 );
                 EffectiveStrength.setScore(Integer.parseInt(Stats.getStats().get(2)) + Integer.parseInt(ItemStats.Weapon(player)[1]));
+                EffectiveCritChance.setScore(Integer.parseInt(Stats.getStats().get(3)) + Integer.parseInt(ItemStats.Weapon(player)[3]));
+                EffectiveCritDamage.setScore(Integer.parseInt(Stats.getStats().get(4)) + Integer.parseInt(ItemStats.Weapon(player)[2]));
+//                EffectiveDefence.setScore;
 
             }
         }.runTaskTimer(plugin , 0L, 5L);

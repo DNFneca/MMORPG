@@ -1,6 +1,5 @@
 package me.dnfneca.plugin.utilities.managers;
 
-import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scoreboard.Objective;
@@ -75,7 +74,7 @@ public class Stats {
         double Def = 1;
         if(isPlayer == false) {
 //            System.out.println(ItemStats.Weapon(player)[1]);
-            int getPlayerStrength = Integer.parseInt(Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore() + ItemStats.Weapon(player)[1]);
+            int getPlayerStrength = (Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("EffectiveStrength").getScore());
             int getAttackedStrength = Integer.parseInt(tags.get(1));
 //            int getPlayerStrength = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore();
             Def = defence / (getPlayerStrength/25);
@@ -146,5 +145,15 @@ public class Stats {
 // nextInt as provided by Random is exclusive of the top value so you need to add 1
 
         return rand.nextInt((max - min) + 1) + min;
+    }
+
+    public static boolean getCritRoll(double Percentage) {
+        double procent = Percentage * 0.01;
+        double r = Math.random();
+        if(r < procent) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

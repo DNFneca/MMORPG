@@ -25,6 +25,13 @@ public class Check {
                     data[3] = "10";
                     data[4] = "0";
                     break;
+                case "Aspect of the Nether":
+                    data[0] = "100";
+                    data[1] = "125";
+                    data[2] = "200";
+                    data[3] = "100";
+                    data[4] = "0";
+                    break;
                 default:
                     data[0] = "0";
                     data[1] = "0";

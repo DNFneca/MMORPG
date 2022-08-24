@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.listeners;
 
+import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.Item.Check;
 import me.dnfneca.plugin.utilities.managers.Stats;
 import org.bukkit.ChatColor;
@@ -54,34 +55,67 @@ public class PlayerHealthListener implements Listener {
                     }
                     break;
             }
+            int EffectiveCritDamage = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritDamage").getScore();
+            int EffectiveCritChance = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritChance").getScore();
+            int damage = Integer.parseInt(ItemStats.Weapon(player)[0]);
             double health;
-//            System.out.println(tags.get(3));
-            if (getScores[0] == null) {
-                double def = Double.parseDouble(tags.get(3));
-                entityHit.addScoreboardTag(String.valueOf(maxHealth));
-                if (tags.size() == 0) {
-                    health = maxHealth - e.getDamage() / def;
+            boolean Roll = Stats.getCritRoll(Double.parseDouble(String.valueOf(EffectiveCritChance)));
+//            System.out.println(Roll);
+            System.out.println(tags.get(3) + "  " + damage + "  " );
+//            System.out.println(player.getScoreboard().getObjective("Stats").getScore("EffectiveCritDamage").getScore());
+            if(Roll) {
+                if (getScores[0] == null) {
+                    double def = Double.parseDouble(tags.get(3));
+                    entityHit.addScoreboardTag(String.valueOf(maxHealth));
+                    if (tags.size() == 0) {
+                        health = maxHealth - damage + damage * ((double) EffectiveCritDamage) * 0.01 / def;
+                    } else {
+                        health = maxHealth - (damage + damage * ((double) EffectiveCritDamage) * 0.01) / Double.parseDouble(String.valueOf(tags.get(3)));
+                    }
+
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.addScoreboardTag(String.valueOf(health));
+                } else if (Double.parseDouble(getScores[0]) == Double.parseDouble(String.valueOf(maxHealth))) {
+                    entityHit.addScoreboardTag(String.valueOf(maxHealth));
+                    health = maxHealth - (damage + damage * ((double) EffectiveCritDamage) * 0.01) / Double.parseDouble(String.valueOf(tags.get(3)));
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.addScoreboardTag(String.valueOf(health));
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.removeScoreboardTag(getScores[0]);
                 } else {
-                    health = maxHealth - (e.getDamage() / Double.parseDouble(String.valueOf(tags.get(3))));
+                    health = Double.parseDouble(getScores[0]) - (damage + damage * ((double) EffectiveCritDamage) * 0.01) / Double.parseDouble(String.valueOf(tags.get(3)));
+                    entityHit.removeScoreboardTag(getScores[0]);
+                    entityHit.removeScoreboardTag(getScores[1]);
+                    entityHit.addScoreboardTag(String.valueOf(health));
                 }
-
-                entityHit.removeScoreboardTag(String.valueOf(maxHealth));
-                entityHit.addScoreboardTag(String.valueOf(health));
-            } else if (Double.parseDouble(getScores[0]) == Double.parseDouble(String.valueOf(maxHealth))) {
-                entityHit.addScoreboardTag(String.valueOf(maxHealth));
-                health = maxHealth - (e.getDamage() / Double.parseDouble(String.valueOf(tags.get(3))));
-                entityHit.removeScoreboardTag(String.valueOf(maxHealth));
-                entityHit.addScoreboardTag(String.valueOf(health));
-                entityHit.removeScoreboardTag(String.valueOf(maxHealth));
-                entityHit.removeScoreboardTag(getScores[0]);
             } else {
-                health = Double.parseDouble(getScores[0]) - (e.getDamage() / Double.parseDouble(String.valueOf(tags.get(3))));
-                entityHit.removeScoreboardTag(getScores[0]);
-                entityHit.removeScoreboardTag(getScores[1]);
-                entityHit.addScoreboardTag(String.valueOf(health));
+                if (getScores[0] == null) {
+                    double def = Double.parseDouble(tags.get(3));
+                    entityHit.addScoreboardTag(String.valueOf(maxHealth));
+                    if (tags.size() == 0) {
+                        health = maxHealth - damage / def;
+                    } else {
+                        health = maxHealth - (damage  / Double.parseDouble(String.valueOf(tags.get(3))));
+                    }
 
-
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.addScoreboardTag(String.valueOf(health));
+                } else if (Double.parseDouble(getScores[0]) == Double.parseDouble(String.valueOf(maxHealth))) {
+                    entityHit.addScoreboardTag(String.valueOf(maxHealth));
+                    health = maxHealth - (damage / Double.parseDouble(String.valueOf(tags.get(3))));
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.addScoreboardTag(String.valueOf(health));
+                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
+                    entityHit.removeScoreboardTag(getScores[0]);
+                } else {
+                    health = Double.parseDouble(getScores[0]) - (damage / Double.parseDouble(String.valueOf(tags.get(3))));
+                    entityHit.removeScoreboardTag(getScores[0]);
+                    entityHit.removeScoreboardTag(getScores[1]);
+                    entityHit.addScoreboardTag(String.valueOf(health));
+                }
             }
+//            System.out.println(tags.get(3));
+
 
 
             if(player.getItemInHand() != null) {
@@ -119,10 +153,11 @@ public class PlayerHealthListener implements Listener {
             entityHit.removeScoreboardTag(String.valueOf(maxHealth));
 
             if (health <= 0) {
-                entityHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                entityHit.setHealth(1);
-                entityHit.damage(20, player);
+//                entityHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                entityHit.setCustomName("");
                 entityHit.setCustomNameVisible(false);
+                entityHit.setHealth(0);
+//                entityHit.damage(20, player);
 //                entityHit.remove();
             }
 ////            ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -157,6 +192,7 @@ public class PlayerHealthListener implements Listener {
 //                    }
 //                }
 
+//            e.getEntity().getLocation()
         }
 
         if(e.getEntity().getType() == PLAYER) {
