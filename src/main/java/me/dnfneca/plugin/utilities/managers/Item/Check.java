@@ -49,4 +49,58 @@ public class Check {
             return data;
         }
     }
+    public static String[] ExistingStatsArmor (ItemMeta meta, int ItemSlot) {
+        String[] data = new String[10];
+        if(meta == null) {
+            return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        } else {
+
+
+
+//            data[0] = health
+//            data[1] = defence
+//            data[2] = heal per second
+//            data[3] = mana
+
+
+
+
+
+            switch (ItemSlot) {
+                case 1:
+                    switch (meta.getDisplayName()) {
+                        case "Iron Armor":
+                            data[0] = "10";
+                            data[1] = "20";
+                            data[2] = "5";
+                            data[3] = "0";
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (meta.getDisplayName()) {
+                        case "Iron Armor":
+                            data[0] = "10";
+                            data[1] = "20";
+                            data[2] = "30";
+                            data[3] = "10";
+                            data[4] = "0";
+                            break;
+                    }
+                    break;
+                default:
+                    switch (meta.getDisplayName()) {
+                        case "Iron Armor":
+                            data[0] = "15";
+                            data[1] = "25";
+                            data[2] = "7";
+                            data[3] = "0";
+                            break;
+                    }
+                    break;
+            }
+
+            return data;
+        }
+    }
 }

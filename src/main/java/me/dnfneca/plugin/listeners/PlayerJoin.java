@@ -44,7 +44,7 @@ public class PlayerJoin implements Listener{
         Score Strength = obj.getScore("Strength");
         Score CritChance = obj.getScore("CritChance");
         Score CritDamage = obj.getScore("CritDamage");
-        Score Mana = obj.getScore("Mana");
+        Score EffectiveHealth = obj.getScore("EffectiveHealth");
         Score EffectiveDefence = obj.getScore("EffectiveDefence");
         Score EffectiveStrength = obj.getScore("EffectiveStrength");
         Score EffectiveCritChance = obj.getScore("EffectiveCritChance");
@@ -53,17 +53,17 @@ public class PlayerJoin implements Listener{
 
 
         if(Stats.getStats().size() == 0) {
-            Health.setScore(20);
+            Health.setScore(100);
             Defence.setScore(5);
             Strength.setScore(25);
             CritChance.setScore(0);
             CritDamage.setScore(10);
-            Mana.setScore(0);
+            EffectiveHealth.setScore(0);
             EffectiveDefence.setScore(0);
             EffectiveStrength.setScore(0);
             EffectiveCritChance.setScore(0);
             EffectiveCritDamage.setScore(0);
-            CurrentHealth.setScore(20);
+            CurrentHealth.setScore(100);
 //            EffectiveStrength.setScore(Strength );
 
             Stats.addStats(0, String.valueOf(obj.getScore("Health").getScore()));
@@ -71,7 +71,7 @@ public class PlayerJoin implements Listener{
             Stats.addStats(2, String.valueOf(obj.getScore("Strength").getScore()));
             Stats.addStats(3, String.valueOf(obj.getScore("CritChance").getScore()));
             Stats.addStats(4, String.valueOf(obj.getScore("CritDamage").getScore()));
-            Stats.addStats(5, String.valueOf(obj.getScore("Mana").getScore()));
+            Stats.addStats(5, String.valueOf(obj.getScore("EffectiveHealth").getScore()));
             Stats.addStats(6, String.valueOf(obj.getScore("EffectiveDefence").getScore()));
             Stats.addStats(7, String.valueOf(obj.getScore("EffectiveStrength").getScore()));
             Stats.addStats(8, String.valueOf(obj.getScore("EffectiveCritChance").getScore()));
@@ -92,7 +92,7 @@ public class PlayerJoin implements Listener{
             Stats.setStats(2, String.valueOf(obj.getScore("Strength").getScore()), obj);
             Stats.setStats(3, String.valueOf(obj.getScore("CritChance").getScore()), obj);
             Stats.setStats(4, String.valueOf(obj.getScore("CritDamage").getScore()), obj);
-            Stats.setStats(5, String.valueOf(obj.getScore("Mana").getScore()), obj);
+            Stats.setStats(5, String.valueOf(obj.getScore("EffectiveHealth").getScore()), obj);
             Stats.setStats(6, String.valueOf(obj.getScore("EffectiveDefence").getScore()), obj);
             Stats.setStats(7, String.valueOf(obj.getScore("EffectiveStrength").getScore()), obj);
             Stats.setStats(8, String.valueOf(obj.getScore("EffectiveCritChance").getScore()), obj);
@@ -112,14 +112,25 @@ public class PlayerJoin implements Listener{
             public void run() {
                 player.spigot().sendMessage(
                         ChatMessageType.ACTION_BAR,
-                        new TextComponent(ChatColor.RED + "❤ " + Stats.getStats().get(10) + ChatColor.GRAY + "/" + ChatColor.RED + Stats.getStats().get(0) + "         " + ChatColor.GREEN + "🛡 " + Stats.getStats().get(1))
-                );
+                        new TextComponent(ChatColor.RED + "❤ " + player.getScoreboard().getObjective("Stats").getScore("CurrentHealth").getScore() + ChatColor.GRAY + "/" + ChatColor.RED + obj.getScore("EffectiveHealth").getScore() + "         " + ChatColor.GREEN + "🛡 " + player.getScoreboard().getObjective("Stats").getScore("EffectiveDefence").getScore()));
                 EffectiveStrength.setScore(Integer.parseInt(Stats.getStats().get(2)) + Integer.parseInt(ItemStats.Weapon(player)[1]));
                 EffectiveCritChance.setScore(Integer.parseInt(Stats.getStats().get(3)) + Integer.parseInt(ItemStats.Weapon(player)[3]));
                 EffectiveCritDamage.setScore(Integer.parseInt(Stats.getStats().get(4)) + Integer.parseInt(ItemStats.Weapon(player)[2]));
-//                EffectiveDefence.setScore;
+                EffectiveHealth.setScore(Integer.parseInt(Stats.getStats().get(0)) + Integer.parseInt(ItemStats.Armor(player, 1)[0]) + Integer.parseInt(ItemStats.Armor(player, 2)[0]) + Integer.parseInt(ItemStats.Armor(player, 3)[0]) + Integer.parseInt(ItemStats.Armor(player, 4)[0]));
 
+
+                EffectiveDefence.setScore(Integer.parseInt(Stats.getStats().get(1)) + Integer.parseInt(ItemStats.Armor(player, 1)[1]) + Integer.parseInt(ItemStats.Armor(player, 2)[1]) + Integer.parseInt(ItemStats.Armor(player, 3)[1]) + Integer.parseInt(ItemStats.Armor(player, 4)[1]));
             }
         }.runTaskTimer(plugin , 0L, 5L);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(((int)(CurrentHealth.getScore() + EffectiveHealth.getScore()*0.01)) < EffectiveHealth.getScore()) {
+                    CurrentHealth.setScore((int) (CurrentHealth.getScore() + EffectiveHealth.getScore() * 0.01));
+                } else {
+                    CurrentHealth.setScore(EffectiveHealth.getScore());
+                }
+            }
+        }.runTaskTimer(plugin , 0L, 20L);
     }
 }

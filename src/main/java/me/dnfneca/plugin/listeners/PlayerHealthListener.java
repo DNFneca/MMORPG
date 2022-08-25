@@ -198,23 +198,47 @@ public class PlayerHealthListener implements Listener {
         if(e.getEntity().getType() == PLAYER) {
             Player p = (Player) e.getEntity();
             Objective obj = p.getScoreboard().getObjective("Stats");
-
+            LivingEntity entityHit = (LivingEntity) e.getDamager();
             double CurrentHealth = Double.parseDouble(Stats.getStats().get(10));
 //            System.out.println(CurrentHealth);
+            double maxHealth = entityHit.getMaxHealth();
+            switch (entityHit.getType()) {
+                case SPIDER:
+                    if (entityHit.getCustomName().contains("Creature")) {
+                        entityHit.removeScoreboardTag(String.valueOf(entityHit.getMaxHealth()));
+                        maxHealth = MaxHealth;
+                        tags.add(0, String.valueOf(MaxHealth));
+                        tags.add(1, String.valueOf(Damage));
+                        tags.add(2, String.valueOf(Strength));
+                        tags.add(3, String.valueOf(Stats.getDefence(e, p, tags, Defence, false)));
+                        tags.add(4, Stats.getRandomRarity(entityHit.getUniqueId()));
+                        tags.add(5, String.valueOf(Level));
+                        tags.add(6, Type);
+                        tags.add(7, Name);
+
+//                    entityHit.removeScoreboardTag(String.valueOf(entityHit.getScoreboardTags().equals("Spider")));
+                    }
+                    break;
+            }
+
+
 //            Set<String> tags = e.getDamager().getScoreboardTags();
-            System.out.println(Double.parseDouble(tags.get(1)));
-            System.out.println(CurrentHealth * Double.parseDouble(Stats.getStats().get(1)));
-
-            CurrentHealth = (CurrentHealth * Double.parseDouble(Stats.getStats().get(1))) - Double.parseDouble(String.valueOf(tags.get(1)));
-
+//            System.out.println(Double.parseDouble(tags.get(1)));
+//            System.out.println(CurrentHealth * Double.parseDouble(Stats.getStats().get(1)));
+//            Objective obj = p.getScoreboard().getObjective("Stats");
+            if(CurrentHealth == obj.getScore("EffectiveHealth").getScore()) {
+                CurrentHealth = obj.getScore("EffectiveHealth").getScore() - ((Double.parseDouble(tags.get(1))) * Double.parseDouble(tags.get(2))) / Double.parseDouble(String.valueOf(obj.getScore("EffectiveDefence").getScore()));
+            } else {
+                CurrentHealth = CurrentHealth - ((Double.parseDouble(tags.get(1))) * Double.parseDouble(tags.get(2))) / Double.parseDouble(String.valueOf(obj.getScore("EffectiveDefence").getScore()));
+            }
 //            System.out.println(CurrentHealth);
             System.out.println(CurrentHealth);
 
-            Stats.setStats(10, String.valueOf((int) CurrentHealth), p.getScoreboard().getObjective("Stats"));
+            Stats.setStats(10, String.valueOf((int) CurrentHealth), obj);
             //            Stats.setStats(10, String.valueOf(CurrentHealth));
             if(CurrentHealth <= 0) {
                 p.setHealth(0);
-                Stats.setStats(10, Stats.getStats().get(0), p.getScoreboard().getObjective("Stats"));
+                Stats.setStats(10, String.valueOf(obj.getScore("EffectiveHealth").getScore()), p.getScoreboard().getObjective("Stats"));
             }
         }
 
