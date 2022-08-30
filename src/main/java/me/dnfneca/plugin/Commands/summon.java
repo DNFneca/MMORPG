@@ -1,6 +1,6 @@
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public class test implements CommandExecutor {
+public class summon implements CommandExecutor {
 
 
     @Override
@@ -38,8 +38,10 @@ public class test implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(player.isOp()) {
-                if(command.getName().equalsIgnoreCase("test")) {
-                    MyCreature.createCreature(player.getLocation());
+                if(command.getName().equalsIgnoreCase("summon")) {
+                    if(args[0].equalsIgnoreCase("BasicSpider")) {
+                        BasicSpider.createCreature(player.getLocation());
+                    }
                 }
             } else {
                 player.sendMessage("You are not allowed to use this command!");

@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature.*;
+import static me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider.*;
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 import static org.bukkit.entity.EntityType.PLAYER;
 

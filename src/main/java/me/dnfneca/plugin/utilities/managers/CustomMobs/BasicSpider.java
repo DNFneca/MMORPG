@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 
-public class MyCreature implements Listener {
+public class BasicSpider implements Listener {
     public static int MaxHealth = 200;
     public static int Level = 75;
     public static String Type = "Spider";
@@ -25,7 +25,7 @@ public class MyCreature implements Listener {
 
     static Plugin plugin;
 
-    public MyCreature(Plugin plugin) {
+    public BasicSpider(Plugin plugin) {
         this.plugin = plugin;
     }
 

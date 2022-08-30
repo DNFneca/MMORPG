@@ -1,9 +1,9 @@
-name: Plugin
+name: MMORPGCustom
 version: '${project.version}'
 main: me.dnfneca.plugin.Plugin
 api-version: 1.18
 authors: [ DNFneca ]
 commands:
-  test:
-    description: test
-    usage: /test
+  summon:
+    description: summon a custom mob from the plugin
+    usage: /summon

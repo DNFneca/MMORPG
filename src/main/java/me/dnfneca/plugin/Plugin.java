@@ -1,12 +1,10 @@
 package me.dnfneca.plugin;
 
-import me.dnfneca.plugin.Commands.test;
+import me.dnfneca.plugin.Commands.summon;
 import me.dnfneca.plugin.listeners.*;
-import me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.Objects;
 
 public final class Plugin extends JavaPlugin {
 
@@ -14,7 +12,7 @@ public final class Plugin extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        Objects.requireNonNull(this.getCommand("test")).setExecutor(new @NonNull test());
+        this.getCommand("summon").setExecutor(new @NonNull summon());
 //        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
 //        Objects.requireNonNull(getCommand("gui")).setExecutor(new GUI());
 
@@ -24,7 +22,7 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FishingListener(), this);
         getServer().getPluginManager().registerEvents(new MobHealthListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerHealthListener(), this);
-        getServer().getPluginManager().registerEvents(new MyCreature(this), this);
+        getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
 //        getServer().getPluginManager().registerEvents(new (this), this);
 

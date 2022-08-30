@@ -54,11 +54,9 @@ public class ItemStats {
 
         if(Item == null) {
             return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
-        }
-
-        if(p.getInventory().getItem(ArmorSlot) != null && p.getInventory().getItem(ArmorSlot).getItemMeta() != null) {
+        } else if(p.getInventory().getItem(ArmorSlot) != null && p.getInventory().getItem(ArmorSlot).getItemMeta() != null) {
             ItemMeta itemMeta = Item.getItemMeta();
-            data = Objects.requireNonNull(Check.ExistingStatsArmor(itemMeta, ArmorSlot));
+            data = Objects.requireNonNull(Check.ExistingStatsArmor(itemMeta));
 //            ArmorSlot
         }
 

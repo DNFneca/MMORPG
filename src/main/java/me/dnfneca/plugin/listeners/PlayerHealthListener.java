@@ -17,7 +17,7 @@ import org.bukkit.scoreboard.Objective;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static me.dnfneca.plugin.utilities.managers.CustomMobs.MyCreature.*;
+import static me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider.*;
 import static org.bukkit.entity.EntityType.PLAYER;
 
 public class PlayerHealthListener implements Listener {
@@ -61,7 +61,7 @@ public class PlayerHealthListener implements Listener {
             double health;
             boolean Roll = Stats.getCritRoll(Double.parseDouble(String.valueOf(EffectiveCritChance)));
 //            System.out.println(Roll);
-            System.out.println(tags.get(3) + "  " + damage + "  " );
+//            System.out.println(tags.get(3) + "  " + damage + "  " );
 //            System.out.println(player.getScoreboard().getObjective("Stats").getScore("EffectiveCritDamage").getScore());
             if(Roll) {
                 if (getScores[0] == null) {
@@ -232,7 +232,7 @@ public class PlayerHealthListener implements Listener {
                 CurrentHealth = CurrentHealth - ((Double.parseDouble(tags.get(1))) * Double.parseDouble(tags.get(2))) / Double.parseDouble(String.valueOf(obj.getScore("EffectiveDefence").getScore()));
             }
 //            System.out.println(CurrentHealth);
-            System.out.println(CurrentHealth);
+//            System.out.println(CurrentHealth);
 
             Stats.setStats(10, String.valueOf((int) CurrentHealth), obj);
             //            Stats.setStats(10, String.valueOf(CurrentHealth));
