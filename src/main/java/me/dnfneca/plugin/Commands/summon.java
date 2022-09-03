@@ -12,7 +12,7 @@ public class summon implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender,@Nonnull Command command,@Nonnull String label,@Nonnull String[] args) {
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 
 
 //        for (Player p: Bukkit.getOnlinePlayers()) {
@@ -34,12 +34,11 @@ public class summon implements CommandExecutor {
 //            System.out.println(money);
 //            p.setScoreboard(board);
 //        }
-
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            if(player.isOp()) {
-                if(command.getName().equalsIgnoreCase("summon")) {
-                    if(args[0].equalsIgnoreCase("BasicSpider")) {
+            if (player.isOp()) {
+                if (command.getName().equalsIgnoreCase("summon")) {
+                    if (args[0].equalsIgnoreCase("BasicSpider")) {
                         BasicSpider.createCreature(player.getLocation());
                     }
                 }
@@ -50,6 +49,7 @@ public class summon implements CommandExecutor {
 //            Player p = (Player) sender;
 //            new CustomEntitiesUtils().spawnEntity(() ->
 //                    new CraftCustomZombie((CraftServer) Bukkit.getServer(), new EntityCustomZombie((EntityTypes<? extends EntityZombie>) EntityTypes.be, (World) p.getWorld())), p.getLocation());
+
         }else {
             sender.sendMessage("Only players can use this command!");
             return true;

@@ -7,3 +7,6 @@ commands:
   summon:
     description: summon a custom mob from the plugin
     usage: /summon
+  item:
+    description: gives an item you name
+    usage: /item

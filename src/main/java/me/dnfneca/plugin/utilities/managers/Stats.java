@@ -66,11 +66,26 @@ public class Stats {
             case 10:
                 obj.getScore("CurrentHealth").setScore(Integer.parseInt(newEntry));
                 break;
+            case 11:
+                obj.getScore("Mana").setScore(Integer.parseInt(newEntry));
+                break;
+            case 12:
+                obj.getScore("CurrentMana").setScore(Integer.parseInt(newEntry));
+                break;
+            case 13:
+                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
+                break;
+            case 14:
+                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
+                break;
+            case 15:
+                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
+                break;
         }
 
         return stats;
     }
-    public static double getDefence(EntityDamageByEntityEvent e, Player player, ArrayList<String> tags, double defence, boolean isPlayer) {
+    public static double getDefence(Player player, ArrayList<String> tags, double defence, boolean isPlayer) {
         double Def = 1;
         if(isPlayer == false) {
 //            System.out.println(ItemStats.Weapon(player)[1]);

@@ -21,7 +21,8 @@ public class MobHealthListener implements Listener {
 
     @EventHandler
     public void onRightClick(EntityDamageEvent e) {
-        if(e.getEntityType() != PLAYER && e.getEntityType() != ARMOR_STAND) {
+        System.out.println(e.getEntityType());
+        if(e.getEntityType() == PLAYER && e.getEntityType() != ARMOR_STAND) {
             DecimalFormat df = new DecimalFormat();
             df.setMaximumFractionDigits(0);
             Location loc = e.getEntity().getLocation();

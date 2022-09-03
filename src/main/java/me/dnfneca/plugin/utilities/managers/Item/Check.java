@@ -26,12 +26,18 @@ public class Check {
                 data[1] = "20";
                 data[2] = "30";
                 data[3] = "10";
-                data[4] = "0";
+                data[4] = "25";
             } else if (meta.getDisplayName().contains("Aspect of the Nether")) {
                 data[0] = "100";
                 data[1] = "125";
                 data[2] = "200";
                 data[3] = "100";
+                data[4] = "0";
+            } else if (meta.getDisplayName().contains("Eros's Bow")) {
+                data[0] = "250";
+                data[1] = "75";
+                data[2] = "350";
+                data[3] = "50";
                 data[4] = "0";
             } else {
                 data[0] = "0";
@@ -72,6 +78,27 @@ public class Check {
                 data[1] = "25";
                 data[2] = "7";
                 data[3] = "0";
+            } else if (meta.getDisplayName().contains("Wise Man's Boots") || meta.getDisplayName().contains("Wise Man's Hat")) {
+                data[0] = "25";
+                data[1] = "5";
+                data[2] = "1";
+                data[3] = "50";
+            } else if (meta.getDisplayName().contains("Wise Man's Trousers") || meta.getDisplayName().contains("Wise Man's Coat")) {
+                data[0] = "30";
+                data[1] = "10";
+                data[2] = "2";
+                data[3] = "75";
+            } else {
+                data[0] = "0";
+                data[1] = "0";
+                data[2] = "0";
+                data[3] = "0";
+                data[4] = "0";
+                data[5] = "0";
+                data[6] = "0";
+                data[7] = "0";
+                data[8] = "0";
+                data[9] = "0";
             }
             return data;
         }
@@ -93,6 +120,8 @@ public class Check {
             Lore.add(ChatColor.GRAY + "Health:" + ChatColor.RED + " +10");
             Lore.add(ChatColor.GRAY + "Defence:" + ChatColor.GREEN + " +20");
             Lore.add(ChatColor.GRAY + "HPS:" + ChatColor.DARK_GREEN + " +5");
+            Lore.add("");
+            Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
             meta.setLore(Lore);
             meta.setUnbreakable(true);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
@@ -102,6 +131,31 @@ public class Check {
             Lore.add(ChatColor.GRAY + "Health:" + ChatColor.RED + " +15");
             Lore.add(ChatColor.GRAY + "Defence:" + ChatColor.GREEN + " +25");
             Lore.add(ChatColor.GRAY + "HPS:" + ChatColor.DARK_GREEN + " +7");
+            Lore.add("");
+            Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
+            meta.setLore(Lore);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        }
+        if(meta.getDisplayName().contains("Wise Man's Boots") || meta.getDisplayName().contains("Wise Man's Hat")){
+            meta.setDisplayName(ItemRarityColor(meta.getDisplayName()) + meta.getDisplayName());
+            Lore.add(ChatColor.GRAY + "Health:" + ChatColor.RED + " +25");
+            Lore.add(ChatColor.GRAY + "Defence:" + ChatColor.GREEN + " +5");
+            Lore.add(ChatColor.GRAY + "HPS:" + ChatColor.DARK_GREEN + " +1");
+            Lore.add(ChatColor.GRAY + "Mana:" + ChatColor.AQUA + " +50");
+            Lore.add("");
+            Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
+            meta.setLore(Lore);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        } else if (meta.getDisplayName().contains("Wise Man's Trousers") || meta.getDisplayName().contains("Wise Man's Coat")) {
+            meta.setDisplayName(ItemRarityColor(meta.getDisplayName()) + meta.getDisplayName());
+            Lore.add(ChatColor.GRAY + "Health:" + ChatColor.RED + " +30");
+            Lore.add(ChatColor.GRAY + "Defence:" + ChatColor.GREEN + " +10");
+            Lore.add(ChatColor.GRAY + "HPS:" + ChatColor.DARK_GREEN + " +2");
+            Lore.add(ChatColor.GRAY + "Mana:" + ChatColor.AQUA + " +75");
             Lore.add("");
             Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
             meta.setLore(Lore);
@@ -145,6 +199,18 @@ public class Check {
             meta.setUnbreakable(true);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
             item.setItemMeta(meta);
+        } else if (meta.getDisplayName().contains("Eros's Bow")) {
+            meta.setDisplayName(ItemRarityColor(meta.getDisplayName()) + meta.getDisplayName());
+            Lore.add(ChatColor.GRAY + "Damage:" + ChatColor.RED + " +250");
+            Lore.add(ChatColor.GRAY + "Strength:" + ChatColor.DARK_RED + " +75");
+            Lore.add(ChatColor.GRAY + "Critical Damage:" + ChatColor.GREEN + " +350%");
+            Lore.add(ChatColor.GRAY + "Critical Chance:" + ChatColor.DARK_GREEN + " +50%");
+            Lore.add("");
+            Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
+            meta.setLore(Lore);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
         }
 
 
@@ -158,6 +224,10 @@ public class Check {
             Rarity = "Rare";
         } else if(ItemDisplayName.contains("Aspect of the Nether")) {
             Rarity = "Legendary";
+        } else if(ItemDisplayName.contains("Eros's Bow")) {
+            Rarity = "Mythic";
+        } else if(ItemDisplayName.contains("Wise Man's")) {
+            Rarity = "Epic";
         } else {
             Rarity = "Common";
         }

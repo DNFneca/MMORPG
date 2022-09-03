@@ -1,23 +1,20 @@
 package me.dnfneca.plugin.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.bukkit.Material.CLAY;
+import static me.dnfneca.plugin.utilities.GUI.GUI.MainMenu;
+import static me.dnfneca.plugin.utilities.GUI.GUI.StatsMenu;
 
 public class InventoryListener implements Listener {
 
@@ -44,7 +41,14 @@ public class InventoryListener implements Listener {
 //                    p.sendMessage("HOI HOI HOE");
 //                System.out.println(p.getAttackCooldown());
                     e.setCancelled(true);
+
                     MainMenu(p);
+                } else if(ClickedItem.getItemMeta().getDisplayName().contains("   ")) {
+                    e.setCancelled(true);
+                } else if(ClickedItem.getItemMeta().getDisplayName().contains("Stats")) {
+                    e.setCancelled(true);
+
+                    StatsMenu(p);
                 }
 //            System.out.println(lore);
 //            System.out.println(ClickedItem.getItemMeta().getLore());
@@ -71,20 +75,5 @@ public class InventoryListener implements Listener {
         for (ItemStack i: Items) {
 //            System.out.println(i.getItemMeta());
         }
-    }
-    public void MainMenu(Player p) {
-        List<String> lore = new ArrayList<>();
-
-
-        Inventory inv = Bukkit.createInventory(null, 54, "Main Menu");
-
-
-        ItemStack clay = new ItemStack(CLAY, 64);
-        ItemMeta clayMeta = clay.getItemMeta();
-        lore.add(ChatColor.DARK_PURPLE + "Staff");
-        clayMeta.setLore(lore);
-        clay.setItemMeta(clayMeta);
-        inv.addItem(clay);
-        p.openInventory(inv);
     }
 }

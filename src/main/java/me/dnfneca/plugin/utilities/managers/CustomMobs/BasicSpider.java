@@ -19,7 +19,7 @@ public class BasicSpider implements Listener {
     public static int Level = 75;
     public static String Type = "Spider";
     public static String Name = "Creature";
-    public static int Defence = 25;
+    public static int Defence = 100;
     public static int Strength = 20;
     public static int Damage = 100;
 
