@@ -1,5 +1,6 @@
 package me.dnfneca.plugin;
 
+import me.dnfneca.plugin.Commands.classreset;
 import me.dnfneca.plugin.Commands.item;
 import me.dnfneca.plugin.Commands.summon;
 import me.dnfneca.plugin.listeners.*;
@@ -14,11 +15,13 @@ public final class Plugin extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
+
+
         Plugin instance = this;
 
         this.getCommand("summon").setExecutor(new @NonNull summon());
         this.getCommand("item").setExecutor(new @NonNull item());
-
+        this.getCommand("classreset").setExecutor(new @NonNull classreset());
 //        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
 //        Objects.requireNonNull(getCommand("gui")).setExecutor(new GUI());
 
@@ -26,7 +29,6 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new AttackListener(), this);
         getServer().getPluginManager().registerEvents(new FishingListener(), this);
-        getServer().getPluginManager().registerEvents(new MobHealthListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerHealthListener(), this);
         getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);

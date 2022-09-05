@@ -1,12 +1,9 @@
 package me.dnfneca.plugin.listeners;
 
+import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.CheckCustomMob;
-import me.dnfneca.plugin.utilities.managers.Item.Check;
 import me.dnfneca.plugin.utilities.managers.Stats;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -44,7 +41,7 @@ public class PlayerHealthListener implements Listener {
             int EffectiveCritDamage = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritDamage").getScore();
             int EffectiveCritChance = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritChance").getScore();
             int Strength = player.getScoreboard().getObjective("Stats").getScore("Strength").getScore();
-            int damage = player.getScoreboard().getObjective("Stats").getScore("Damage").getScore();
+            int damage = player.getScoreboard().getObjective("Stats").getScore("CurrentDamage").getScore();
             double health;
             boolean Roll = Stats.getCritRoll(Double.parseDouble(String.valueOf(EffectiveCritChance)));
             if (Roll) {
@@ -55,13 +52,6 @@ public class PlayerHealthListener implements Listener {
                     health = maxHealth - (damage  / (def/Strength));
                     entityHit.removeScoreboardTag(String.valueOf(maxHealth));
                     entityHit.addScoreboardTag(String.valueOf(health));
-                } else if (Double.parseDouble(getScores[0]) == Double.parseDouble(String.valueOf(maxHealth))) {
-                    entityHit.addScoreboardTag(String.valueOf(maxHealth));
-                    health = maxHealth - (damage + damage * ((double) EffectiveCritDamage) * 0.01) / (Double.parseDouble(String.valueOf(tags.get(3)))/Strength);
-                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
-                    entityHit.addScoreboardTag(String.valueOf(health));
-                    entityHit.removeScoreboardTag(String.valueOf(maxHealth));
-                    entityHit.removeScoreboardTag(getScores[0]);
                 } else {
                     health = Double.parseDouble(getScores[0]) - (damage + damage * ((double) EffectiveCritDamage) * 0.01) / (Double.parseDouble(String.valueOf(tags.get(3)))/Strength);
                     entityHit.removeScoreboardTag(getScores[0]);
@@ -138,7 +128,9 @@ public class PlayerHealthListener implements Listener {
 
             tags = CheckCustomMob.check(entityHit);
 
-            obj.getScore("CurrentHealth").setScore(obj.getScore("CurrentHealth").getScore() - Integer.parseInt(tags.get(1)));
+            int damage = Integer.parseInt(tags.get(1)) * Integer.parseInt(tags.get(5));
+
+            obj.getScore("CurrentHealth").setScore(obj.getScore("CurrentHealth").getScore() - damage/obj.getScore("EffectiveDefence").getScore());
 
             if(obj.getScore("CurrentHealth").getScore() <= 0) {
                 player.setHealth(0);
@@ -155,15 +147,15 @@ public class PlayerHealthListener implements Listener {
             df.setMaximumFractionDigits(0);
             Location loc = e.getEntity().getLocation();
             LivingEntity entityHit = (LivingEntity) e.getEntity();
-            double maxHealth = entityHit.getMaxHealth();
             String nameColor;
             String[] getScores = entityHit.getScoreboardTags().toArray(new String[10]);
             Player player = (Player) e.getDamager();
             tags = CheckCustomMob.check(entityHit);
+            double maxHealth = Double.parseDouble(tags.get(0));
             int EffectiveCritDamage = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritDamage").getScore();
             int EffectiveCritChance = player.getScoreboard().getObjective("Stats").getScore("EffectiveCritChance").getScore();
             int Strength = player.getScoreboard().getObjective("Stats").getScore("Strength").getScore();
-            int damage = player.getScoreboard().getObjective("Stats").getScore("Damage").getScore();
+            int damage = player.getScoreboard().getObjective("Stats").getScore("CurrentDamage").getScore();
             double health;
             boolean Roll = Stats.getCritRoll(Double.parseDouble(String.valueOf(EffectiveCritChance)));
 //            System.out.println(Roll);
@@ -173,7 +165,7 @@ public class PlayerHealthListener implements Listener {
                 double def = Double.parseDouble(tags.get(3));
                 if (getScores[0] == null) {
                     entityHit.addScoreboardTag(String.valueOf(maxHealth));
-                    health = Integer.parseInt(tags.get(0)) - (damage  / ((def*10)/Strength));
+                    health = maxHealth - (damage  / ((def*10)/Strength));
 
                     entityHit.removeScoreboardTag(String.valueOf(maxHealth));
                     entityHit.addScoreboardTag(String.valueOf(health));
@@ -186,8 +178,8 @@ public class PlayerHealthListener implements Listener {
                 return;
             }
 
+            double def = Double.parseDouble(tags.get(3));
             if(Roll) {
-                double def = Double.parseDouble(tags.get(3));
                 if (getScores[0] == null) {
                     entityHit.addScoreboardTag(String.valueOf(maxHealth));
 
@@ -208,10 +200,9 @@ public class PlayerHealthListener implements Listener {
                 e.getEntity().getWorld().spawnParticle(Particle.TOTEM, ((LivingEntity) e.getEntity()).getEyeLocation(), 5, Math.random() * 2 , 1, Math.random() * 2, 0.1);
 
             } else {
-                double def = Double.parseDouble(tags.get(3));
                 if (getScores[0] == null) {
                     entityHit.addScoreboardTag(String.valueOf(maxHealth));
-                     health = maxHealth - (damage / (def/Strength));
+                     health = maxHealth - (damage*Strength / def);
 
                     entityHit.removeScoreboardTag(String.valueOf(maxHealth));
                     entityHit.addScoreboardTag(String.valueOf(health));
@@ -221,18 +212,6 @@ public class PlayerHealthListener implements Listener {
                     entityHit.removeScoreboardTag(getScores[1]);
                     entityHit.addScoreboardTag(String.valueOf(health));
                 }
-            }
-//            System.out.println(tags.get(3));
-
-
-
-            if(player.getItemInHand() != null) {
-//                System.out.println(player.getItemInHand());
-
-                String[] data = Check.ExistingStats(player.getItemInHand().getItemMeta());
-
-//                System.out.println(Arrays.toString(data));
-
             }
             switch (tags.get(4)) {
                 case "Rare":
@@ -257,9 +236,12 @@ public class PlayerHealthListener implements Listener {
             entityHit.removeScoreboardTag(String.valueOf(maxHealth));
 
             if (health <= 0) {
-                entityHit.setCustomName("");
+                entityHit.setCustomName(null);
                 entityHit.setCustomNameVisible(false);
                 entityHit.setHealth(0);
+
+                Bukkit.getScheduler ().runTaskLater (Plugin.getInstance() , () -> entityHit.remove() , 20);
+
             }
         }
 
@@ -267,7 +249,7 @@ public class PlayerHealthListener implements Listener {
             if (e.getDamager().getCustomName() != null) {
                 switch (e.getDamager().getType()) {
                     case SPIDER:
-                        if (e.getDamager().getCustomName().contains("Creature")) {
+                        if (e.getDamager().getCustomName().contains("Spider")) {
                             LivingEntity potEnity = (LivingEntity) e.getEntity();
                             potEnity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
                         }

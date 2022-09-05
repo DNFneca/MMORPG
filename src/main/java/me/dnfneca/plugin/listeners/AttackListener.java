@@ -22,6 +22,9 @@ public class AttackListener implements Listener {
             if(p.getInventory().getItemInMainHand() != null) {
                 ItemStack item = p.getInventory().getItemInMainHand();
                 ItemMeta meta = item.getItemMeta();
+                if(meta == null) {
+                    return;
+                }
                 if(meta.getDisplayName().contains("Sticky")) {
                     hitEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 2));
                 }

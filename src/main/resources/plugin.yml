@@ -10,3 +10,6 @@ commands:
   item:
     description: gives an item you name
     usage: /item
+  classreset:
+    description: resets the class for the mentioned player, or for the command sender in noone is mentioned
+    usage: /classreset

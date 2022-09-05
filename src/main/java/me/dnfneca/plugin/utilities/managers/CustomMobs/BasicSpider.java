@@ -18,7 +18,7 @@ public class BasicSpider implements Listener {
     public static int MaxHealth = 200;
     public static int Level = 75;
     public static String Type = "Spider";
-    public static String Name = "Creature";
+    public static String Name = "Spider";
     public static int Defence = 100;
     public static int Strength = 20;
     public static int Damage = 100;
@@ -29,7 +29,7 @@ public class BasicSpider implements Listener {
         this.plugin = plugin;
     }
 
-    public static void createCreature(Location location) {
+    public static void createSpider(Location location) {
         final long[] AB1CD = {0};
         final long[] AB2CD = {0};
         final String[] entities = new String[0];
@@ -44,7 +44,7 @@ public class BasicSpider implements Listener {
         spider.setHealth(100);
         String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
         String level = getScores[0];
-        spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Creature ");
+        spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Spider ");
 
 
 

@@ -39,7 +39,7 @@ public class summon implements CommandExecutor {
             if (player.isOp()) {
                 if (command.getName().equalsIgnoreCase("summon")) {
                     if (args[0].equalsIgnoreCase("BasicSpider")) {
-                        BasicSpider.createCreature(player.getLocation());
+                        BasicSpider.createSpider(player.getLocation());
                     }
                 }
             } else {
