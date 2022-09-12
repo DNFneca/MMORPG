@@ -39,6 +39,12 @@ public class Check {
                 data[2] = "350";
                 data[3] = "50";
                 data[4] = "0";
+            } else if (meta.getDisplayName().contains("Ghost Reaver")) {
+                data[0] = "345";
+                data[1] = "220";
+                data[2] = "730";
+                data[3] = "90";
+                data[4] = "0";
             } else {
                 data[0] = "0";
                 data[1] = "0";
@@ -205,6 +211,18 @@ public class Check {
             Lore.add(ChatColor.GRAY + "Strength:" + ChatColor.DARK_RED + " +75");
             Lore.add(ChatColor.GRAY + "Critical Damage:" + ChatColor.GREEN + " +350%");
             Lore.add(ChatColor.GRAY + "Critical Chance:" + ChatColor.DARK_GREEN + " +50%");
+            Lore.add("");
+            Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
+            meta.setLore(Lore);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        } else if (meta.getDisplayName().contains("Ghost Reaver")) {
+            meta.setDisplayName(ItemRarityColor(meta.getDisplayName()) + meta.getDisplayName());
+            Lore.add(ChatColor.GRAY + "Damage:" + ChatColor.RED + " +345");
+            Lore.add(ChatColor.GRAY + "Strength:" + ChatColor.DARK_RED + " +220");
+            Lore.add(ChatColor.GRAY + "Critical Damage:" + ChatColor.GREEN + " +730%");
+            Lore.add(ChatColor.GRAY + "Critical Chance:" + ChatColor.DARK_GREEN + " +90%");
             Lore.add("");
             Lore.add(ItemRarityColor(meta.getDisplayName()) + ItemRarity(meta.getDisplayName()));
             meta.setLore(Lore);

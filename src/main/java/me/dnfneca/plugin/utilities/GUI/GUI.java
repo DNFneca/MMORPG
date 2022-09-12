@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.utilities.GUI;
 
+import me.dnfneca.plugin.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -11,9 +12,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +35,17 @@ public class GUI {
         ItemStack player_head = new ItemStack(Material.PLAYER_HEAD, 1);
         ItemStack classes = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
 
+        SkullMeta headdata = (SkullMeta) player_head.getItemMeta();
+        headdata.setOwningPlayer(p);
+        headdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        headdata.setDisplayName(ChatColor.RED + "Stats");
+        player_head.setItemMeta(headdata);
+
+
         LeatherArmorMeta  classesdata = (LeatherArmorMeta) classes.getItemMeta();
-        classesdata.setDisplayName("Class");
+        classesdata.setDisplayName(ChatColor.GREEN + "Class");
         classesdata.setColor(Color.PURPLE);
-        classesdata.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
+        classesdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
         classes.setItemMeta(classesdata);
 
         ItemMeta data1 = purple_glass.getItemMeta();
@@ -43,9 +54,7 @@ public class GUI {
         ItemMeta data2 = blue_glass.getItemMeta();
         data2.setDisplayName("   ");
         blue_glass.setItemMeta(data2);
-        ItemMeta headdata = player_head.getItemMeta();
-        headdata.setDisplayName(ChatColor.RED + "Stats");
-        player_head.setItemMeta(headdata);
+
 
         for(int i = 0; i <= 53; i++) {
             if(i <= 8 || i == 11 || i == 15 || i == 20 || i == 24 || i == 36 || i == 40 || i == 44 || i == 45 || i == 49 || i == 53){
@@ -78,17 +87,23 @@ public class GUI {
         ItemStack damage = new ItemStack(Material.IRON_SWORD, 1);
         ItemStack defence = new ItemStack(Material.SHIELD, 1);
         ItemStack strength = new ItemStack(Material.IRON_AXE, 1);
+        ItemStack speed = new ItemStack(Material.POTION, 1);
         ItemStack mana = new ItemStack(Material.POTION, 1);
         ItemStack critdamage = new ItemStack(Material.POTION, 1);
         ItemStack critchance = new ItemStack(Material.TRIPWIRE_HOOK, 1);
+        ItemStack stealth = new ItemStack(Material.RABBIT_FOOT, 1);
+
+        SkullMeta healthdata = (SkullMeta) player_head.getItemMeta();
+        healthdata.setOwningPlayer(p);
+        healthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "" + obj.getScore("EffectiveHealth").getScore());
+        player_head.setItemMeta(healthdata);
+
 
         ItemMeta arrowmeta = arrow.getItemMeta();
         arrowmeta.setDisplayName(ChatColor.GRAY + "Back to Main Menu");
         arrow.setItemMeta(arrowmeta);
 
-        ItemMeta headdata = player_head.getItemMeta();
-        headdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "" + obj.getScore("EffectiveHealth").getScore());
-        player_head.setItemMeta(headdata);
 
         ItemMeta damagemeta = damage.getItemMeta();
         damagemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -97,13 +112,19 @@ public class GUI {
 
         ItemMeta defencemeta = defence.getItemMeta();
         defencemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        defencemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.GREEN + "" + obj.getScore("EffectiveDefence").getScore());
+        defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "" + obj.getScore("EffectiveDefence").getScore());
         defence.setItemMeta(defencemeta);
 
         ItemMeta strengthmeta = strength.getItemMeta();
         strengthmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         strengthmeta.setDisplayName(ChatColor.GRAY + "Strength: " + ChatColor.RED + "" + obj.getScore("EffectiveStrength").getScore());
         strength.setItemMeta(strengthmeta);
+
+        PotionMeta speedmeta = (PotionMeta) speed.getItemMeta();
+        speedmeta.setBasePotionData(new PotionData(PotionType.SPEED));
+        speedmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
+        speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "" + obj.getScore("EffectiveSpeed").getScore());
+        speed.setItemMeta(speedmeta);
 
         PotionMeta manameta = (PotionMeta) mana.getItemMeta();
         manameta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
@@ -122,6 +143,11 @@ public class GUI {
         critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "" + obj.getScore("EffectiveCritChance").getScore() + "%");
         critchance.setItemMeta(critcmeta);
 
+        ItemMeta stealthdata = stealth.getItemMeta();
+        stealthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        stealthdata.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "" + obj.getScore("Stealth").getScore() + "%");
+        stealth.setItemMeta(stealthdata);
+
 
         ItemMeta data1 = purple_glass.getItemMeta();
         data1.setDisplayName("   ");
@@ -133,7 +159,7 @@ public class GUI {
         for(int i = 0; i <= 53; i++) {
             if(i == 45){
                 inv.setItem(i, arrow);
-            } else if (i <= 2 || i == 6 || i == 7 || i == 8 || i == 9 || i == 17 || i == 18 || i == 26 || i == 27 || i > 41 || i == 35 || i == 36 || i == 37 || i == 38) {
+            } else if (i <= 2 || i == 6 || i == 7 || i == 8 || i == 9 || i == 17 || i == 18 || i == 26 || i == 27 || i > 42 || i == 35 || i == 36 || i == 37) {
                 inv.setItem(i, purple_glass);
             } else if (i == 13) {
                 inv.setItem(i, player_head);
@@ -144,11 +170,15 @@ public class GUI {
             } else if (i == 22) {
                 inv.setItem(i, strength);
             } else if (i == 23) {
-                inv.setItem(i, mana);
+                inv.setItem(i, speed);
             } else if (i == 24) {
+                inv.setItem(i, mana);
+            } else if (i == 30) {
                 inv.setItem(i, critdamage);
             } else if (i == 31) {
                 inv.setItem(i, critchance);
+            } else if (i == 32) {
+                inv.setItem(i, stealth);
             }else {
                 inv.setItem(i, blue_glass);
             }
@@ -198,6 +228,8 @@ public class GUI {
         rangermeta.setDisplayName(ChatColor.DARK_GREEN + "Ranger");
         ranger.setItemMeta(rangermeta);
 
+        MenuChoice(p);
+
 
         Inventory inv = Bukkit.createInventory(null, 27, "Choose a Class");
 
@@ -222,17 +254,20 @@ public class GUI {
     }
     public static void MageSubclassMenu(Player p) {
 
+
         SubclassMenu(p, 1);
 
     }
 
     public static void WarriorSubclassMenu(Player p) {
 
+
         SubclassMenu(p, 2);
 
     }
 
     public static void RangerSubclassMenu(Player p) {
+
 
         SubclassMenu(p, 3);
 
@@ -260,7 +295,7 @@ public class GUI {
         nometa.setDisplayName(ChatColor.GOLD + "No");
         no.setItemMeta(nometa);
 
-        Inventory inv = Bukkit.createInventory(null, 27, "Are you sure. Confirm");
+        Inventory inv = Bukkit.createInventory(null, 27, "Are you sure. Confirm your class");
 
         for (int i = 0; i < 27; i++) {
             if (i == 11) {
@@ -275,8 +310,14 @@ public class GUI {
     }
 
     public static void SubclassMenu(Player p, int SubclassNumber) {
+        MenuChoice(p);
+
         ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
 
+        ItemStack back = new ItemStack(Material.ARROW, 1);
+        ItemMeta arrowmeta = back.getItemMeta();
+        arrowmeta.setDisplayName(ChatColor.GRAY + "Back");
+        back.setItemMeta(arrowmeta);
 
         Inventory inv = null;
 
@@ -326,6 +367,8 @@ public class GUI {
                     inv.setItem(i, healer);
                 } else if (i == 16) {
                     inv.setItem(i, necromancer);
+                } else if (i == inv.getSize() - 9) {
+                    inv.setItem(i, back);
                 } else {
                     inv.setItem(i, blue_glass);
                 }
@@ -371,6 +414,8 @@ public class GUI {
                         inv.setItem(i, paladin);
                     } else if (i == 16) {
                         inv.setItem(i, viking);
+                    } else if (i == inv.getSize() - 9) {
+                        inv.setItem(i, back);
                     } else {
                         inv.setItem(i, blue_glass);
                     }
@@ -417,6 +462,8 @@ public class GUI {
                         inv.setItem(i, scout);
                     } else if (i == 16) {
                         inv.setItem(i, assassin);
+                    } else if (i == inv.getSize() - 9) {
+                        inv.setItem(i, back);
                     } else {
                         inv.setItem(i, blue_glass);
                     }
@@ -424,5 +471,16 @@ public class GUI {
                 break;
         }
         p.openInventory(inv);
+    }
+    public static void MenuChoice(Player p) {
+        Score obj = p.getScoreboard().getObjective("Stats").getScore("ChoiceCD");
+        obj.setScore(1);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                obj.setScore(0);
+            }
+        }.runTaskLater(Plugin.getInstance() , 5L);
     }
 }

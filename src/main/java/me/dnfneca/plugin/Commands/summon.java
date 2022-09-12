@@ -1,6 +1,9 @@
 package me.dnfneca.plugin.Commands;
 
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicWolf;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.Dummy;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.Ghoul;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,8 +41,14 @@ public class summon implements CommandExecutor {
             Player player = (Player) sender;
             if (player.isOp()) {
                 if (command.getName().equalsIgnoreCase("summon")) {
-                    if (args[0].equalsIgnoreCase("BasicSpider")) {
+                    if (args[0].equalsIgnoreCase("Basic_Spider")) {
                         BasicSpider.createSpider(player.getLocation());
+                    } else if (args[0].equalsIgnoreCase("Basic_Wolf")) {
+                        BasicWolf.createWolf(player.getLocation());
+                    } else if (args[0].equalsIgnoreCase("Dummy")) {
+                        Dummy.createDummy(player.getLocation());
+                    } else if (args[0].equalsIgnoreCase("Ghoul")) {
+                        Ghoul.createGhoul(player.getLocation(), player);
                     }
                 }
             } else {

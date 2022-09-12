@@ -83,16 +83,23 @@ public class BasicSpider implements Listener {
             }
         }.runTaskTimer(plugin, 0L, 1L);
 
+
         new BukkitRunnable() {
             public void run() {
+                int range = 10;
                 if (!(spider.isDead())) {
                     spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
                     if (spider.getTarget() == null) {
-                        for (Entity entity :
-                                spider.getNearbyEntities(10, 10, 10)) {
-                            if (entity instanceof Player) {
-                                Player player = (Player) entity;
-                                spider.setTarget(player);
+                        List<Entity> entityaround;
+                        List<Player> playerAround;
+                        entityaround = spider.getNearbyEntities(range, range, range);
+                        for (Entity p : entityaround) {
+                            if(p instanceof Player) {
+                                int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
+                                if(spider.getLocation().distance(p.getLocation()) < range - range * stealth*0.01) {
+                                    spider.setTarget((Player) p);
+
+                                }
                             }
                         }
                     }

@@ -25,7 +25,7 @@ public class PlayerHealthListener implements Listener {
 
     @EventHandler
     public void onBowDamage(ProjectileHitEvent e) {
-        System.out.println(e.getHitEntity().getType());
+//        System.out.println(e.getHitEntity().getType());
         if (e.getEntity().getShooter().getClass() == CraftPlayer.class) {
 
 

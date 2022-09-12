@@ -13,3 +13,9 @@ commands:
   classreset:
     description: resets the class for the mentioned player, or for the command sender in noone is mentioned
     usage: /classreset
+  NPC:
+    description: resets the class for the mentioned player, or for the command sender in noone is mentioned
+    usage: /NPC
+  deleteEveryNPC:
+    description: cum
+    usage: /deleteEveryNPC

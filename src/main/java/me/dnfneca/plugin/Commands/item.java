@@ -107,6 +107,13 @@ public class item implements CommandExecutor {
                             item.setItemMeta(meta);
                             ((Player) sender).getInventory().addItem(item);
                             break;
+                        case "GHOST_REAVER":
+                            item.setType(Material.DIAMOND_HOE);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Ghost Reaver");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
                     }
                 }
             } else {

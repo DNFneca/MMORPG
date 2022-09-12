@@ -16,7 +16,6 @@ public class LeftClickListener implements Listener {
         Action action = e.getAction();
         Player p = e.getPlayer();
         Objective objective = p.getScoreboard().getObjective("Stats");
-        System.out.println(action);
         if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
             if(p.getInventory().getItemInMainHand() != null) {
                 if(p.getInventory().getItemInMainHand().getType() == Material.BOW) {

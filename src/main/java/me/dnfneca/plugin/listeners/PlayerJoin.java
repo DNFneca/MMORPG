@@ -79,6 +79,11 @@ public class PlayerJoin implements Listener{
         Score Class = obj.getScore("Class");
         Score Speed = obj.getScore("Speed");
         Score EffectiveSpeed = obj.getScore("EffectiveSpeed");
+        Score Stealth = obj.getScore("Stealth");
+        Score EffectiveStealth = obj.getScore("EffectiveStealth");
+        Score ChoiceCD = obj.getScore("ChoiceCD");
+
+
         NamespacedKey key = new NamespacedKey(Plugin.getInstance() , "Class");
         PersistentDataContainer playerdata = player.getPersistentDataContainer();
         int playerclass;
@@ -119,7 +124,10 @@ public class PlayerJoin implements Listener{
             Mana.setScore(100);
             EffectiveMana.setScore(100);
             Class.setScore(playerclass);
-            Speed.setScore(1);
+            Speed.setScore(100);
+            Stealth.setScore(0);
+            ChoiceCD.setScore(0);
+
 //            EffectiveStrength.setScore(Strength );
 
             Stats.addStats(0, String.valueOf(obj.getScore("Health").getScore()));
@@ -142,6 +150,7 @@ public class PlayerJoin implements Listener{
             Stats.addStats(17, String.valueOf(obj.getScore("CurrentDamage").getScore()));
             Stats.addStats(18, String.valueOf(obj.getScore("Class").getScore()));
             Stats.addStats(19, String.valueOf(obj.getScore("Speed").getScore()));
+            Stats.addStats(20, String.valueOf(obj.getScore("Stealth").getScore()));
         } else {
             Damage.setScore(25);
             CurrentDamage.setScore(25);
@@ -160,7 +169,8 @@ public class PlayerJoin implements Listener{
             Mana.setScore(100);
             EffectiveMana.setScore(100);
             Class.setScore(playerclass);
-            Speed.setScore(1);
+            Speed.setScore(0);
+            ChoiceCD.setScore(0);
 
         }
 
@@ -192,71 +202,88 @@ public class PlayerJoin implements Listener{
                     case 1:
                         Damage.setScore((int) (25 + 25 * 0.05));
                         Health.setScore((int) (100 - 100 * 0.15));
-                        Defence.setScore((int) (5 - 5 * 0.1));
+                        Defence.setScore((int) (5 + 5 * 0.1));
                         Strength.setScore(25);
-                        CritChance.setScore((int) (0 + 15));
-                        CritDamage.setScore((int) (10 + 5));
+                        CritChance.setScore((int) (0));
+                        CritDamage.setScore((int) (10 + 20));
                         Mana.setScore((int) (100 + 100 * 0.25));
-                        Speed.setScore((int) (1));
                         player.setWalkSpeed((float) (0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+                        Stealth.setScore(0);
+
+
 
                         break;
                     case 2:
-                        Damage.setScore((int) (25));
                         Health.setScore((int) (100 + 100 * 0.05));
-                        Defence.setScore((int) (5 + 5 * 0.05));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 5);
-                        CritDamage.setScore((int) (10 + 5));
                         Mana.setScore((int) (100 + 100 * 0.5));
-                        Speed.setScore((int) (1));
+
+                        Damage.setScore((int) (25));
+                        Defence.setScore((int) (5));
+                        Strength.setScore(25);
+                        CritChance.setScore(0);
+                        CritDamage.setScore((int) (10));
                         player.setWalkSpeed((float) (0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+                        Stealth.setScore(0);
 
                         break;
                     case 3:
-                        Damage.setScore((int) (25));
-                        Health.setScore((int) (100 - 100 * 0.1));
-                        Defence.setScore((int) (5 - 5 * 0.1));
+                        Damage.setScore((int) (25 - 25 * 0.15));
+                        Health.setScore((int) (100 + 100 * 0.1));
+                        Defence.setScore((int) (5));
                         Strength.setScore(25);
                         CritChance.setScore(0 - 30);
                         CritDamage.setScore((int) (10 - 10));
                         Mana.setScore((int) (100 + 100 * 0.5));
-                        Speed.setScore((int) (1));
+                        Stealth.setScore(0);
+
                         player.setWalkSpeed((float) (0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
 
                         break;
                     case 4:
                         Damage.setScore((int) (25));
-                        Health.setScore((int) (100 - 100 * 0.1));
+                        Health.setScore((int) (100 + 100 * 0.1));
                         Defence.setScore((int) (5 + 5 * 0.15));
                         Strength.setScore(25);
                         CritChance.setScore(0 + 10);
                         CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100 + 100 * 0.3));
-                        Speed.setScore((int) (1));
+                        Mana.setScore((int) (100 + 100 * 0.6));
+                        Stealth.setScore(0);
+
+
                         player.setWalkSpeed((float) (0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 5:
-                        Damage.setScore((int) (25 + 25*0.20));
-                        Health.setScore((int) (100 - 100 * 0.1));
-                        Defence.setScore((int) (5 + 5 * 0.35));
-                        Strength.setScore(25);
+                        Damage.setScore((int) (25 + 25*0.2));
+                        Health.setScore((int) (100 + 100 * 0.15 ));
+                        Defence.setScore((int) (5 + 5 * 0.15));
+                        Strength.setScore((int) (25 + 25 * 0.2));
                         CritChance.setScore(0 + 10);
-                        CritDamage.setScore((int) (10 + 15));
+                        CritDamage.setScore((int) (10 + 25));
                         Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2 - 0.2*0.3));
-                        Speed.setScore((int) (1 - 1*0.3));
+                        Stealth.setScore(0);
+
+                        player.setWalkSpeed((float) (0.2 + 0.2*0.1));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 6:
                         Damage.setScore((int) (25 + 25*0.05));
-                        Health.setScore((int) (100 - 100 * 0.15));
-                        Defence.setScore((int) (5 + 5 * 0.35));
+                        Health.setScore((int) (100 + 100 * 0.1));
+                        Defence.setScore((int) (5 + 5 * 0.15));
                         Strength.setScore(25);
                         CritChance.setScore(0 + 15);
-                        CritDamage.setScore((int) (10 + 5));
+                        CritDamage.setScore((int) (10 + 15));
                         Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.2));
-                        Speed.setScore((int) (1 + 1*0.15));
+                        Stealth.setScore(0);
+
+                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 7:
                         Damage.setScore((int) (25 + 25*0.1));
@@ -266,63 +293,80 @@ public class PlayerJoin implements Listener{
                         CritChance.setScore(0 + 10);
                         CritDamage.setScore((int) (10 + 15));
                         Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2 - 0.2*0.2));
-                        Speed.setScore((int) (1 - 1*0.1));
+                        player.setWalkSpeed((float) (0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+                        Stealth.setScore(0);
+
                         break;
                     case 8:
                         Damage.setScore((int) (25 + 25*0.15));
-                        Health.setScore((int) (100 - 100 * 0.15));
-                        Defence.setScore((int) (5 - 5 * 0.05));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 5);
+                        Health.setScore((int) (100 + 100 * 0.1));
+                        Defence.setScore((int) (5 + 5 * 0.05));
+                        Strength.setScore((int) (25 + 25 * 0.2));
+                        CritChance.setScore(0 + 20);
                         CritDamage.setScore((int) (10 + 5));
                         Mana.setScore((int) (100));
+                        Stealth.setScore(0);
+
                         player.setWalkSpeed((float) (0.2 + 0.2*0.2));
-                        Speed.setScore((int) (1 + 1*0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 9:
-                        Damage.setScore((int) (25 + 25*0.1));
-                        Health.setScore((int) (100 - 100 * 0.15));
-                        Defence.setScore((int) (5));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 25);
-                        CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
-                        Speed.setScore((int) (1 + 1*0.2));
-                        break;
-                    case 10:
-                        Damage.setScore((int) (25 + 25*0.15));
-                        Health.setScore((int) (100 - 100 * 0.15));
+                        Damage.setScore((int) (25 + 25*0.2));
+                        Health.setScore((int) (100 - 100 * 0.1));
                         Defence.setScore((int) (5 - 5*0.05));
                         Strength.setScore(25);
                         CritChance.setScore(0 + 25);
+                        CritDamage.setScore((int) (10 + 5));
+                        Mana.setScore((int) (100));
+                        Stealth.setScore(10);
+
+                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
+                        break;
+                    case 10:
+                        Damage.setScore((int) (25 + 25*0.15));
+                        Health.setScore((int) (100 + 100 * 0.15));
+                        Defence.setScore((int) (5 - 5*0.1));
+                        Strength.setScore(25);
+                        CritChance.setScore(0 + 20);
                         CritDamage.setScore((int) (10 + 10));
                         Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.25));
-                        Speed.setScore((int) (1 + 1*0.2));
+                        Stealth.setScore(15);
+
+                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 11:
                         Damage.setScore((int) (25 + 25*0.05));
                         Health.setScore((int) (100 + 100 * 0.05));
-                        Defence.setScore((int) (5 - 5*0.2));
+                        Defence.setScore((int) (5 - 5*0.15));
                         Strength.setScore(25);
                         CritChance.setScore(0 + 10);
                         CritDamage.setScore((int) (10 + 5));
                         Mana.setScore((int) (100));
+                        Stealth.setScore(5);
+
                         player.setWalkSpeed((float) (0.2 + 0.2*0.3));
-                        Speed.setScore((int) (1 + 1*0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                     case 12:
-                        Damage.setScore((int) (25 + 25*0.25));
-                        Health.setScore((int) (100 + 100 * 0.15));
+                        Damage.setScore((int) (25 + 25*0.2));
+                        Health.setScore((int) (100 + 100 * 0.1));
                         Defence.setScore((int) (5 - 5*0.15));
-                        Strength.setScore(25);
+                        Strength.setScore((int) (25 + 25*0.05));
                         CritChance.setScore(0 + 15);
                         CritDamage.setScore((int) (10 + 30));
                         Mana.setScore((int) (100));
+                        Stealth.setScore(25);
+
                         player.setWalkSpeed((float) (0.2 + 0.2*0.4));
-                        Speed.setScore((int) (1 + 1*0.2));
+                        Speed.setScore((int) (player.getWalkSpeed() * 500));
+
                         break;
                 }
             }
@@ -355,9 +399,9 @@ public class PlayerJoin implements Listener{
                             ChatMessageType.ACTION_BAR,
                             new TextComponent(ChatColor.RED + "❤ " + objective.getScore("CurrentHealth").getScore() + ChatColor.GRAY + "/" + ChatColor.RED + objective.getScore("EffectiveHealth").getScore() + "   " + ChatColor.GREEN + "🛡 " + objective.getScore("EffectiveDefence").getScore() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + objective.getScore("CurrentMana").getScore() + ChatColor.GRAY + "/" + ChatColor.AQUA + objective.getScore("EffectiveMana").getScore()));
                 }
-                EffectiveStrength.setScore(Integer.parseInt(Stats.getStats().get(2)) + Integer.parseInt(ItemStats.Weapon(player)[1]));
-                EffectiveCritChance.setScore(Integer.parseInt(Stats.getStats().get(3)) + Integer.parseInt(ItemStats.Weapon(player)[3]));
-                EffectiveCritDamage.setScore(Integer.parseInt(Stats.getStats().get(4)) + Integer.parseInt(ItemStats.Weapon(player)[2]));
+                EffectiveStrength.setScore(objective.getScore("Strength").getScore() + Integer.parseInt(ItemStats.Weapon(player)[1]));
+                EffectiveCritChance.setScore(objective.getScore("CritChance").getScore() + Integer.parseInt(ItemStats.Weapon(player)[3]));
+                EffectiveCritDamage.setScore(objective.getScore("CritDamage").getScore() + Integer.parseInt(ItemStats.Weapon(player)[2]));
 
                 int OldEffectiveHealth = EffectiveHealth.getScore();
 
@@ -376,6 +420,8 @@ public class PlayerJoin implements Listener{
                 }
 
                 EffectiveDefence.setScore(Integer.parseInt(Stats.getStats().get(1)) + Integer.parseInt(ItemStats.Armor(player, 1)[1]) + Integer.parseInt(ItemStats.Armor(player, 2)[1]) + Integer.parseInt(ItemStats.Armor(player, 3)[1]) + Integer.parseInt(ItemStats.Armor(player, 4)[1]));
+
+                EffectiveSpeed.setScore(obj.getScore("Speed").getScore());
 
                 int OldEffectiveMana = EffectiveMana.getScore();
 

@@ -22,10 +22,13 @@ public class RightClickListener implements Listener {
         Action action = e.getAction();
         Player p = e.getPlayer();
         Objective objective = p.getScoreboard().getObjective("Stats");
-        System.out.println(action);
+//        System.out.println(action);
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             if (e.getPlayer().getInventory().getItemInMainHand() != null) {
                 ItemStats.Weapon(p);
+                if(p.getInventory().getItemInMainHand().getItemMeta() == null) {
+                    return;
+                }
                 if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Menu")) {
                     e.setCancelled(true);
 

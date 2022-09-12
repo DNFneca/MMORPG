@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.scoreboard.Score;
 
+import static me.dnfneca.plugin.utilities.GUI.GUI.MenuChoice;
 import static me.dnfneca.plugin.utilities.GUI.GUI.areYouSureClassMenu;
 
 public class AssignClass {
@@ -14,11 +15,13 @@ public class AssignClass {
         NamespacedKey key = new NamespacedKey(Plugin.getInstance() , "Class");
 //        int Class = p.getScoreboard().getObjective("Stats").getScore("Class").getScore();
         Score obj = p.getScoreboard().getObjective("Stats").getScore("Class");
+        obj.setScore(ApplyClass);
 
         PersistentDataContainer playerdata = p.getPersistentDataContainer();
 //        playerdata.set(key, PersistentDataType.INTEGER, ApplyClass);
 
-        obj.setScore(ApplyClass);
+
+        MenuChoice(p);
 
         areYouSureClassMenu(p);
 
