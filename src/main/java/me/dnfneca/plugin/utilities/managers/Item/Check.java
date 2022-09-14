@@ -273,8 +273,12 @@ public class Check {
             case "Rare":
                 RarityColor = ChatColor.BLUE;
                 break;
-            case "Common":
+            case "Uncommon":
+                RarityColor = ChatColor.GREEN;
+                break;
+            default:
                 RarityColor = ChatColor.GRAY;
+                break;
         }
 
         return RarityColor;

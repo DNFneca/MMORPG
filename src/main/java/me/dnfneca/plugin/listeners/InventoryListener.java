@@ -241,6 +241,10 @@ public class InventoryListener implements Listener {
 
                         ClassMenus.ClassMenu(p, playerData.get(key, PersistentDataType.INTEGER));
                     }
+                } else if(e.getView().getTitle().contains("Crafting Table")) {
+                    if(ClickedItem.getItemMeta().getDisplayName().contains("Your recipe will appear here")) {
+                        e.setCancelled(true);
+                    }
                 }
 
                 //                             Code for an item named "staff"

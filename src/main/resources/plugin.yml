@@ -4,7 +4,7 @@ main: me.dnfneca.plugin.Plugin
 api-version: 1.18
 authors: [ DNFneca ]
 commands:
-  summon:
+  summonmob:
     description: summon a custom mob from the plugin
     usage: /summon
   item:
@@ -19,3 +19,6 @@ commands:
   deleteEveryNPC:
     description: cum
     usage: /deleteEveryNPC
+  GUI:
+    description: A test GUI
+    usage: /gui

@@ -136,16 +136,16 @@ public class Stats {
 
         switch (rarityNumber){
             case 2:
-                rarity="Rare";
+                rarity="Uncommon";
                 break;
             case 3:
-                rarity="Epic";
+                rarity="Rare";
                 break;
             case 4:
-                rarity="Legendary";
+                rarity="Epic";
                 break;
             case 5:
-                rarity="Mythic";
+                rarity="Legendary";
                 break;
             default:
                 rarity="Common";

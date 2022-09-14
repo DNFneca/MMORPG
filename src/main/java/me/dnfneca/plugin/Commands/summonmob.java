@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public class summon implements CommandExecutor {
+public class summonmob implements CommandExecutor {
 
 
     @Override
@@ -40,7 +40,7 @@ public class summon implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.isOp()) {
-                if (command.getName().equalsIgnoreCase("summon")) {
+                if (command.getName().equalsIgnoreCase("summonmob")) {
                     if (args[0].equalsIgnoreCase("Basic_Spider")) {
                         BasicSpider.createSpider(player.getLocation());
                     } else if (args[0].equalsIgnoreCase("Basic_Wolf")) {

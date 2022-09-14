@@ -26,15 +26,15 @@ public final class Plugin extends JavaPlugin {
 
         Plugin instance = this;
 
-        this.getCommand("summon").setExecutor(new @NonNull summon());
-        this.getCommand("summon").setTabCompleter(new summonTabComplete());
+        this.getCommand("summonmob").setExecutor(new @NonNull summonmob());
+        this.getCommand("summonmob").setTabCompleter(new summonTabComplete());
         this.getCommand("item").setExecutor(new @NonNull item());
         this.getCommand("item").setTabCompleter(new itemTabComplete());
         this.getCommand("classreset").setExecutor(new @NonNull classreset());
         this.getCommand("NPC").setExecutor(new @NonNull NPC());
         this.getCommand("deleteEveryNPC").setExecutor(new @NonNull deleteEveryNPC());
 //        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
-//        Objects.requireNonNull(getCommand("gui")).setExecutor(new GUI());
+        this.getCommand("GUI").setExecutor(new GUI());
 
 
 
@@ -56,6 +56,7 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new RightClickListener(), this);
         getServer().getPluginManager().registerEvents(new LeftClickListener(), this);
+        getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
 //        getServer().getPluginManager().registerEvents(new (this), this);
 
 
