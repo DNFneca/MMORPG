@@ -340,7 +340,7 @@ public class ClassMenus {
                 } else if (i == 12) {
                     inv.setItem(i, defence);
                 } else if (i == 14) {
-                    inv.setItem(i, mana);
+                    inv.setItem(i, speed);
                 } else if (i == 15) {
                     inv.setItem(i, critdamage);
                 } else if (i == 16) {
@@ -352,7 +352,310 @@ public class ClassMenus {
                 }
             }
             break;
+            case 7:
+                icon.setType(Material.SHIELD);
 
+                iconmeta.setDisplayName(ChatColor.GOLD + "Paladin");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "+15%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+10%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "+20%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+15%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+10%");
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 11) {
+                        inv.setItem(i, health);
+                    } else if (i == 12) {
+                        inv.setItem(i, damage);
+                    } else if (i == 13) {
+                        inv.setItem(i, defence);
+                    } else if (i == 14) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 15) {
+                        inv.setItem(i, critchance);
+                    }  else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+            case 8:
+                icon.setType(Material.IRON_AXE);
+
+                iconmeta.setDisplayName(ChatColor.DARK_RED + "Viking");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "+10%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+15%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "+5%");
+                strengthmeta.setDisplayName(ChatColor.GRAY + "Strength: " + ChatColor.RED + "+20%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+5%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+20%");
+                speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "+20%");
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 10) {
+                        inv.setItem(i, health);
+                    } else if (i == 11) {
+                        inv.setItem(i, damage);
+                    } else if (i == 12) {
+                        inv.setItem(i, defence);
+                    } else if (i == 13) {
+                        inv.setItem(i, strength);
+                    } else if (i == 14) {
+                        inv.setItem(i, speed);
+                    } else if (i == 15) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 16) {
+                        inv.setItem(i, critchance);
+                    }  else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+            case 9:
+                icon.setType(Material.CROSSBOW);
+
+                iconmeta.setDisplayName(ChatColor.DARK_GRAY + "Sniper");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "-10%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+20%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "-5%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+5%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+25%");
+                speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "+15%");
+                sneakmeta.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "+10%");
+
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 10) {
+                        inv.setItem(i, health);
+                    } else if (i == 11) {
+                        inv.setItem(i, damage);
+                    } else if (i == 12) {
+                        inv.setItem(i, defence);
+                    } else if (i == 13) {
+                        inv.setItem(i, speed);
+                    } else if (i == 14) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 15) {
+                        inv.setItem(i, critchance);
+                    } else if (i == 16) {
+                        inv.setItem(i, sneak);
+                    } else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+
+            case 10:
+                icon.setType(Material.BOW);
+
+                iconmeta.setDisplayName(ChatColor.RED + "Hunter");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "+15%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+15%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "-10%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+10%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+20%");
+                speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "+15%");
+                sneakmeta.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "+15%");
+
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 10) {
+                        inv.setItem(i, health);
+                    } else if (i == 11) {
+                        inv.setItem(i, damage);
+                    } else if (i == 12) {
+                        inv.setItem(i, defence);
+                    } else if (i == 13) {
+                        inv.setItem(i, speed);
+                    } else if (i == 14) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 15) {
+                        inv.setItem(i, critchance);
+                    } else if (i == 16) {
+                        inv.setItem(i, sneak);
+                    } else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+
+            case 11:
+                icon.setType(Material.RABBIT_FOOT);
+
+                iconmeta.setDisplayName(ChatColor.GREEN + "Scout");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "+5%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+5%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "-15%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+5%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+10%");
+                speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "+30%");
+                sneakmeta.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "+5%");
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 10) {
+                        inv.setItem(i, health);
+                    } else if (i == 11) {
+                        inv.setItem(i, damage);
+                    } else if (i == 12) {
+                        inv.setItem(i, defence);
+                    } else if (i == 13) {
+                        inv.setItem(i, speed);
+                    } else if (i == 14) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 15) {
+                        inv.setItem(i, critchance);
+                    } else if (i == 16) {
+                        inv.setItem(i, sneak);
+                    } else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+
+
+            case 12:
+                icon.setType(Material.IRON_SWORD);
+
+                iconmeta.setDisplayName(ChatColor.GREEN + "Assassin");
+                healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "+10%");
+                damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "+20%");
+                defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "-15%");
+                strengthmeta.setDisplayName(ChatColor.GRAY + "Strength: " + ChatColor.RED + "+5%");
+                critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "+30%");
+                critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "+15%");
+                speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "+40%");
+                sneakmeta.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "+25%");
+
+                icon.setItemMeta(iconmeta);
+                health.setItemMeta(healthdata);
+                damage.setItemMeta(damagemeta);
+                defence.setItemMeta(defencemeta);
+                strength.setItemMeta(strengthmeta);
+                speed.setItemMeta(speedmeta);
+                mana.setItemMeta(manameta);
+                critdamage.setItemMeta(critdmeta);
+                critchance.setItemMeta(critcmeta);
+                sneak.setItemMeta(sneakmeta);
+
+
+                for (int i = 0; i < 27; i++) {
+                    if (i == 4) {
+                        inv.setItem(i, icon);
+                    } else if (i == 10) {
+                        inv.setItem(i, health);
+                    } else if (i == 11) {
+                        inv.setItem(i, damage);
+                    } else if (i == 12) {
+                        inv.setItem(i, defence);
+                    } else if (i == 13) {
+                        inv.setItem(i, strength);
+                    } else if (i == 14) {
+                        inv.setItem(i, speed);
+                    } else if (i == 15) {
+                        inv.setItem(i, critdamage);
+                    } else if (i == 16) {
+                        inv.setItem(i, critchance);
+                    } else if (i == 22) {
+                        inv.setItem(i, sneak);
+                    } else if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
+
+
+
+
+            default:
+                for (int i = 0; i < 27; i++) {
+                    if (i == inv.getSize()-9) {
+                        inv.setItem(i, back);
+                    } else {
+                        inv.setItem(i, blue_glass);
+                    }
+                }
+                break;
         }
 
 

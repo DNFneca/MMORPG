@@ -18,6 +18,14 @@ public class itemTabComplete implements TabCompleter {
             p.add("IRON_ARMOR_SET");
             p.add("WISE_MANS_SET");
             p.add("ASPECT_OF_THE_NETHER");
+            p.add("LONGSWORD");
+            p.add("THE_VOID");
+            p.add("HOLY_IRON_SWORD");
+            p.add("MITHRIL_BLADE");
+            p.add("BLOODQUENCH");
+            p.add("WINTERTHORN");
+            p.add("BLACK_SWORD");
+            p.add("UNHOLY_GREAT_SWORD");
             return p;
         }
 

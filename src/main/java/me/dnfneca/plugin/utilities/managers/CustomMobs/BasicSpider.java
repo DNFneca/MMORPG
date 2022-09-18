@@ -160,4 +160,7 @@ public class BasicSpider implements Listener {
             }
         }.runTaskTimer(plugin, 0L, 20);
     }
+    public static void HitEffect() {
+
+    }
 }

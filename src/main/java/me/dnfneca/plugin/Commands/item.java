@@ -114,6 +114,62 @@ public class item implements CommandExecutor {
                             item.setItemMeta(meta);
                             ((Player) sender).getInventory().addItem(item);
                             break;
+                        case "LONGSWORD":
+                            item.setType(Material.IRON_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Longsword");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "THE_VOID":
+                            item.setType(Material.DIAMOND_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("The Void");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "HOLY_IRON_SWORD":
+                            item.setType(Material.IRON_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Holy Iron Sword");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "MITHRIL_BLADE":
+                            item.setType(Material.DIAMOND_HOE);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Mithril Blade");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "BLOODQUENCH":
+                            item.setType(Material.WOODEN_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Bloodquench");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "WINTERTHORN":
+                            item.setType(Material.DIAMOND_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Winterthorn");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "BLACK_SWORD":
+                            item.setType(Material.DIAMOND_HOE);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Black Sword");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
+                        case "UNHOLY_GREAT_SWORD":
+                            item.setType(Material.IRON_SWORD);
+                            meta = item.getItemMeta();
+                            meta.setDisplayName("Unholy Great Sword");
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().addItem(item);
+                            break;
                     }
                 }
             } else {

@@ -2,11 +2,11 @@ package me.dnfneca.plugin.listeners;
 
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.classes.PlayerJoinClassAssignation;
 import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.Item.Check;
+import me.dnfneca.plugin.utilities.managers.Statistics.StatCalc;
 import me.dnfneca.plugin.utilities.managers.Stats;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -198,177 +198,7 @@ public class PlayerJoin implements Listener{
                 NamespacedKey key = new NamespacedKey(Plugin.getInstance() , "Class");
 
             if(playerdata.get(key, PersistentDataType.INTEGER) != null) {
-                switch (playerdata.get(key, PersistentDataType.INTEGER)) {
-                    case 1:
-                        Damage.setScore((int) (25 + 25 * 0.05));
-                        Health.setScore((int) (100 - 100 * 0.15));
-                        Defence.setScore((int) (5 + 5 * 0.1));
-                        Strength.setScore(25);
-                        CritChance.setScore((int) (0));
-                        CritDamage.setScore((int) (10 + 20));
-                        Mana.setScore((int) (100 + 100 * 0.25));
-                        player.setWalkSpeed((float) (0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-                        Stealth.setScore(0);
-
-
-
-                        break;
-                    case 2:
-                        Health.setScore((int) (100 + 100 * 0.05));
-                        Mana.setScore((int) (100 + 100 * 0.5));
-
-                        Damage.setScore((int) (25));
-                        Defence.setScore((int) (5));
-                        Strength.setScore(25);
-                        CritChance.setScore(0);
-                        CritDamage.setScore((int) (10));
-                        player.setWalkSpeed((float) (0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-                        Stealth.setScore(0);
-
-                        break;
-                    case 3:
-                        Damage.setScore((int) (25 - 25 * 0.15));
-                        Health.setScore((int) (100 + 100 * 0.1));
-                        Defence.setScore((int) (5));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 - 30);
-                        CritDamage.setScore((int) (10 - 10));
-                        Mana.setScore((int) (100 + 100 * 0.5));
-                        Stealth.setScore(0);
-
-                        player.setWalkSpeed((float) (0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 4:
-                        Damage.setScore((int) (25));
-                        Health.setScore((int) (100 + 100 * 0.1));
-                        Defence.setScore((int) (5 + 5 * 0.15));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 10);
-                        CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100 + 100 * 0.6));
-                        Stealth.setScore(0);
-
-
-                        player.setWalkSpeed((float) (0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 5:
-                        Damage.setScore((int) (25 + 25*0.2));
-                        Health.setScore((int) (100 + 100 * 0.15 ));
-                        Defence.setScore((int) (5 + 5 * 0.15));
-                        Strength.setScore((int) (25 + 25 * 0.2));
-                        CritChance.setScore(0 + 10);
-                        CritDamage.setScore((int) (10 + 25));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(0);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.1));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 6:
-                        Damage.setScore((int) (25 + 25*0.05));
-                        Health.setScore((int) (100 + 100 * 0.1));
-                        Defence.setScore((int) (5 + 5 * 0.15));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 15);
-                        CritDamage.setScore((int) (10 + 15));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(0);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 7:
-                        Damage.setScore((int) (25 + 25*0.1));
-                        Health.setScore((int) (100 + 100 * 0.15));
-                        Defence.setScore((int) (5 + 5 * 0.2));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 10);
-                        CritDamage.setScore((int) (10 + 15));
-                        Mana.setScore((int) (100));
-                        player.setWalkSpeed((float) (0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-                        Stealth.setScore(0);
-
-                        break;
-                    case 8:
-                        Damage.setScore((int) (25 + 25*0.15));
-                        Health.setScore((int) (100 + 100 * 0.1));
-                        Defence.setScore((int) (5 + 5 * 0.05));
-                        Strength.setScore((int) (25 + 25 * 0.2));
-                        CritChance.setScore(0 + 20);
-                        CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(0);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.2));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 9:
-                        Damage.setScore((int) (25 + 25*0.2));
-                        Health.setScore((int) (100 - 100 * 0.1));
-                        Defence.setScore((int) (5 - 5*0.05));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 25);
-                        CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(10);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 10:
-                        Damage.setScore((int) (25 + 25*0.15));
-                        Health.setScore((int) (100 + 100 * 0.15));
-                        Defence.setScore((int) (5 - 5*0.1));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 20);
-                        CritDamage.setScore((int) (10 + 10));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(15);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.15));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 11:
-                        Damage.setScore((int) (25 + 25*0.05));
-                        Health.setScore((int) (100 + 100 * 0.05));
-                        Defence.setScore((int) (5 - 5*0.15));
-                        Strength.setScore(25);
-                        CritChance.setScore(0 + 10);
-                        CritDamage.setScore((int) (10 + 5));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(5);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.3));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                    case 12:
-                        Damage.setScore((int) (25 + 25*0.2));
-                        Health.setScore((int) (100 + 100 * 0.1));
-                        Defence.setScore((int) (5 - 5*0.15));
-                        Strength.setScore((int) (25 + 25*0.05));
-                        CritChance.setScore(0 + 15);
-                        CritDamage.setScore((int) (10 + 30));
-                        Mana.setScore((int) (100));
-                        Stealth.setScore(25);
-
-                        player.setWalkSpeed((float) (0.2 + 0.2*0.4));
-                        Speed.setScore((int) (player.getWalkSpeed() * 500));
-
-                        break;
-                }
+                PlayerJoinClassAssignation.Class(obj, player, playerdata);
             }
 
 
@@ -380,56 +210,7 @@ public class PlayerJoin implements Listener{
                     return;
                 }
 
-                if(objective.getScore("ManaCost").getScore() != 0 || objective.getScore("ManaTimer").getScore() != 0) {
-
-                    int OldManaCost = objective.getScore("ManaCost").getScore();
-                    if(ManaTimer.getScore() >= 6) {
-                        objective.getScore("CurrentMana").setScore(objective.getScore("CurrentMana").getScore() - objective.getScore("ManaCost").getScore());
-                    }
-
-//                    CurrentMana.setScore(CurrentHealth.getScore() - OldManaCost);
-                    player.spigot().sendMessage(
-                            ChatMessageType.ACTION_BAR,
-                            new TextComponent(ChatColor.RED + "❤ " + objective.getScore("CurrentHealth").getScore() + ChatColor.GRAY + "/" + ChatColor.RED + objective.getScore("EffectiveHealth").getScore() + "   " + ChatColor.GREEN + "🛡 " + objective.getScore("EffectiveDefence").getScore() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + "-" + OldManaCost + " " + objective.getScore("CurrentMana").getScore() + ChatColor.GRAY + "/" + ChatColor.AQUA + objective.getScore("EffectiveMana").getScore()));
-                    objective.getScore("ManaTimer").setScore(objective.getScore("ManaTimer").getScore() - 1);
-                    if(ManaTimer.getScore() <= 0)
-                        ManaCost.setScore(0);
-                } else {
-                    player.spigot().sendMessage(
-                            ChatMessageType.ACTION_BAR,
-                            new TextComponent(ChatColor.RED + "❤ " + objective.getScore("CurrentHealth").getScore() + ChatColor.GRAY + "/" + ChatColor.RED + objective.getScore("EffectiveHealth").getScore() + "   " + ChatColor.GREEN + "🛡 " + objective.getScore("EffectiveDefence").getScore() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + objective.getScore("CurrentMana").getScore() + ChatColor.GRAY + "/" + ChatColor.AQUA + objective.getScore("EffectiveMana").getScore()));
-                }
-                EffectiveStrength.setScore(objective.getScore("Strength").getScore() + Integer.parseInt(ItemStats.Weapon(player)[1]));
-                EffectiveCritChance.setScore(objective.getScore("CritChance").getScore() + Integer.parseInt(ItemStats.Weapon(player)[3]));
-                EffectiveCritDamage.setScore(objective.getScore("CritDamage").getScore() + Integer.parseInt(ItemStats.Weapon(player)[2]));
-
-                int OldEffectiveHealth = EffectiveHealth.getScore();
-
-                EffectiveHealth.setScore(Health.getScore() + Integer.parseInt(ItemStats.Armor(player, 1)[0]) + Integer.parseInt(ItemStats.Armor(player, 2)[0]) + Integer.parseInt(ItemStats.Armor(player, 3)[0]) + Integer.parseInt(ItemStats.Armor(player, 4)[0]));
-
-                if(CurrentHealth.getScore() == OldEffectiveHealth) {
-                    CurrentHealth.setScore(EffectiveHealth.getScore());
-                }
-                if(CurrentHealth.getScore() > EffectiveHealth.getScore())
-                    CurrentHealth.setScore(EffectiveHealth.getScore());
-
-                if (player.getInventory().getItemInMainHand().getItemMeta() != null) {
-                    CurrentDamage.setScore(Integer.parseInt(Check.ExistingStats(player.getInventory().getItemInMainHand().getItemMeta())[0]) + Damage.getScore());
-                } else {
-                    CurrentDamage.setScore(Damage.getScore());
-                }
-
-                EffectiveDefence.setScore(Integer.parseInt(Stats.getStats().get(1)) + Integer.parseInt(ItemStats.Armor(player, 1)[1]) + Integer.parseInt(ItemStats.Armor(player, 2)[1]) + Integer.parseInt(ItemStats.Armor(player, 3)[1]) + Integer.parseInt(ItemStats.Armor(player, 4)[1]));
-
-                EffectiveSpeed.setScore(obj.getScore("Speed").getScore());
-
-                int OldEffectiveMana = EffectiveMana.getScore();
-
-                EffectiveMana.setScore(objective.getScore("Mana").getScore() + Integer.parseInt(ItemStats.Armor(player, 1)[3]) + Integer.parseInt(ItemStats.Armor(player, 2)[3]) + Integer.parseInt(ItemStats.Armor(player, 3)[3]) + Integer.parseInt(ItemStats.Armor(player, 4)[3]));
-
-                if(CurrentMana.getScore() == OldEffectiveMana) {
-                    CurrentMana.setScore(EffectiveMana.getScore());
-                }
+                StatCalc.Calculate(objective, player);
 
                 int Slots = player.getInventory().getSize();
                 for (int i = 0; i < Slots; i++) {

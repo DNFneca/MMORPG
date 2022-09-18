@@ -247,12 +247,8 @@ public class InventoryListener implements Listener {
                     }
                 }
 
-                //                             Code for an item named "staff"
-
 
                 if (ClickedItem.getItemMeta().getDisplayName().contains("Menu")) {
-//                    p.sendMessage("HOI HOI HOE");
-//                System.out.println(p.getAttackCooldown());
                     e.setCancelled(true);
 
                     MainMenu(p);

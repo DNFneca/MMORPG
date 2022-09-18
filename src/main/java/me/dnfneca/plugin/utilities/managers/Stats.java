@@ -75,31 +75,9 @@ public class Stats {
             case 13:
                 obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
                 break;
-            case 14:
-                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
-                break;
-            case 15:
-                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
-                break;
         }
 
         return stats;
-    }
-    public static double getDefence(Player player, ArrayList<String> tags, double defence, boolean isPlayer) {
-        double Def = 1;
-        if(isPlayer == false) {
-//            System.out.println(ItemStats.Weapon(player)[1]);
-            int getPlayerStrength = (Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("EffectiveStrength").getScore());
-            int getAttackedStrength = Integer.parseInt(tags.get(1));
-//            int getPlayerStrength = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Strength").getScore();
-            Def = defence / (getPlayerStrength/25);
-        } else
-            Def = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Defence").getScore();
-
-
-
-
-        return Def;
     }
 
     public static double getStrength(EntityDamageByEntityEvent e, Player player, ArrayList<String> tags) {
