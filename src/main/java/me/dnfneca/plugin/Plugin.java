@@ -6,6 +6,8 @@ import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicWolf;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.Dummy;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.Ghoul;
+import me.dnfneca.plugin.utilities.managers.Item.RegisterItem;
+import me.dnfneca.plugin.utilities.managers.Item.StatsByName;
 import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +37,7 @@ public final class Plugin extends JavaPlugin {
         this.getCommand("deleteEveryNPC").setExecutor(new @NonNull deleteEveryNPC());
 //        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
         this.getCommand("GUI").setExecutor(new GUI());
+        this.getCommand("getregistereditems").setExecutor(new GetRegisteredItems());
 
 
 
@@ -60,7 +63,12 @@ public final class Plugin extends JavaPlugin {
 //        getServer().getPluginManager().registerEvents(new (this), this);
 
 
+        // ITEMS
 
+        RegisterItem.RegisterNewItem("Sticky");
+        RegisterItem.RegisterNewItem("Frozen Heart");
+        StatsByName.SetStats("Sticky", new String[]{"0", "1", "7", "0", "0", "0", "0"});
+        StatsByName.SetStats("Frozen Heart", new String[]{"9", "9", "9", "9", "9", "9", "9"});
 
     }
 

@@ -22,3 +22,6 @@ commands:
   GUI:
     description: A test GUI
     usage: /gui
+  getregistereditems:
+    description: get all the registered items
+    usage: /getregistereditems

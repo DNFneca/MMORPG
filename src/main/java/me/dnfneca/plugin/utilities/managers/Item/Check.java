@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredItems;
+
 public class Check {
     public static String[] ExistingStats(ItemMeta meta) {
         String[] data = new String[10];
@@ -18,6 +20,8 @@ public class Check {
             // [2] critdamage
             // [3] critchance
             // [4] Mana Cost
+            // [5] Mana Plus
+
 
             if(meta.getDisplayName().contains("Sticky")) {
                 data[0] = "10";
