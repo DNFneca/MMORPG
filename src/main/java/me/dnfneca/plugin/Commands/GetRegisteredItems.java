@@ -1,12 +1,14 @@
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.Item.StatsByName;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredItems;
+import static me.dnfneca.plugin.utilities.managers.Item.StatsByName.RegisteredItemsStats;
 
 public class GetRegisteredItems implements CommandExecutor {
 
@@ -20,7 +22,7 @@ public class GetRegisteredItems implements CommandExecutor {
                     p.sendMessage(s);
                 }
             }
-            StatsByName.GetStats("Frozen Heart");
+            System.out.println(Arrays.toString(RegisteredItemsStats));
         }
 
         return true;

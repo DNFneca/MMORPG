@@ -1,7 +1,6 @@
 package me.dnfneca.plugin.utilities.managers.Statistics;
 
 import me.dnfneca.plugin.utilities.inventory.ItemStats;
-import me.dnfneca.plugin.utilities.managers.Item.Check;
 import me.dnfneca.plugin.utilities.managers.Stats;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -49,9 +48,9 @@ public class StatCalc {
                     ChatMessageType.ACTION_BAR,
                     new TextComponent(ChatColor.RED + "❤ " + objective.getScore("CurrentHealth").getScore() + ChatColor.GRAY + "/" + ChatColor.RED + objective.getScore("EffectiveHealth").getScore() + "   " + ChatColor.GREEN + "🛡 " + objective.getScore("EffectiveDefence").getScore() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + objective.getScore("CurrentMana").getScore() + ChatColor.GRAY + "/" + ChatColor.AQUA + objective.getScore("EffectiveMana").getScore()));
         }
-        EffectiveStrength.setScore(objective.getScore("Strength").getScore() + Integer.parseInt(ItemStats.Weapon(player)[1]) + Integer.parseInt(ItemStats.WeaponReforge(player)[1]));
-        EffectiveCritChance.setScore(objective.getScore("CritChance").getScore() + Integer.parseInt(ItemStats.Weapon(player)[3]));
-        EffectiveCritDamage.setScore(objective.getScore("CritDamage").getScore() + Integer.parseInt(ItemStats.Weapon(player)[2]));
+        EffectiveStrength.setScore(objective.getScore("Strength").getScore() + Integer.parseInt(ItemStats.Weapon(player)[3]) + Integer.parseInt(ItemStats.WeaponReforge(player)[3]));
+        EffectiveCritChance.setScore(objective.getScore("CritChance").getScore() + Integer.parseInt(ItemStats.Weapon(player)[5]));
+        EffectiveCritDamage.setScore(objective.getScore("CritDamage").getScore() + Integer.parseInt(ItemStats.Weapon(player)[6]));
 
         int OldEffectiveHealth = EffectiveHealth.getScore();
 
@@ -63,11 +62,7 @@ public class StatCalc {
         if(CurrentHealth.getScore() > EffectiveHealth.getScore())
             CurrentHealth.setScore(EffectiveHealth.getScore());
 
-        if (player.getInventory().getItemInMainHand().getItemMeta() != null) {
-            CurrentDamage.setScore(Integer.parseInt(Check.ExistingStats(player.getInventory().getItemInMainHand().getItemMeta())[0]) + Damage.getScore());
-        } else {
-            CurrentDamage.setScore(Damage.getScore());
-        }
+        CurrentDamage.setScore(objective.getScore("Damage").getScore() + Integer.parseInt(ItemStats.Weapon(player)[1]) + Integer.parseInt(ItemStats.WeaponReforge(player)[1]));
 
         EffectiveDefence.setScore(Integer.parseInt(Stats.getStats().get(1)) + Integer.parseInt(ItemStats.Armor(player, 1)[1]) + Integer.parseInt(ItemStats.Armor(player, 2)[1]) + Integer.parseInt(ItemStats.Armor(player, 3)[1]) + Integer.parseInt(ItemStats.Armor(player, 4)[1]));
 
@@ -75,7 +70,7 @@ public class StatCalc {
 
         int OldEffectiveMana = EffectiveMana.getScore();
 
-        EffectiveMana.setScore(objective.getScore("Mana").getScore() + Integer.parseInt(ItemStats.Armor(player, 1)[3]) + Integer.parseInt(ItemStats.Armor(player, 2)[3]) + Integer.parseInt(ItemStats.Armor(player, 3)[3]) + Integer.parseInt(ItemStats.Armor(player, 4)[3]));
+        EffectiveMana.setScore(objective.getScore("Mana").getScore() + Integer.parseInt(ItemStats.Armor(player, 1)[4]) + Integer.parseInt(ItemStats.Armor(player, 2)[4]) + Integer.parseInt(ItemStats.Armor(player, 3)[4]) + Integer.parseInt(ItemStats.Armor(player, 4)[4]) + Integer.parseInt(ItemStats.Weapon(player)[4]) + Integer.parseInt(ItemStats.WeaponReforge(player)[4]));
 
         if(CurrentMana.getScore() == OldEffectiveMana) {
             CurrentMana.setScore(EffectiveMana.getScore());

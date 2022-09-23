@@ -218,7 +218,7 @@ public class PlayerJoin implements Listener{
                         if (Objects.requireNonNull(Objects.requireNonNull(player.getInventory().getItem(i)).getItemMeta()).hasDisplayName()) {
                             ItemMeta meta = player.getInventory().getItem(i).getItemMeta();
                             assert meta != null;
-                            Check.LoreInsert(meta, player.getInventory().getItem(i));
+                            Check.LoreInsert(i, player);
 //                            System.out.println(player.getInventory().getItem(i));
                         }
                     }

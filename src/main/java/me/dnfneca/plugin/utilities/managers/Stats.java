@@ -1,10 +1,12 @@
 package me.dnfneca.plugin.utilities.managers;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class Stats {
     private static final List<String> stats = new ArrayList<>();
@@ -80,20 +82,11 @@ public class Stats {
         return stats;
     }
 
-    public static double getStrength(EntityDamageByEntityEvent e, Player player, ArrayList<String> tags) {
-        int getPlayerStrength = Objects.requireNonNull(player.getScoreboard().getObjective("Stats")).getScore("Defence").getScore();
-        int getAttackedDefence = Integer.parseInt(tags.get(1));
-
-        double Strength = 0;
-
-        return Strength;
-    }
-
     public static String getRandomRarity(UUID MobUUID) {
         Random rand = new Random();
         String rarity = null;
         int rarityNumber = 0;
-// nextInt as provided by Random is exclusive of the top value so you need to add 1
+// nextInt as provided by Random is exclusive of the top value, so you need to add 1
         rand.setSeed(MobUUID.hashCode());
 
 
@@ -135,7 +128,7 @@ public class Stats {
     }
     public static int getRandomLevel(int min, int max) {
         Random rand = new Random();
-// nextInt as provided by Random is exclusive of the top value so you need to add 1
+// nextInt as provided by Random is exclusive of the top value, so you need to add 1
 
         return rand.nextInt((max - min) + 1) + min;
     }

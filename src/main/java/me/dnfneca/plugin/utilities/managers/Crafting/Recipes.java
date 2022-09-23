@@ -1,6 +1,5 @@
 package me.dnfneca.plugin.utilities.managers.Crafting;
 
-import me.dnfneca.plugin.utilities.managers.Item.Check;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +27,7 @@ public class Recipes {
         ItemStack item = getItemStack(result[0]);
         item.setAmount(Integer.parseInt(result[1]));
 
-        Check.LoreInsert(item.getItemMeta(), item);
+//        Check.LoreInsert(item.getItemMeta(), item);
 
         inventory.setItem(24, item);
     }

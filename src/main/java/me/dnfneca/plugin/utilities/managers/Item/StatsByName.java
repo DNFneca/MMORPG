@@ -1,6 +1,8 @@
 package me.dnfneca.plugin.utilities.managers.Item;
 
+import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,19 +19,22 @@ public class StatsByName {
         i = 0;
         for (String s : RegisteredItems) {
             i++;
-            if(s.equals(ItemName)) {
+            if(ItemName.contains(s) || s.contains(ItemName)) {
                 break;
             }
         }
-        int laststat = i * 7, firststat, statI = 0, currentstat;
+        int laststat = i * 10, firststat, statI = 0, currentstat;
         if(i == 1) {
             laststat --;
-            firststat = laststat - 6;
+            firststat = laststat - 9;
         } else {
-            firststat = laststat - 7;
+            firststat = laststat - 10;
+            laststat --;
         }
         currentstat = firststat;
         while ( currentstat <= laststat ) {
+            System.out.println(currentstat);
+            System.out.println(statI);
             RegisteredItemsStats[currentstat] = ItemStats[statI];
             currentstat ++;
             statI ++;
@@ -47,12 +52,12 @@ public class StatsByName {
                 break;
             }
         }
-        int laststat = i * 7, firststat, statI = 0, currentstat;
+        int laststat = i * 10, firststat, statI = 0, currentstat;
         if (i == 1) {
             laststat--;
-            firststat = laststat - 6;
+            firststat = laststat - 9;
         } else {
-            firststat = laststat - 7;
+            firststat = laststat - 10;
             laststat--;
         }
         currentstat = firststat;
@@ -61,7 +66,7 @@ public class StatsByName {
         }
     }
     public static String[] GetStatsString(String ItemName) {
-        String[] Stats = new String[7];
+        String[] Stats = new String[10];
         i = 0;
 
         for (String s : RegisteredItems) {
@@ -75,8 +80,8 @@ public class StatsByName {
         if(i > 99) {
             return null;
         }
-        int laststat = i * 7, firststat, statI = 0, currentstat;
-        firststat = laststat - 7;
+        int laststat = i * 10, firststat, statI = 0, currentstat;
+        firststat = laststat - 10;
         laststat--;
         currentstat = firststat;
         while (currentstat <= laststat) {
@@ -86,23 +91,57 @@ public class StatsByName {
         }
         return Stats;
     }
-    public static void SetItemStatsLore(String ItemName, ItemStack itemStack) {
+    public static void SetItemStatsLore(int ItemSlot, Player player) {
+        ItemStack itemStack = player.getInventory().getItem(ItemSlot);
+        String ItemName = itemStack.getItemMeta().getDisplayName();
         ArrayList<String> Lore = new ArrayList<>(10);
-        String[] ItemStats = GetStatsString(ItemName);
-        int i = 0;
+        String[] ItemStats1 = GetStatsString(ItemName);
+        i = 0;
         String Type = null;
-        for (i = 0; i < 7; i++) {
-            if(ItemStats != null) {
-
+        for (i = 0; i < 10; i++) {
+            if (ItemStats1 != null && ItemStats1[i] != null) {
+                //            health
+                //            damage
+                //            defence
+                //            strength
+                //            mana +
+                //            critdamage
+                //            critchance
+                //            heal per second
+                //            Mana Cost
                 switch (i) {
                     case 0 -> Type = "Health: ";
                     case 1 -> Type = "Damage: ";
-                    case 2 -> Type = "Strength: ";
-                    case 3 -> Type = "Crit Damage: ";
-                    case 4 -> Type = "Crit Chance: ";
+                    case 2 -> Type = "Defence: ";
+                    case 3 -> Type = "Strength: ";
+                    case 4 -> Type = "Mana: ";
+                    case 5 -> Type = "Crit Damage: ";
+                    case 6 -> Type = "Crit Chance: ";
+                    case 7 -> Type = "HPS: ";
+
                 }
-                if(!ItemStats[i].equals("0") && i != 6) {
-                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats[i]);
+                if (player == null) {
+                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                } else {
+                    if (i < 7 && (!(ItemStats.WeaponReforge(player, ItemSlot)[i].equals("0")))) {
+                        if (!(ItemStats.WeaponReforge(player, ItemSlot)[i].equals("0"))) {
+                            if (Integer.parseInt(ItemStats.WeaponReforge(player, ItemSlot)[i]) < 0) {
+                                if(i == 5 || i == 6) {
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
+                                } else {
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                }
+                            } else {
+                                if(i == 5 || i == 6) {
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
+                                } else {
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                }
+                            }
+                        }
+                    } else if (!ItemStats1[i].equals("0") && i < 7) {
+                        Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                    }
                 }
             }
         }
@@ -110,10 +149,10 @@ public class StatsByName {
             ItemMeta item = itemStack.getItemMeta();
             item.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON);
             Lore.add("");
-            Lore.add(ItemRarity(itemStack, ItemStats[6]));
+            Lore.add(ItemRarity(itemStack, ItemStats1[9]));
             item.setLore(Lore);
             itemStack.setItemMeta(item);
-            ItemNameColour(itemStack, ItemStats[6]);
+            ItemNameColour(itemStack, ItemStats1[9]);
         }
     }
     public static String ItemRarity(ItemStack item, String Rarity) {
@@ -123,6 +162,9 @@ public class StatsByName {
         } else {
             String ItemName = item.getItemMeta().getDisplayName();
             ItemMeta itemMeta = item.getItemMeta();
+//
+
+
 
             switch (Rarity) {
                 case "Common":
@@ -150,8 +192,8 @@ public class StatsByName {
                     itemMeta.setDisplayName(ChatColor.DARK_RED + ItemName);
                     break;
             }
-            item.setItemMeta(itemMeta);
 
+            item.setItemMeta(itemMeta);
         }
         return Rarity;
     }
@@ -159,6 +201,15 @@ public class StatsByName {
         ArrayList<String> Lore = new ArrayList<>(7);
         String ItemName = item.getItemMeta().getDisplayName();
         ItemMeta itemMeta = item.getItemMeta();
+
+        String ItemName2 = "" + ItemName.substring(2);
+
+        if(ItemName2.contains("Smart Wise")) {
+            ItemName2 = ItemName2.replace("Smart", "");
+            ItemName = "Very" + ItemName2;
+        }
+        System.out.println(ItemName);
+
         switch (Rarity) {
             case "Uncommon" -> itemMeta.setDisplayName(ChatColor.GREEN + ItemName);
             case "Rare" -> itemMeta.setDisplayName(ChatColor.BLUE + ItemName);
