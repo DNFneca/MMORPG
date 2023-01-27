@@ -13,7 +13,7 @@ import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredI
 
 public class StatsByName {
     static int i = 0;
-    public static final String[] RegisteredItemsStats = new String[700];
+    public static final String[] RegisteredItemsStats = new String[1000];
 
     public static void SetStats(String ItemName, String[] ItemStats) {
         i = 0;
@@ -33,8 +33,8 @@ public class StatsByName {
         }
         currentstat = firststat;
         while ( currentstat <= laststat ) {
-            System.out.println(currentstat);
-            System.out.println(statI);
+//            System.out.println(currentstat);
+//            System.out.println(statI);
             RegisteredItemsStats[currentstat] = ItemStats[statI];
             currentstat ++;
             statI ++;
@@ -139,18 +139,30 @@ public class StatsByName {
                                 }
                             }
                         }
-                    } else if (!ItemStats1[i].equals("0") && i < 7) {
-                        Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                    } else if (!(ItemStats1[i].equals("0")) && i < 7) {
+                        if (Integer.parseInt(ItemStats.WeaponReforge(player, ItemSlot)[i]) < 0) {
+                            if(i == 5 || i == 6) {
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + "%");
+                            } else {
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                            }
+                        } else {
+                            if(i == 5 || i == 6) {
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + "%");
+                            } else {
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i]);
+                            }
+                        }
                     }
                 }
             }
         }
         if (!(Lore.isEmpty())) {
             ItemMeta item = itemStack.getItemMeta();
-            item.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON);
             Lore.add("");
             Lore.add(ItemRarity(itemStack, ItemStats1[9]));
             item.setLore(Lore);
+            item.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON);
             itemStack.setItemMeta(item);
             ItemNameColour(itemStack, ItemStats1[9]);
         }
@@ -208,7 +220,7 @@ public class StatsByName {
             ItemName2 = ItemName2.replace("Smart", "");
             ItemName = "Very" + ItemName2;
         }
-        System.out.println(ItemName);
+//        System.out.println(ItemName);
 
         switch (Rarity) {
             case "Uncommon" -> itemMeta.setDisplayName(ChatColor.GREEN + ItemName);

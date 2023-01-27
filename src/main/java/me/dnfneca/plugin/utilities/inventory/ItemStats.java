@@ -25,6 +25,8 @@ public class ItemStats {
 //            System.out.println(data);
             if(Check.ExistingStats(itemMeta) == null) {
                 return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+            } else if (Check.ExistingStats(itemMeta)[7].equals("Armor")) {
+                return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
             }
         }
 

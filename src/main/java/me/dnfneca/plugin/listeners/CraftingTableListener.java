@@ -29,7 +29,7 @@ public class CraftingTableListener implements Listener {
                         public void run() {
                             if(e.getView().getTopInventory().getItem(finalI) != null) {
                                 list.add(e.getView().getTopInventory().getItem(finalI));
-                                System.out.println(e.getView().getTopInventory().getItem(finalI));
+//                                System.out.println(e.getView().getTopInventory().getItem(finalI));
                             }
                         }
                     }.runTaskLater(Plugin.getInstance(), 2);
@@ -38,7 +38,7 @@ public class CraftingTableListener implements Listener {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            System.out.println(list);
+//                            System.out.println(list);
                             Recipes.get(list, e.getInventory());
                         }
                     }.runTaskLater(Plugin.getInstance(), 2);

@@ -7,28 +7,21 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredItems;
+
 public class itemTabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 1) {
             List<String> p = new ArrayList<>();
-            p.add("GHOST_REAVER");
-            p.add("EROS'S_BOW");
-            p.add("ASPECT_OF_THE_END");
-            p.add("IRON_ARMOR_SET");
-            p.add("WISE_MANS_SET");
-            p.add("ASPECT_OF_THE_NETHER");
-            p.add("LONGSWORD");
-            p.add("THE_VOID");
-            p.add("HOLY_IRON_SWORD");
-            p.add("MITHRIL_BLADE");
-            p.add("BLOODQUENCH");
-            p.add("WINTERTHORN");
-            p.add("BLACK_SWORD");
-            p.add("UNHOLY_GREAT_SWORD");
+            for(String s : RegisteredItems) {
+                if(s != null) {
+                    s = s.toUpperCase().replace(" ", "_");
+                    p.add(s);
+                }
+            }
             return p;
         }
-
         return null;
     }
 }

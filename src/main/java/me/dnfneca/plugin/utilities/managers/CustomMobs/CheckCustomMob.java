@@ -1,15 +1,13 @@
 package me.dnfneca.plugin.utilities.managers.CustomMobs;
 
-import me.dnfneca.plugin.utilities.managers.Stats;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+        import me.dnfneca.plugin.utilities.managers.Stats;
+        import org.bukkit.entity.LivingEntity;
+        import org.bukkit.entity.Player;
+        import org.bukkit.event.Listener;
+        import org.bukkit.potion.PotionEffect;
+        import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-
-import static me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider.*;
+        import java.util.ArrayList;
 
 public class CheckCustomMob implements Listener {
 

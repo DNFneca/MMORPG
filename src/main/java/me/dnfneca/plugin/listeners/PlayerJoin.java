@@ -82,6 +82,8 @@ public class PlayerJoin implements Listener{
         Score Stealth = obj.getScore("Stealth");
         Score EffectiveStealth = obj.getScore("EffectiveStealth");
         Score ChoiceCD = obj.getScore("ChoiceCD");
+        Score TrueShield = obj.getScore("TrueShield");
+
 
 
         NamespacedKey key = new NamespacedKey(Plugin.getInstance() , "Class");
@@ -127,6 +129,7 @@ public class PlayerJoin implements Listener{
             Speed.setScore(100);
             Stealth.setScore(0);
             ChoiceCD.setScore(0);
+            TrueShield.setScore(0);
 
 //            EffectiveStrength.setScore(Strength );
 
@@ -151,6 +154,7 @@ public class PlayerJoin implements Listener{
             Stats.addStats(18, String.valueOf(obj.getScore("Class").getScore()));
             Stats.addStats(19, String.valueOf(obj.getScore("Speed").getScore()));
             Stats.addStats(20, String.valueOf(obj.getScore("Stealth").getScore()));
+            Stats.addStats(21, String.valueOf(obj.getScore("TrueShield").getScore()));
         } else {
             Damage.setScore(25);
             CurrentDamage.setScore(25);
@@ -171,6 +175,7 @@ public class PlayerJoin implements Listener{
             Class.setScore(playerclass);
             Speed.setScore(0);
             ChoiceCD.setScore(0);
+            TrueShield.setScore(0);
 
         }
 
