@@ -54,7 +54,7 @@ public class PlayerJoin implements Listener{
         assert manager != null;
         Scoreboard board = manager.getNewScoreboard();
         Objective obj = board.registerNewObjective("Stats", "dummy", "Stats");
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        obj.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 //            obj.getScore(ChatColor.BLACK + "" + ChatColor.WHITE).setScore(14);
 //            Score money = obj.getScore(ChatColor.GRAY + "» Strength");
 //            money.setScore(13);

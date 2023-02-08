@@ -101,6 +101,8 @@ public class ItemStats {
             return new String[]{"0", "-2", "0", "5", "0", "0", "6", "0", "0", "0"};
         } else if (PotentialReforge.contains("Very")) {
             return new String[]{"0", "-2", "0", "5", "0", "0", "6", "0", "0", "0"};
+        } else if (PotentialReforge.contains("Strong")) {
+            return new String[]{"0", "15", "0", "7", "0", "0", "0", "0", "0", "0"};
         } else {
             return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
         }

@@ -44,21 +44,28 @@ public class ReforgeMenu {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
+        meta.setDisplayName("Strength Artifact");
         head.setItemMeta(meta);
-
-
-
-
 
 
 
         List<String> lore = new ArrayList<>();
 
 
-        Inventory inv = Bukkit.createInventory(null, 45, "Forge Menu");
+        Inventory inv = Bukkit.createInventory(null, 54, "Forge Menu");
 
         ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
         ItemStack recipe = new ItemStack(Material.BARRIER, 1);
+        ItemStack reforge_glass = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1);
+        ItemStack forge = new ItemStack(Material.BARRIER, 1);
+
+        ItemMeta reforge_glass_data = reforge_glass.getItemMeta();
+        reforge_glass_data.setDisplayName("   ");
+        reforge_glass.setItemMeta(reforge_glass_data);
+
+        ItemMeta forge_data = forge.getItemMeta();
+        forge_data.setDisplayName("Can't reforge this");
+        forge.setItemMeta(forge_data);
 
         ItemMeta data2 = blue_glass.getItemMeta();
         data2.setDisplayName("   ");
@@ -69,12 +76,16 @@ public class ReforgeMenu {
         recipe.setItemMeta(recipedata);
 
 
-        for(int i = 0; i <= 44; i++) {
-            if(i == 10 || i == 11 || i == 12 || i == 19 || i == 20 || i == 21 || i == 28 || i == 29 || i == 30){
+        for(int i = 0; i <= 53; i++) {
+            if(i == 11) {
                 inv.setItem(i, new ItemStack(Material.AIR));
-            } else if (i == 24) {
+            } else if (i == 12 || i == 13 || i == 14 || i == 22 || i == 31) {
+                inv.setItem(i, reforge_glass);
+            } else if (i == 15) {
                 inv.setItem(i, head);
-            }else {
+            } else if (i == 40) {
+                inv.setItem(i, forge);
+            } else {
                 inv.setItem(i, blue_glass);
             }
         }

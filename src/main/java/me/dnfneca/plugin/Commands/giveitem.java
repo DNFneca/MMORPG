@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredItems;
 import static me.dnfneca.plugin.utilities.managers.Item.StatsByName.GetStatsString;
 
-public class item implements CommandExecutor {
+public class giveitem implements CommandExecutor {
 
 
     @Override
@@ -22,7 +22,7 @@ public class item implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(player.isOp()) {
-                if(command.getName().equalsIgnoreCase("item")) {
+                if(command.getName().equalsIgnoreCase("giveitem")) {
                     ItemStack item = new ItemStack(Material.END_GATEWAY, 1);
                     ItemMeta meta;
                     int i = 0;
@@ -68,6 +68,12 @@ public class item implements CommandExecutor {
                                     ((Player) sender).getInventory().addItem(item);
                                 } else if (GetStatsString(RegisteredItems[i])[7] == "Stick") {
                                     item.setType(Material.STICK);
+                                    meta = item.getItemMeta();
+                                    meta.setDisplayName(RegisteredItems[i]);
+                                    item.setItemMeta(meta);
+                                    ((Player) sender).getInventory().addItem(item);
+                                } else if (GetStatsString(RegisteredItems[i])[7] == "Scythe") {
+                                    item.setType(Material.DIAMOND_HOE);
                                     meta = item.getItemMeta();
                                     meta.setDisplayName(RegisteredItems[i]);
                                     item.setItemMeta(meta);

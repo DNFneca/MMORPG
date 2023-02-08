@@ -25,7 +25,6 @@ import org.bukkit.scoreboard.Score;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static me.dnfneca.plugin.utilities.GUI.GUI.*;
 
@@ -57,13 +56,24 @@ public class InventoryListener implements Listener {
         List<String> lore = new ArrayList<>();
         Inventory inv = e.getInventory();
 
-        @Nonnull ItemStack ClickedItem = Objects.requireNonNull(e.getCurrentItem());
+        @Nonnull ItemStack ClickedItem = null;
+
+        try {
+            ClickedItem = e.getCurrentItem();
+        } catch (Error error) {
+            System.out.println(error);
+        }
+        if(ClickedItem == null) {
+            return;
+        }
+
+
         if (ClickedItem != null) {
             if (ClickedItem.getItemMeta() !=null) {
 //                System.out.println(ClickedItem);
 
 
-                  if(ClickedItem.getItemMeta().getDisplayName().contains(":") || ClickedItem.getItemMeta().getDisplayName().contains("   ")) {
+                  if(ClickedItem.getItemMeta().getDisplayName().contains(":") || ClickedItem.getItemMeta().getDisplayName().contains("   ") || ClickedItem.getItemMeta().getDisplayName().contains("Can't reforge this")) {
                     e.setCancelled(true);
                     return;
                   }

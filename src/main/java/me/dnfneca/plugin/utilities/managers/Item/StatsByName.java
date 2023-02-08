@@ -129,13 +129,13 @@ public class StatsByName {
                                 if(i == 5 || i == 6) {
                                     Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
                                 } else {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
                                 }
                             } else {
                                 if(i == 5 || i == 6) {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
                                 } else {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
                                 }
                             }
                         }
@@ -144,7 +144,7 @@ public class StatsByName {
                             if(i == 5 || i == 6) {
                                 Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + "%");
                             } else {
-                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i]);
                             }
                         } else {
                             if(i == 5 || i == 6) {
@@ -203,6 +203,9 @@ public class StatsByName {
                     Rarity = ChatColor.DARK_RED + Rarity;
                     itemMeta.setDisplayName(ChatColor.DARK_RED + ItemName);
                     break;
+                case "Exotic":
+                    Rarity = ChatColor.LIGHT_PURPLE + Rarity;
+                    itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE + ItemName);
             }
 
             item.setItemMeta(itemMeta);
@@ -228,6 +231,7 @@ public class StatsByName {
             case "Epic" -> itemMeta.setDisplayName(ChatColor.DARK_PURPLE + ItemName);
             case "Legendary" -> itemMeta.setDisplayName(ChatColor.GOLD + ItemName);
             case "Mythic" -> itemMeta.setDisplayName(ChatColor.DARK_RED + ItemName);
+            case "Exotic" -> itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE + ItemName);
             default -> itemMeta.setDisplayName(ChatColor.GRAY + ItemName);
         }
             item.setItemMeta(itemMeta);

@@ -24,10 +24,10 @@ public final class Plugin extends JavaPlugin {
 
         this.getCommand("summonmob").setExecutor(new @NonNull summonmob());
         this.getCommand("summonmob").setTabCompleter(new summonTabComplete());
-        this.getCommand("item").setExecutor(new @NonNull item());
-        this.getCommand("item").setTabCompleter(new itemTabComplete());
+        this.getCommand("giveitem").setExecutor(new @NonNull giveitem());
+        this.getCommand("giveitem").setTabCompleter(new itemTabComplete());
         this.getCommand("classreset").setExecutor(new @NonNull classreset());
-//        Objects.requireNonNull(getCommand("god")).setExecutor(new God());
+        this.getCommand("GOD").setExecutor(new God());
         this.getCommand("GUI").setExecutor(new GUI());
         this.getCommand("getregistereditems").setExecutor(new GetRegisteredItems());
 
@@ -53,6 +53,8 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LeftClickListener(), this);
         getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
         getServer().getPluginManager().registerEvents(new DropItemListener(), this);
+        getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
+
 //        getServer().getPluginManager().registerEvents(new (this), this);
 
 
@@ -86,43 +88,38 @@ public final class Plugin extends JavaPlugin {
         RegisterItem.RegisterNewItem("Doomblade");
         RegisterItem.RegisterNewItem("Lightbane");
         RegisterItem.RegisterNewItem("Silverlight");
-        RegisterItem.RegisterNewItem("");
+        RegisterItem.RegisterNewItem("Ghost Reaver");
 
 
-        StatsByName.SetStats("Sticky", new String[]{"0", "20", "0", "25", "-125", "0", "0", "Stick", "TrueShield", "Common"});
-        StatsByName.SetStats("Wise Man's Hat", new String[]{"20", "0", "5", "0", "200", "0", "0", "Helmet", "0", "Epic"});
-        StatsByName.SetStats("Wise Man's Coat", new String[]{"30", "0", "10", "0", "200", "0", "0", "Chestplate", "0", "Epic"});
-        StatsByName.SetStats("Wise Man's Trousers", new String[]{"30", "0", "10", "0", "200", "0", "0", "Leggings", "0", "Epic"});
-        StatsByName.SetStats("Wise Man's Boots", new String[]{"20", "0", "5", "0", "200", "0", "0", "Boots", "0", "Epic"});
-        StatsByName.SetStats("Aspect of the Nether", new String[]{"0", "100", "0", "125", "0", "200", "100", "Sword", "0", "Legendary"});
-        StatsByName.SetStats("Eros's Bow", new String[]{"0", "250", "0", "75", "0", "350", "75", "Bow", "0", "Mythic"});
-        StatsByName.SetStats("Longsword", new String[]{"0", "55", "0", "0", "0", "40", "20", "Sword", "0", "Uncommon"});
-        StatsByName.SetStats("The Void", new String[]{"0", "120", "0", "70", "0", "55", "45", "Sword", "0", "Rare"});
-        StatsByName.SetStats("Holy Iron Sword", new String[]{"0", "40", "0", "30", "0", "15", "5", "Sword", "0", "Common"});
-        StatsByName.SetStats("Mithril Blade", new String[]{"0", "80", "0", "65", "0", "30", "10", "Sword", "0", "Rare"});
-        StatsByName.SetStats("Bloodquench", new String[]{"0", "100", "0", "75", "0", "55", "30", "Sword", "0", "Rare"});
-        StatsByName.SetStats("Winterthorn", new String[]{"0", "85", "0", "60", "0", "20", "5", "Sword", "0", "Common"});
-        StatsByName.SetStats("Black Sword", new String[]{"0", "120", "0", "65", "0", "40", "10", "Sword", "0", "Rare"});
-        StatsByName.SetStats("Unholy Great Sword", new String[]{"0", "95", "0", "105", "0", "35", "30", "Sword", "0", "Rare"});
-        StatsByName.SetStats("Blunt Sword", new String[]{"0", "40", "0", "30", "0", "20", "10", "Sword", "0", "Common"});
-        StatsByName.SetStats("Silver Short Sword", new String[]{"0", "45", "0", "40", "0", "25", "10", "Sword", "0", "Common"});
-        StatsByName.SetStats("Copper Great Sword", new String[]{"0", "40", "0", "35", "0", "20", "15", "Sword", "0", "Common"});
-        StatsByName.SetStats("Copper Sword", new String[]{"0", "60", "0", "25", "0", "35", "20", "Sword", "0", "Common"});
-        StatsByName.SetStats("Wand", new String[]{"0", "50", "0", "30", "25", "20", "10", "Stick", "0", "Common"});
-        StatsByName.SetStats("Short Staff", new String[]{"0", "45", "0", "35", "30", "30", "15", "Stick", "0", "Common"});
-        StatsByName.SetStats("Silver Staff", new String[]{"0", "35", "0", "25", "40", "30", "5", "Stick", "0", "Common"});
+
+//      StatsByMame.SetStats(ItemName, new String[]{Health, Damage, Defence, Strength, Mana, CriticalDamage, CriticalChance, Type, AbilityName, Rarity})
+        StatsByName.SetStats("Sticky", new String[]{"0", "+20", "0", "+25", "+125", "+0", "+0", "Stick", "Fireball", "Common"});
+        StatsByName.SetStats("Wise Man's Hat", new String[]{"+20", "0", "+5", "0", "+200", "0", "0", "Helmet", "0", "Epic"});
+        StatsByName.SetStats("Wise Man's Coat", new String[]{"+30", "0", "+10", "0", "+200", "0", "0", "Chestplate", "0", "Epic"});
+        StatsByName.SetStats("Wise Man's Trousers", new String[]{"+30", "0", "10", "0", "+200", "0", "0", "Leggings", "0", "Epic"});
+        StatsByName.SetStats("Wise Man's Boots", new String[]{"+20", "0", "+5", "0", "+200", "0", "0", "Boots", "0", "Epic"});
+        StatsByName.SetStats("Aspect of the Nether", new String[]{"0", "+100", "0", "+125", "0", "+200", "+100", "Sword", "0", "Legendary"});
+        StatsByName.SetStats("Eros's Bow", new String[]{"0", "+250", "0", "+75", "0", "+350", "+75", "Bow", "0", "Mythic"});
+        StatsByName.SetStats("Longsword", new String[]{"0", "+55", "0", "0", "0", "+40", "+20", "Sword", "0", "Uncommon"});
+        StatsByName.SetStats("The Void", new String[]{"0", "+120", "0", "+70", "0", "+55", "+45", "Sword", "0", "Rare"});
+        StatsByName.SetStats("Holy Iron Sword", new String[]{"0", "+40", "0", "+30", "0", "+15", "+5", "Sword", "0", "Common"});
+        StatsByName.SetStats("Mithril Blade", new String[]{"0", "+80", "0", "+65", "0", "+30", "+10", "Sword", "0", "Rare"});
+        StatsByName.SetStats("Bloodquench", new String[]{"0", "+100", "0", "+75", "0", "+55", "+30", "Sword", "0", "Rare"});
+        StatsByName.SetStats("Winterthorn", new String[]{"0", "+85", "0", "+60", "0", "+20", "+5", "Sword", "0", "Common"});
+        StatsByName.SetStats("Black Sword", new String[]{"0", "+120", "0", "+65", "0", "+40", "+10", "Sword", "0", "Rare"});
+        StatsByName.SetStats("Unholy Great Sword", new String[]{"0", "+95", "0", "+105", "0", "+35", "+30", "Sword", "0", "Rare"});
+        StatsByName.SetStats("Blunt Sword", new String[]{"0", "+40", "0", "+30", "0", "+20", "+10", "Sword", "0", "Common"});
+        StatsByName.SetStats("Silver Short Sword", new String[]{"0", "+45", "0", "+40", "0", "+25", "+10", "Sword", "0", "Common"});
+        StatsByName.SetStats("Copper Great Sword", new String[]{"0", "+40", "0", "+35", "0", "+20", "+15", "Sword", "0", "Common"});
+        StatsByName.SetStats("Copper Sword", new String[]{"0", "+60", "0", "+25", "0", "+35", "+20", "Sword", "0", "Common"});
+        StatsByName.SetStats("Wand", new String[]{"0", "+50", "0", "+30", "+25", "+20", "+10", "Stick", "Wave", "Common"});
+        StatsByName.SetStats("Short Staff", new String[]{"0", "+45", "0", "+35", "+30", "+30", "+15", "Stick", "0", "Common"});
+        StatsByName.SetStats("Silver Staff", new String[]{"0", "+35", "0", "+25", "+40", "+30", "+5", "Stick", "0", "Common"});
+        StatsByName.SetStats("Ghost Reaver", new String[]{"0", "+345", "0", "+220", "0", "+730", "+90", "Scythe", "0", "Exotic"});
 
 
-        //            health
-        //            damage
-        //            defence
-        //            strength
-        //            mana +
-        //            critdamage
-        //            critchance
-        //            Type
-        //            Ab Name
-        //            Rarity
+//      StatsByMame.SetStats(ItemName, new String[]{Health, Damage, Defence, Strength, Mana, CriticalDamage, CriticalChance, Type, AbilityName, Rarity})
+
     }
 
     @Override
