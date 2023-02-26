@@ -22,3 +22,6 @@ commands:
   getregistereditems:
     description: get all the registered items
     usage: /getregistereditems
+  getregisteredreforges:
+    description: a command for getting al the registered reforges' names and buffs
+    usage: /getregistedreforges

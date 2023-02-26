@@ -1,6 +1,6 @@
 package me.dnfneca.plugin.listeners;
 
-import me.dnfneca.plugin.utilities.inventory.ItemStats;
+import me.dnfneca.plugin.utilities.managers.Item.Check;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,16 +11,15 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static me.dnfneca.plugin.listeners.PlayerJoin.plugin;
+import static me.dnfneca.plugin.utilities.inventory.ItemStats.*;
 import static me.dnfneca.plugin.utilities.managers.Item.RegisterItem.RegisteredItems;
 import static me.dnfneca.plugin.utilities.managers.Item.StatsByName.*;
 
@@ -36,10 +35,10 @@ public class ForgeMenuListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         List<String> lore = new ArrayList<>();
         Inventory inv = e.getInventory();
-        @Nonnull ItemStack ClickedItem = null;
+        ItemStack ClickedItem = null;
 
         try {
-            ClickedItem = Objects.requireNonNull(e.getCurrentItem());
+            ClickedItem = e.getCurrentItem();
         } catch (Error error) {
             System.out.println(error);
         } if(ClickedItem == null) {
@@ -52,6 +51,11 @@ public class ForgeMenuListener implements Listener {
             public void run() {
                 boolean isRegistered = false;
 
+                ItemStack none = new ItemStack(Material.BARRIER, 1);
+                ItemMeta none_meta = none.getItemMeta();
+                none_meta.setDisplayName("Can't reforge this");
+                none.setItemMeta(none_meta);
+
                 if(!(InventoryName.contains("Forge Menu"))) {
                     return;
                 }
@@ -59,7 +63,7 @@ public class ForgeMenuListener implements Listener {
                     return;
                 }
                 ItemStack reforgable_item = e.getInventory().getItem(11);
-                if (reforgable_item == null) return;
+                if (reforgable_item == null) e.getInventory().setItem(40, none);
 
                 for (String s : RegisteredItems) {
                     if (s != null) {
@@ -68,18 +72,41 @@ public class ForgeMenuListener implements Listener {
                             break;
                         }
 
-                    } else return;
+                    } else e.getInventory().setItem(40, none);
                 }
-                if(!isRegistered) return;
-                ItemStack reforged_item = reforgable_item.clone();
-                ItemMeta reforged_item_data = reforged_item.getItemMeta();
-                reforged_item_data.setDisplayName("Strong " + reforged_item.getItemMeta().getDisplayName());
-                reforged_item.setItemMeta(reforged_item_data);
+                if(!isRegistered) e.getInventory().setItem(40, none);
 
-                if(e.getInventory().getItem(15).getItemMeta().getDisplayName().contains("Strength")) {
-                    e.getInventory().setItem(40, reforged_item);
+
+                if(e.getInventory().getItem(15) == null) {
+                    e.getInventory().setItem(40, none);
                 }
-                SetItemStatsLoreInMenu(40, p);
+
+
+
+                for (String[] s: RegisteredReforges) {
+                    if(e.getInventory().getItem(15).getItemMeta().getDisplayName().contains(s[0])) {
+                        String[] check = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+                        ItemStack reforged_item = reforgable_item.clone();
+                        String[] item_name = reforged_item.getItemMeta().getDisplayName().split(" ");
+                        System.out.println(item_name[0] + " " + s[1] + " " +item_name[0].contains(s[1]));
+                        if(item_name[0].contains(s[1])) {
+                            e.getInventory().setItem(40, none);
+                            break;
+                        }
+                        ItemMeta reforged_item_data = reforged_item.getItemMeta();
+                        reforged_item_data.setDisplayName(s[1] + " " + reforged_item.getItemMeta().getDisplayName());
+                        reforged_item.setItemMeta(reforged_item_data);
+                        e.getInventory().setItem(40, reforged_item);
+                        if(Arrays.equals(GetInventoryReforge(p, 40), check)) {
+                            e.getInventory().setItem(40, none);
+                        }
+                        SetItemStatsLoreInMenu(40, p);
+                    }
+                }
+
+
+
+
 
             }
         }.runTaskTimer(plugin , 0L, 20L);
@@ -96,7 +123,6 @@ public class ForgeMenuListener implements Listener {
     @EventHandler
     public void onForgeMenuClose(InventoryCloseEvent e) {
         if(e.getView().getTitle().contains("Forge Menu")) {
-            PlayerInventory playerInv = e.getPlayer().getInventory();
             e.getPlayer().getInventory().addItem(e.getInventory().getItem(11));
         }
     }
@@ -133,28 +159,28 @@ public class ForgeMenuListener implements Listener {
                 if (player == null) {
                     Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
                 } else {
-                    if (i < 7 && (!(ItemStats.WeaponReforge(player, ItemSlot)[i].equals("0")))) {
-                        if (!(ItemStats.WeaponReforge(player, ItemSlot)[i].equals("0"))) {
-                            if (Integer.parseInt(ItemStats.WeaponReforge(player, ItemSlot)[i]) < 0) {
+                    if (i < 7 && (!(GetInventoryReforge(player, ItemSlot)[i].equals("0")))) {
+                        if (!(GetInventoryReforge(player, ItemSlot)[i].equals("0"))) {
+                            if (Integer.parseInt(GetInventoryReforge(player, ItemSlot)[i]) < 0) {
                                 if(i == 5 || i == 6) {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + GetInventoryReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
                                 } else {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.RED + GetInventoryReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
                                 }
                             } else {
                                 if(i == 5 || i == 6) {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + GetInventoryReforge(player, ItemSlot)[i] + "%" + ChatColor.GRAY + ")");
                                 } else {
-                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + ItemStats.WeaponReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
+                                    Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i] + ChatColor.GRAY + " (" + ChatColor.GREEN + "+" + GetInventoryReforge(player, ItemSlot)[i] + ChatColor.GRAY + ")");
                                 }
                             }
                         }
                     } else if (!(ItemStats1[i].equals("0")) && i < 7) {
-                        if (Integer.parseInt(ItemStats.WeaponReforge(player, ItemSlot)[i]) < 0) {
+                        if (Integer.parseInt(GetInventoryReforge(player, ItemSlot)[i]) < 0) {
                             if(i == 5 || i == 6) {
                                 Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i] + "%");
                             } else {
-                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + "+" + ItemStats1[i]);
+                                Lore.add(ChatColor.GRAY + Type + ChatColor.RED + ItemStats1[i]);
                             }
                         } else {
                             if(i == 5 || i == 6) {
@@ -176,6 +202,28 @@ public class ForgeMenuListener implements Listener {
             itemStack.setItemMeta(item);
             ItemNameColour(itemStack, ItemStats1[9]);
         }
+    }
+    public static String[] GetInventoryReforge(Player p, int ItemSlot) {
+        String[] data = new String[10];
+
+
+        ItemStack Item = p.getOpenInventory().getItem(ItemSlot);
+
+
+        if(Item == null) {
+            return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        }
+        if(Item.getItemMeta() != null) {
+            ItemMeta itemMeta = Item.getItemMeta();
+            String[] ItemStringArray = itemMeta.getDisplayName().split(" ");
+            if(Check.ExistingStats(Item.getItemMeta())[7].equals("Armor") || Check.ExistingStats(Item.getItemMeta())[7].equals("Helmet") || Check.ExistingStats(Item.getItemMeta())[7].equals("Chestplate") || Check.ExistingStats(Item.getItemMeta())[7].equals("Leggings") || Check.ExistingStats(Item.getItemMeta())[7].equals("Boots")) {
+                data = DetermineArmorReforge(itemMeta.getDisplayName());
+            } else {
+                data = DetermineReforge(itemMeta.getDisplayName());
+            }
+
+        }
+        return data;
     }
 
 }

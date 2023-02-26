@@ -2,6 +2,7 @@ package me.dnfneca.plugin;
 
 import me.dnfneca.plugin.Commands.*;
 import me.dnfneca.plugin.listeners.*;
+import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicWolf;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.Dummy;
@@ -12,10 +13,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.io.File;
+
 public final class Plugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        File f = new File("./plugins/MMORPGData");
+
+        if (f.mkdir()) {
+            System.out.println("Directory has been created successfully");
+        }
+        else {
+            System.out.println("Directory cannot be created");
+        }
+        
+
+
         // Plugin startup logic
 
 
@@ -30,6 +45,7 @@ public final class Plugin extends JavaPlugin {
         this.getCommand("GOD").setExecutor(new God());
         this.getCommand("GUI").setExecutor(new GUI());
         this.getCommand("getregistereditems").setExecutor(new GetRegisteredItems());
+        this.getCommand("getregisteredreforges").setExecutor(new GetRegisteredReforges());
 
 
 
@@ -90,10 +106,28 @@ public final class Plugin extends JavaPlugin {
         RegisterItem.RegisterNewItem("Silverlight");
         RegisterItem.RegisterNewItem("Ghost Reaver");
 
+//        JSONObject jsonObject = new JSONObject();
+//
+//        JSONArray array = new JSONArray();
+//        array.add("0");
+//        array.add("+20");
+//        array.add("+25");
+//        array.add("+125");
+//        array.add("0");
+//
+//
+//        jsonObject.put("Sticky",array);
+//        try {
+//            FileWriter file = new FileWriter("./plugins/MMORPGData/MainData.json");
+//            file.write(jsonObject.toJSONString());
+//            file.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 //      StatsByMame.SetStats(ItemName, new String[]{Health, Damage, Defence, Strength, Mana, CriticalDamage, CriticalChance, Type, AbilityName, Rarity})
-        StatsByName.SetStats("Sticky", new String[]{"0", "+20", "0", "+25", "+125", "+0", "+0", "Stick", "Fireball", "Common"});
+        StatsByName.SetStats("Sticky", new String[]{"0", "+20", "0", "+25", "+125", "0", "0", "Stick", "Fireball", "Common"});
         StatsByName.SetStats("Wise Man's Hat", new String[]{"+20", "0", "+5", "0", "+200", "0", "0", "Helmet", "0", "Epic"});
         StatsByName.SetStats("Wise Man's Coat", new String[]{"+30", "0", "+10", "0", "+200", "0", "0", "Chestplate", "0", "Epic"});
         StatsByName.SetStats("Wise Man's Trousers", new String[]{"+30", "0", "10", "0", "+200", "0", "0", "Leggings", "0", "Epic"});
@@ -117,9 +151,15 @@ public final class Plugin extends JavaPlugin {
         StatsByName.SetStats("Silver Staff", new String[]{"0", "+35", "0", "+25", "+40", "+30", "+5", "Stick", "0", "Common"});
         StatsByName.SetStats("Ghost Reaver", new String[]{"0", "+345", "0", "+220", "0", "+730", "+90", "Scythe", "0", "Exotic"});
 
-
 //      StatsByMame.SetStats(ItemName, new String[]{Health, Damage, Defence, Strength, Mana, CriticalDamage, CriticalChance, Type, AbilityName, Rarity})
 
+
+        ItemStats.RegisteredReforges[0][0] = "Strength Artifact";
+        ItemStats.RegisteredReforges[0][1] = "Strong";
+        ItemStats.RegisteredReforges[1][0] = "Aegis of Zeus";
+        ItemStats.RegisteredReforges[1][1] = "Reinforced";
+        ItemStats.RegisteredReforges[2][0] = "The Wizards Last Wish";
+        ItemStats.RegisteredReforges[2][1] = "Smart";
     }
 
     @Override

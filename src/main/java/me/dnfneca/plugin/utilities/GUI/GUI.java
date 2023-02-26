@@ -93,6 +93,7 @@ public class GUI {
         ItemStack critchance = new ItemStack(Material.TRIPWIRE_HOOK, 1);
         ItemStack stealth = new ItemStack(Material.RABBIT_FOOT, 1);
 
+
         SkullMeta healthdata = (SkullMeta) player_head.getItemMeta();
         healthdata.setOwningPlayer(p);
         healthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -483,4 +484,5 @@ public class GUI {
             }
         }.runTaskLater(Plugin.getInstance() , 5L);
     }
+
 }

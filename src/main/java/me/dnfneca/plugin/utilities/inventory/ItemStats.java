@@ -8,6 +8,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Objects;
 
 public class ItemStats {
+
+    public static final String[][] RegisteredReforges = new String[100][2];
+
     public static String[] Weapon(Player p) {
         String[] data = new String[10];
 
@@ -19,13 +22,17 @@ public class ItemStats {
             return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
         }
 
+
+        if(Check.ExistingStats(Item.getItemMeta())[7].equals("Helmet") || Check.ExistingStats(Item.getItemMeta())[7].equals("Chestplate") || Check.ExistingStats(Item.getItemMeta())[7].equals("Leggings") || Check.ExistingStats(Item.getItemMeta())[7].equals("Boots")) {
+            return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        }
+
         if(p.getInventory().getItem(itemSlot) != null && p.getInventory().getItem(itemSlot).getItemMeta() != null) {
             ItemMeta itemMeta = Item.getItemMeta();
-            data = Objects.requireNonNull(Check.ExistingStats(itemMeta));
-//            System.out.println(data);
+            data = Check.ExistingStats(itemMeta);
             if(Check.ExistingStats(itemMeta) == null) {
                 return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
-            } else if (Check.ExistingStats(itemMeta)[7].equals("Armor")) {
+            } else if (Check.ExistingStats(Item.getItemMeta())[7].equals("Helmet") || Check.ExistingStats(Item.getItemMeta())[7].equals("Chestplate") || Check.ExistingStats(Item.getItemMeta())[7].equals("Leggings") || Check.ExistingStats(Item.getItemMeta())[7].equals("Boots")) {
                 return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
             }
         }
@@ -57,6 +64,7 @@ public class ItemStats {
     }
     public static String[] WeaponReforge(Player p, int ItemSlot) {
         String[] data = new String[10];
+        String[] data2 = new String[10];
         for (int i = 0; i < 42; i++) {
 
         }
@@ -70,6 +78,12 @@ public class ItemStats {
             ItemMeta itemMeta = Item.getItemMeta();
             String[] ItemStringArray = itemMeta.getDisplayName().split(" ");
             data = DetermineReforge(itemMeta.getDisplayName());
+            data2 = DetermineArmorReforge(itemMeta.getDisplayName());
+            int i = 0;
+            for (String s: data) {
+                data[i] = String.valueOf(Integer.parseInt(s) + Integer.parseInt(data2[i]));
+                i++;
+            }
 //            System.out.println(data);
         }
         return data;
@@ -89,20 +103,29 @@ public class ItemStats {
 
         if (PotentialReforge.contains("Sharp")) {
             return new String[]{"0", "5", "0", "5", "0", "0", "0", "0", "0", "0"};
-        } else if (PotentialReforge.contains("Reinforced")) {
-            return new String[]{"0", "0", "0", "7", "0", "5", "0", "0", "0", "0"};
         } else if (PotentialReforge.contains("Lucky")) {
             return new String[]{"0", "0", "0", "0", "0", "4", "6", "0", "0", "0"};
         } else if (PotentialReforge.contains("Enchanted")) {
             return new String[]{"0", "0", "0", "0", "6", "0", "6", "0", "0", "0"};
         } else if (PotentialReforge.contains("Light")) {
             return new String[]{"0", "-2", "0", "5", "0", "0", "6", "0", "0", "0"};
-        } else if (PotentialReforge.contains("Smart")) {
-            return new String[]{"0", "-2", "0", "5", "0", "0", "6", "0", "0", "0"};
-        } else if (PotentialReforge.contains("Very")) {
-            return new String[]{"0", "-2", "0", "5", "0", "0", "6", "0", "0", "0"};
         } else if (PotentialReforge.contains("Strong")) {
             return new String[]{"0", "15", "0", "7", "0", "0", "0", "0", "0", "0"};
+        } else {
+            return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        }
+    }
+
+    public static String[] DetermineArmorReforge(String ItemName) {
+        String[] ItemStringArray = ItemName.split(" ");
+        String PotentialReforge = ItemStringArray[0];
+
+        if (PotentialReforge.contains("Reinforced")) {
+            return new String[]{"0", "0", "0", "7", "0", "5", "0", "0", "0", "0"};
+        } else if (PotentialReforge.contains("Smart")) {
+            return new String[]{"0", "-2", "0", "5", "50", "0", "6", "0", "0", "0"};
+        } else if (PotentialReforge.contains("Very")) {
+            return new String[]{"0", "-2", "0", "5", "100", "0", "6", "0", "0", "0"};
         } else {
             return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
         }

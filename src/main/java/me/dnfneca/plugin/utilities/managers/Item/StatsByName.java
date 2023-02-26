@@ -174,9 +174,6 @@ public class StatsByName {
         } else {
             String ItemName = item.getItemMeta().getDisplayName();
             ItemMeta itemMeta = item.getItemMeta();
-//
-
-
 
             switch (Rarity) {
                 case "Common":

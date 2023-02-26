@@ -16,9 +16,11 @@ public class God implements CommandExecutor {
 
             if(p.isInvulnerable() == true) {
                 p.sendMessage("You are no longer ascended");
+                p.setAllowFlight(false);
                 p.setInvulnerable(false);
             } else {
                 p.sendMessage("You have just ascended");
+                p.setAllowFlight(true);
                 p.setInvulnerable(true);
             }
         }
