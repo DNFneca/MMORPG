@@ -2,6 +2,7 @@ package me.dnfneca.plugin.listeners;
 
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.GUI.ClassMenus;
+import me.dnfneca.plugin.utilities.GUI.LevelsMenu;
 import me.dnfneca.plugin.utilities.GUI.ReforgeMenu;
 import me.dnfneca.plugin.utilities.classes.AssignClass;
 import org.bukkit.Bukkit;
@@ -22,7 +23,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Score;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class InventoryListener implements Listener {
         List<String> lore = new ArrayList<>();
         Inventory inv = e.getInventory();
 
-        @Nonnull ItemStack ClickedItem = null;
+        ItemStack ClickedItem = null;
 
         try {
             ClickedItem = e.getCurrentItem();
@@ -77,6 +77,7 @@ public class InventoryListener implements Listener {
                     e.setCancelled(true);
                     return;
                   }
+
 
                   if(ClickedItem.getItemMeta().getDisplayName().contains("To Forge")) {
                       ReforgeMenu.Open(p);
@@ -110,6 +111,10 @@ public class InventoryListener implements Listener {
                         e.setCancelled(true);
 
                         ClassMenus.ClassMenu(p, playerData.get(key, PersistentDataType.INTEGER));
+                    } else if(ClickedItem.getItemMeta().getDisplayName().contains("Levels")) {
+                        e.setCancelled(true);
+
+                        LevelsMenu.LevelsMenu(p);
                     }
                 } else if (e.getView().getTitle().contains("Choose a Mage Subclass")) {
                     if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage")) {

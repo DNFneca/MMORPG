@@ -2,6 +2,7 @@ package me.dnfneca.plugin;
 
 import me.dnfneca.plugin.Commands.*;
 import me.dnfneca.plugin.listeners.*;
+import me.dnfneca.plugin.utilities.GUI.Waystone;
 import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicWolf;
@@ -49,6 +50,7 @@ public final class Plugin extends JavaPlugin {
 
 
 
+
         //  MOBS
 
         getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
@@ -70,6 +72,7 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
         getServer().getPluginManager().registerEvents(new DropItemListener(), this);
         getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
+        getServer().getPluginManager().registerEvents(new Waystone(), this);
 
 //        getServer().getPluginManager().registerEvents(new (this), this);
 

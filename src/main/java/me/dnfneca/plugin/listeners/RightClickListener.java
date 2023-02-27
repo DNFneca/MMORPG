@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.listeners;
 
+import me.dnfneca.plugin.utilities.GUI.Waystone;
 import me.dnfneca.plugin.utilities.managers.Abilities.AbilitiesManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -64,7 +65,6 @@ public class RightClickListener implements Listener {
                 data.keySet().forEach(keyStr -> {
                     Object keyvalue = data.get(keyStr);
                     if(keyStr.toString().contains(e.getPlayer().getUniqueId().toString())) {
-                        System.out.println("key: "+ keyStr + " value: " + keyvalue);
                         String[] array = keyvalue.toString().split(",");
                         int temp = 0;
                         for (String s: array) {
@@ -73,7 +73,6 @@ public class RightClickListener implements Listener {
                                 case 1:
 
                             }
-                            System.out.println(s);
                             temp++;
                         }
                     }
@@ -95,25 +94,26 @@ public class RightClickListener implements Listener {
                     file.close();
                 } else {
                     if(xe.toString().contains(e.getRightClicked().getCustomName())) {
-                        return;
-                    }
-                    Object Value = data.get(e.getPlayer().getUniqueId().toString());
-                    array.add(Value);
-                    array.add(e.getRightClicked().getCustomName());
-                    array.add(e.getPlayer().getLocation().getX());
-                    array.add(e.getPlayer().getLocation().getY());
-                    array.add(e.getPlayer().getLocation().getZ());
-                    JSONObject jsonObject = data;
-                    JSONObject newJSONObject = data;
-                    newJSONObject.put(e.getPlayer().getUniqueId().toString(), array);
-                    FileWriter file = new FileWriter("./plugins/MMORPGData/MainData.json");
-                    jsonObject.replace(e.getPlayer().getUniqueId(), jsonObject, newJSONObject);
-                    file.write(jsonObject.toString());
-                    file.close();
+                        String[] waystones = Waystone.getWaystonesNames(e.getPlayer());
 
+                    } else {
+                        Object Value = data.get(e.getPlayer().getUniqueId().toString());
+                        array.add(Value);
+                        array.add(e.getRightClicked().getCustomName());
+                        array.add(e.getPlayer().getLocation().getX());
+                        array.add(e.getPlayer().getLocation().getY());
+                        array.add(e.getPlayer().getLocation().getZ());
+                        JSONObject jsonObject = data;
+                        JSONObject newJSONObject = data;
+                        newJSONObject.put(e.getPlayer().getUniqueId().toString(), array);
+                        FileWriter file = new FileWriter("./plugins/MMORPGData/MainData.json");
+                        jsonObject.replace(e.getPlayer().getUniqueId(), jsonObject, newJSONObject);
+                        file.write(jsonObject.toString());
+                        file.close();
+                    }
                 }
 
-
+            Waystone.WaystoneMenu(e.getPlayer(), e.getRightClicked().getCustomName());
 
             } catch (IOException | ParseException exception) {
                 exception.printStackTrace();
@@ -124,7 +124,6 @@ public class RightClickListener implements Listener {
 //            String name = (String) jsonObject.get(e.getPlayer());
 //            System.out.println(name);
 //
-
 
         }
     }

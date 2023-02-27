@@ -84,7 +84,7 @@ public class PlayerJoin implements Listener{
         Score ChoiceCD = obj.getScore("ChoiceCD");
         Score TrueShield = obj.getScore("TrueShield");
 
-
+// TODO make leveling system in role playing game (tod howard) using json just like waystones
 
         NamespacedKey key = new NamespacedKey(Plugin.getInstance() , "Class");
         PersistentDataContainer playerdata = player.getPersistentDataContainer();

@@ -34,6 +34,7 @@ public class GUI {
         ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
         ItemStack player_head = new ItemStack(Material.PLAYER_HEAD, 1);
         ItemStack classes = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+        ItemStack levels = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
 
         SkullMeta headdata = (SkullMeta) player_head.getItemMeta();
         headdata.setOwningPlayer(p);
@@ -41,8 +42,11 @@ public class GUI {
         headdata.setDisplayName(ChatColor.RED + "Stats");
         player_head.setItemMeta(headdata);
 
+        ItemMeta levelsData = levels.getItemMeta();
+        levelsData.setDisplayName(ChatColor.BLUE + "Levels");
+        levels.setItemMeta(levelsData);
 
-        LeatherArmorMeta  classesdata = (LeatherArmorMeta) classes.getItemMeta();
+        LeatherArmorMeta classesdata = (LeatherArmorMeta) classes.getItemMeta();
         classesdata.setDisplayName(ChatColor.GREEN + "Class");
         classesdata.setColor(Color.PURPLE);
         classesdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
@@ -63,7 +67,9 @@ public class GUI {
                 inv.setItem(i, player_head);
             } else if (i == 38) {
                 inv.setItem(i, classes);
-            } else {
+            } else if (i == 42) {
+                inv.setItem(i, levels);
+            }else {
                 inv.setItem(i, blue_glass);
             }
         }
@@ -484,5 +490,4 @@ public class GUI {
             }
         }.runTaskLater(Plugin.getInstance() , 5L);
     }
-
 }
