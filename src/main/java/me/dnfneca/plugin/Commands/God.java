@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.Commands;
 
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +24,8 @@ public class God implements CommandExecutor {
                 p.setAllowFlight(true);
                 p.setInvulnerable(true);
             }
+            PlayerLevels.add(p, 100);
+            System.out.println(PlayerLevels.getLevel(p));
         }
 
         return true;

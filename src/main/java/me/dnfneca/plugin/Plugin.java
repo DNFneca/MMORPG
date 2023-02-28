@@ -29,7 +29,6 @@ public final class Plugin extends JavaPlugin {
         else {
             System.out.println("Directory cannot be created");
         }
-        
 
 
         // Plugin startup logic

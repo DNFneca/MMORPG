@@ -73,7 +73,10 @@ public class InventoryListener implements Listener {
 //                System.out.println(ClickedItem);
 
 
-                  if(ClickedItem.getItemMeta().getDisplayName().contains(":") || ClickedItem.getItemMeta().getDisplayName().contains("   ") || ClickedItem.getItemMeta().getDisplayName().contains("Can't reforge this")) {
+                  if(ClickedItem.getItemMeta().getDisplayName().contains(":")
+                          || ClickedItem.getItemMeta().getDisplayName().contains("   ")
+                          || ClickedItem.getItemMeta().getDisplayName().contains("Can't reforge this")
+                          || ClickedItem.getItemMeta().getDisplayName().contains("Level Progress")) {
                     e.setCancelled(true);
                     return;
                   }

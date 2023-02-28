@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.utilities.GUI;
 
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LevelsMenu {
@@ -16,10 +18,10 @@ public class LevelsMenu {
         List<String> lore = new ArrayList<>();
 
 
-        Inventory inv = Bukkit.createInventory(null, 45, "Crafting Table");
+        Inventory inv = Bukkit.createInventory(null, 27, "Crafting Table");
 
         ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-        ItemStack recipe = new ItemStack(Material.BARRIER, 1);
+        ItemStack level = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
 
 
         ItemStack arrow = new ItemStack(Material.ARROW, 1);
@@ -35,18 +37,37 @@ public class LevelsMenu {
         data2.setDisplayName("   ");
         blue_glass.setItemMeta(data2);
 
-        ItemMeta recipedata = recipe.getItemMeta();
-        recipedata.setDisplayName("Your recipe will appear here");
-        recipe.setItemMeta(recipedata);
+        int playerLevel = PlayerLevels.getLevel(p);
+        int leftXp = PlayerLevels.getLeftXp(p);
+        int levelXp = PlayerLevels.getLevelXp(p);
+        int currentLevelXp = levelXp-leftXp;
 
 
-        for(int i = 0; i <= 44; i++) {
-            if(i == 10 || i == 11 || i == 12 || i == 19 || i == 20 || i == 21 || i == 28 || i == 29 || i == 30){
-                inv.setItem(i, new ItemStack(Material.AIR));
-            } else if (i == 24) {
-                inv.setItem(i, recipe);
-            } else if (i == inv.getSize() - 1) {
-                inv.setItem(i, arrow);
+        int valueOfSlot = levelXp/10;
+        int numOfSlots = 10;
+
+
+        ItemMeta levelData = level.getItemMeta();
+        ArrayList<String> levelLore = new ArrayList<>();
+        String[] test = new String[10];
+
+        for(int i = 0; i<numOfSlots; i++) {
+            if(valueOfSlot*i < currentLevelXp) {
+                test[i] = ChatColor.GREEN + "||";
+            } else {
+                test[i] = ChatColor.GRAY + "||";
+            }
+        }
+        levelLore.add(ChatColor.BLUE + "Level " + playerLevel + " : " + Arrays.toString(test).replace("[", "").replace("]", "").replace(",", "") + " " + (playerLevel + 1));
+        levelLore.add(leftXp + ", " + valueOfSlot + ", " + currentLevelXp);
+        levelData.setDisplayName(ChatColor.GREEN + "Level Progress");
+        levelData.setLore(levelLore);
+        level.setItemMeta(levelData);
+
+
+        for(int i = 0; i <= 26; i++) {
+            if(i == 13){
+                inv.setItem(i, level);
             } else {
                 inv.setItem(i, blue_glass);
             }
