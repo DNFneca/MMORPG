@@ -1,145 +1,68 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.utilities.managers;
 
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Objective;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class Stats {
-    private static final List<String> stats = new ArrayList<>();
-    public static String[] reset(Player p, Objective obj) {
-        final double Health = 0;
-        final double Defence = 0;
-        final double Strength = 0;
-        final double CritChance = 0;
-        final double CritDamage = 0;
-
-        setStats(0, String.valueOf(Health), obj);
-        setStats(1, String.valueOf(Defence), obj);
-        setStats(2, String.valueOf(Strength), obj);
-        setStats(3, String.valueOf(CritChance), obj);
-        setStats(4, String.valueOf(CritDamage), obj);
-
-        return stats.toArray(new String[0]);
-    }
-    public static List<String> getStats() {
-        return stats;
-    }
-    public static List<String> addStats(int index, String newEntry) {
-        stats.add(index, newEntry);
-        return stats;
-    }
-    public static List<String> setStats(int index, String newEntry, Objective obj) {
-        stats.set(index, newEntry);
-        switch (index) {
-            case 0:
-                obj.getScore("Health").setScore(Integer.parseInt(newEntry));
-                break;
-            case 1:
-                obj.getScore("Defence").setScore(Integer.parseInt(newEntry));
-                break;
-            case 2:
-                obj.getScore("Strength").setScore(Integer.parseInt(newEntry));
-                break;
-            case 3:
-                obj.getScore("CritChance").setScore(Integer.parseInt(newEntry));
-                break;
-            case 4:
-                obj.getScore("CritDamage").setScore(Integer.parseInt(newEntry));
-                break;
-            case 5:
-                obj.getScore("EffectiveHealth").setScore(Integer.parseInt(newEntry));
-                break;
-            case 6:
-                obj.getScore("EffectiveDefence").setScore(Integer.parseInt(newEntry));
-                break;
-            case 7:
-                obj.getScore("EffectiveStrength").setScore(Integer.parseInt(newEntry));
-                break;
-            case 8:
-                obj.getScore("EffectiveCritChance").setScore(Integer.parseInt(newEntry));
-                break;
-            case 9:
-                obj.getScore("EffectiveCritDamage").setScore(Integer.parseInt(newEntry));
-                break;
-            case 10:
-                obj.getScore("CurrentHealth").setScore(Integer.parseInt(newEntry));
-                break;
-            case 11:
-                obj.getScore("Mana").setScore(Integer.parseInt(newEntry));
-                break;
-            case 12:
-                obj.getScore("CurrentMana").setScore(Integer.parseInt(newEntry));
-                break;
-            case 13:
-                obj.getScore("EffectiveMana").setScore(Integer.parseInt(newEntry));
-                break;
-        }
-
-        return stats;
-    }
-
-    public static String getRandomRarity(UUID MobUUID) {
-        Random rand = new Random();
+public class Stats
+{
+    public static String getRandomRarity(final UUID MobUUID) {
+        final Random rand = new Random();
         String rarity = null;
         int rarityNumber = 0;
-// nextInt as provided by Random is exclusive of the top value, so you need to add 1
         rand.setSeed(MobUUID.hashCode());
-
-
-        double randomNum = rand.nextDouble();
-        if(randomNum < .55) {               // 55%
-            rarityNumber=1;
-        } else if(randomNum < .78) {        // 23%
-            rarityNumber=2;
-        } else if(randomNum < .93) {        // 15%
-            rarityNumber=3;
-        } else if(randomNum < .98) {        // 5%
-            rarityNumber=4;
-        } else {                            // 2%
-            rarityNumber=5;
+        final double randomNum = rand.nextDouble();
+        if (randomNum < 0.55) {
+            rarityNumber = 1;
         }
-
-
-
-        switch (rarityNumber){
-            case 2:
-                rarity="Uncommon";
-                break;
-            case 3:
-                rarity="Rare";
-                break;
-            case 4:
-                rarity="Epic";
-                break;
-            case 5:
-                rarity="Legendary";
-                break;
-            default:
-                rarity="Common";
-                break;
+        else if (randomNum < 0.78) {
+            rarityNumber = 2;
         }
-
-
+        else if (randomNum < 0.93) {
+            rarityNumber = 3;
+        }
+        else if (randomNum < 0.98) {
+            rarityNumber = 4;
+        }
+        else {
+            rarityNumber = 5;
+        }
+        switch (rarityNumber) {
+            case 2: {
+                rarity = "Uncommon";
+                break;
+            }
+            case 3: {
+                rarity = "Rare";
+                break;
+            }
+            case 4: {
+                rarity = "Epic";
+                break;
+            }
+            case 5: {
+                rarity = "Legendary";
+                break;
+            }
+            default: {
+                rarity = "Common";
+                break;
+            }
+        }
         return rarity;
     }
-    public static int getRandomLevel(int min, int max) {
-        Random rand = new Random();
-// nextInt as provided by Random is exclusive of the top value, so you need to add 1
-
-        return rand.nextInt((max - min) + 1) + min;
+    
+    public static int getRandomLevel(final int min, final int max) {
+        final Random rand = new Random();
+        return rand.nextInt(max - min + 1) + min;
     }
-
-    public static boolean getCritRoll(double Percentage) {
-        double procent = Percentage * 0.01;
-        double r = Math.random();
-        if(r < procent) {
-            return true;
-        } else {
-            return false;
-        }
+    
+    public static boolean getCritRoll(final double Percentage) {
+        final double procent = Percentage * 0.01;
+        final double r = Math.random();
+        return r < procent;
     }
 }

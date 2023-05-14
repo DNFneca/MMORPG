@@ -1,70 +1,53 @@
-package me.dnfneca.plugin.utilities.managers.Abilities;
+// 
+// Decompiled by Procyon v0.5.36
+// 
 
+package me.dnfneca.plugin.utilities.managers.Abilities;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 
-import static me.dnfneca.plugin.utilities.managers.Item.StatsByName.GetStatsString;
-
-public class AbilitiesManager {
-    public static void getAbility(ItemStack itemStack, Player player) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        int Mana = player.getScoreboard().getObjective("Stats").getScore("CurrentMana").getScore();
-        if(itemMeta != null) {
-            String s = GetStatsString(itemMeta.getDisplayName())[8];
-            switch (s) {
-                case "Wave":
-                    if(Mana < 25) {
-                        NotEnoughMana(player);
-                        break;
-                    }
-                    ability("Wave", player);
+public class AbilitiesManager
+{
+    public static void getAbility(final String abilityName, final PlayerStats player) {
+        switch (abilityName) {
+            case "Wave":
+            case "Fireball":
+            case "TrueShield":
+            case "Helix": {
+                if (player.getCurrentMana() < 25.0) {
+                    NotEnoughMana(player.getPlayer());
                     break;
-                case "Helix":
-                    if(Mana < 25) {
-                        NotEnoughMana(player);
-                        break;
-                    }
-                    ability("Helix", player);
-                    break;
-                case "Fireball":
-                    if(Mana < 25) {
-                        NotEnoughMana(player);
-                        break;
-                    }
-                    ability("Fireball", player);
-                    break;
-                case "TrueShield":
-                    if(Mana < 25) {
-                        NotEnoughMana(player);
-                        break;
-                    }
-                    ability("TrueShield", player);
-                    break;
+                }
+                ability(abilityName, player);
+                break;
             }
         }
     }
-
-    public static void NotEnoughMana(Player p) {
-        p.sendMessage(ChatColor.RED + "NOT ENOUGH MANA!");
+    
+    public static void NotEnoughMana(final Player p) {
+        p.sendMessage(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;, String.valueOf(ChatColor.RED)));
     }
-
-    public static void ability(String AbilityName, Player p) {
+    
+    public static void ability(final String AbilityName, final PlayerStats p) {
         switch (AbilityName) {
-            case "Wave":
+            case "Wave": {
                 Wave.Wave(p);
                 break;
-            case "Helix":
+            }
+            case "Helix": {
                 Helix.Helix(p);
                 break;
-            case "Fireball":
+            }
+            case "Fireball": {
                 Fireball.Fireball(p);
                 break;
-            case "TrueShield":
+            }
+            case "TrueShield": {
                 ShieldAbility.TrueShieldAbility(p, 1);
+                break;
+            }
         }
-
     }
 }

@@ -1,25 +1,26 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.Commands;
 
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandExecutor;
 
-
-public class God implements CommandExecutor {
-
-    @Override
-    public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
-
-        if(sender instanceof Player) {
-            Player p = (Player) sender;
-
-            if(p.isInvulnerable() == true) {
+public class God implements CommandExecutor
+{
+    public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+        if (sender instanceof Player) {
+            final Player p = (Player)sender;
+            if (p.isInvulnerable()) {
                 p.sendMessage("You are no longer ascended");
                 p.setAllowFlight(false);
                 p.setInvulnerable(false);
-            } else {
+            }
+            else {
                 p.sendMessage("You have just ascended");
                 p.setAllowFlight(true);
                 p.setInvulnerable(true);
@@ -27,7 +28,6 @@ public class God implements CommandExecutor {
             PlayerLevels.add(p, 100);
             System.out.println(PlayerLevels.getLevel(p));
         }
-
         return true;
     }
 }

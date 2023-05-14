@@ -1,15 +1,15 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.utilities.managers.Abilities;
 
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 
-public class ShieldAbility {
-    public static void TrueShieldAbility(Player p, int AmountOfStacks) {
-        Objective objective = p.getScoreboard().getObjective("Stats");
-        objective.getScore("ManaCost").setScore(25);
-        objective.getScore("ManaTimer").setScore(6);
-        Score score = p.getScoreboard().getObjective("Stats").getScore("TrueShield");
-        score.setScore(AmountOfStacks);
+public class ShieldAbility
+{
+    public static void TrueShieldAbility(final PlayerStats p, final int AmountOfStacks) {
+        p.setManaSpent(25.0);
+        p.setManaTimer(6);
     }
 }

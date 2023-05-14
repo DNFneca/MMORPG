@@ -1,40 +1,41 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.utilities.managers.Abilities;
 
 import me.dnfneca.plugin.Plugin;
-import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Color;
 import org.bukkit.Particle;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Objective;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 
-public class Wave {
-    public static void Wave(Player p) {
-        Objective objective = p.getScoreboard().getObjective("Stats");
-        objective.getScore("ManaCost").setScore(25);
-        objective.getScore("ManaTimer").setScore(6);
-
+public class Wave
+{
+    public static void Wave(final PlayerStats p) {
+        p.setManaSpent(25.0);
+        p.setManaTimer(6);
         new BukkitRunnable() {
             double t;
-
+            
             public void run() {
-                t += Math.PI / 12;
-                Location loc = p.getLocation();
-                for (double phi = 0; phi <= 2 * Math.PI; phi += Math.PI / 2) {
-                    double x = 0.3 * (4 * Math.PI - t) * Math.cos(t + phi);
-                    double y = 0.2 * t;
-                    double z = 0.3 * (4 * Math.PI - t) * Math.sin(t + phi);
+                this.t += 0.2617993877991494;
+                final Location loc = p.getPlayer().getLocation();
+                for (double phi = 0.0; phi <= 6.283185307179586; phi += 1.5707963267948966) {
+                    final double x = 0.3 * (12.566370614359172 - this.t) * Math.cos(this.t + phi);
+                    final double y = 0.2 * this.t;
+                    final double z = 0.3 * (12.566370614359172 - this.t) * Math.sin(this.t + phi);
                     loc.add(x, y, z);
-                    p.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(0, 127, 255), 1.0F));
+                    p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, (Object)new Particle.DustOptions(Color.fromRGB(0, 127, 255), 1.0f));
                     loc.subtract(x, y, z);
-
-                    if (t >= 4 * Math.PI) {
+                    if (this.t >= 12.566370614359172) {
                         loc.add(x, y, z);
-                        p.getWorld().spawnParticle(Particle.SNOW_SHOVEL, loc, 10);
+                        p.getPlayer().getWorld().spawnParticle(Particle.SNOW_SHOVEL, loc, 10);
                         this.cancel();
                     }
                 }
             }
-        }.runTaskTimer(Plugin.getInstance(), 0, 1);
+        }.runTaskTimer((org.bukkit.plugin.Plugin)Plugin.getInstance(), 0L, 1L);
     }
 }

@@ -1,26 +1,34 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.utilities.managers.CustomMobs.HitEffects;
 
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class HitEffects {
-    public static void mob(EntityDamageByEntityEvent e) {
+public class HitEffects
+{
+    public static void mob(final EntityDamageByEntityEvent e) {
         switch (e.getDamager().getType()) {
-            case SPIDER:
+            case SPIDER: {
                 if (e.getDamager().getCustomName().contains("Spider")) {
-                    LivingEntity potEntity = (LivingEntity) e.getEntity();
+                    final LivingEntity potEntity = (LivingEntity)e.getEntity();
                     potEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
+                    break;
                 }
                 break;
-            case WOLF:
-                if(e.getDamager().getCustomName().contains("Wolf")) {
-                    LivingEntity potEntity = (LivingEntity) e.getEntity();
+            }
+            case WOLF: {
+                if (e.getDamager().getCustomName().contains("Wolf")) {
+                    final LivingEntity potEntity = (LivingEntity)e.getEntity();
                     potEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 2));
+                    break;
                 }
-
-
+                break;
+            }
         }
     }
 }

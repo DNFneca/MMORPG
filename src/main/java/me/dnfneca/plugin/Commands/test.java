@@ -4,19 +4,17 @@
 
 package me.dnfneca.plugin.Commands;
 
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
 
-public class Die implements CommandExecutor
+public class test implements CommandExecutor
 {
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        if (sender instanceof Player) {
-            final Player p = (Player)sender;
-            p.sendMessage("You have just killed yourself, good job!");
-            p.setHealth(0.0);
-        }
+        final Player player = (Player)sender;
+        PlayerLevels.add(player, 100);
         return true;
     }
 }

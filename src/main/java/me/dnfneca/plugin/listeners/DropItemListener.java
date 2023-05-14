@@ -1,22 +1,21 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.dnfneca.plugin.listeners;
 
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import me.dnfneca.plugin.utilities.GUI.GUI;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.Listener;
 
-import static me.dnfneca.plugin.utilities.GUI.GUI.MainMenu;
-
-public class DropItemListener implements Listener {
-
-
+public class DropItemListener implements Listener
+{
     @EventHandler
-    public void onDropItem(PlayerDropItemEvent e) {
-        if (e.getItemDrop().getItemStack().getItemMeta() != null) {
-            if(e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Menu")) {
-                e.setCancelled(true);
-
-                MainMenu(e.getPlayer());
-            }
+    public void onDropItem(final PlayerDropItemEvent e) {
+        if (e.getItemDrop().getItemStack().getItemMeta() != null && e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Menu")) {
+            e.setCancelled(true);
+            GUI.MainMenu(e.getPlayer());
         }
     }
 }
