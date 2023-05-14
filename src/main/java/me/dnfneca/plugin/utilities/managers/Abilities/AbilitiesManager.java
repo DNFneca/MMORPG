@@ -4,8 +4,10 @@
 
 package me.dnfneca.plugin.utilities.managers.Abilities;
 
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+<<<<<<< Updated upstream
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 
 public class AbilitiesManager
@@ -18,12 +20,25 @@ public class AbilitiesManager
             case "Helix": {
                 if (player.getCurrentMana() < 25.0) {
                     NotEnoughMana(player.getPlayer());
+=======
+
+public class AbilitiesManager {
+    public static void getAbility(String abilityName, PlayerStats player) {
+            switch (abilityName) {
+                case "Wave", "Fireball", "TrueShield", "Helix":
+                    if(player.getCurrentMana() < 25) {
+                        NotEnoughMana(player.getPlayer());
+                        break;
+                    }
+                    ability(abilityName, player);
+>>>>>>> Stashed changes
                     break;
                 }
                 ability(abilityName, player);
                 break;
             }
         }
+<<<<<<< Updated upstream
     }
     
     public static void NotEnoughMana(final Player p) {
@@ -31,6 +46,14 @@ public class AbilitiesManager
     }
     
     public static void ability(final String AbilityName, final PlayerStats p) {
+=======
+
+    public static void NotEnoughMana(Player p) {
+        p.sendMessage(ChatColor.RED + "NOT ENOUGH MANA!");
+    }
+
+    public static void ability(String AbilityName, PlayerStats p) {
+>>>>>>> Stashed changes
         switch (AbilityName) {
             case "Wave": {
                 Wave.Wave(p);

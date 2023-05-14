@@ -31,6 +31,7 @@ public class LevelsMenu
         final ItemMeta data2 = blue_glass.getItemMeta();
         data2.setDisplayName("   ");
         blue_glass.setItemMeta(data2);
+<<<<<<< Updated upstream
         final int playerLevel = PlayerLevels.getLevel(p);
         final int leftXp = PlayerLevels.getLeftXp(p);
         final int levelXp = PlayerLevels.getLevelXp(p);
@@ -55,6 +56,36 @@ public class LevelsMenu
         levelLore.add(invokedynamic(makeConcatWithConstants:(II)Ljava/lang/String;, leftXp, currentLevelXp));
         levelData.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;, String.valueOf(ChatColor.GREEN)));
         levelData.setLore((List)levelLore);
+=======
+
+        int playerLevel = PlayerLevels.getLevel(p);
+        int leftXp = PlayerLevels.getLeftXp(p);
+        int levelXp = PlayerLevels.getLevelXp(p);
+        int currentLevelXp = levelXp-leftXp;
+
+        if(currentLevelXp < 0) currentLevelXp = 0;
+
+
+        int valueOfSlot = levelXp/10;
+        int numOfSlots = 10;
+
+
+        ItemMeta levelData = level.getItemMeta();
+        ArrayList<String> levelLore = new ArrayList<>();
+        String[] test = new String[10];
+
+        for(int i = 0; i<numOfSlots; i++) {
+            if(valueOfSlot*i < currentLevelXp) {
+                test[i] = ChatColor.GREEN + "||";
+            } else {
+                test[i] = ChatColor.GRAY + "||";
+            }
+        }
+        levelLore.add(ChatColor.BLUE + "Level " + playerLevel + " : " + Arrays.toString(test).replace("[", "").replace("]", "").replace(",", "") + " " + (playerLevel + 1));
+        levelLore.add(leftXp + "Xp until next level" + ", Amount of xp" + currentLevelXp);
+        levelData.setDisplayName(ChatColor.GREEN + "Level Progress");
+        levelData.setLore(levelLore);
+>>>>>>> Stashed changes
         level.setItemMeta(levelData);
         for (int i = 0; i <= 26; ++i) {
             if (i == 13) {

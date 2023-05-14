@@ -7,10 +7,20 @@ package me.dnfneca.plugin.utilities.managers;
 import java.util.Random;
 import java.util.UUID;
 
+<<<<<<< Updated upstream
 public class Stats
 {
     public static String getRandomRarity(final UUID MobUUID) {
         final Random rand = new Random();
+=======
+public class Stats {
+
+    public static String getRandomRarity(UUID MobUUID) {
+
+
+
+        Random rand = new Random();
+>>>>>>> Stashed changes
         String rarity = null;
         int rarityNumber = 0;
         rand.setSeed(MobUUID.hashCode());

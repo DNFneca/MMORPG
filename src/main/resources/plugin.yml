@@ -25,3 +25,12 @@ commands:
   getregisteredreforges:
     description: a command for getting al the registered reforges' names and buffs
     usage: /getregistedreforges
+  spawnWaystone:
+    description: add a waypoint to the world
+    usage: /spawnWaystone + waystone name
+  test:
+    description: test
+    usage: /test
+  setLevel:
+    description: set a level for yourself
+    usage: /setLevel <int level>

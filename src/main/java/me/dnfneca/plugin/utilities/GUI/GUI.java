@@ -6,6 +6,7 @@ package me.dnfneca.plugin.utilities.GUI;
 
 import java.util.Iterator;
 import me.dnfneca.plugin.Plugin;
+<<<<<<< Updated upstream
 import org.bukkit.scheduler.BukkitRunnable;
 import me.dnfneca.plugin.listeners.PlayerJoin;
 import org.bukkit.potion.PotionData;
@@ -13,6 +14,26 @@ import org.bukkit.potion.PotionType;
 import org.bukkit.inventory.meta.PotionMeta;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.inventory.Inventory;
+=======
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+>>>>>>> Stashed changes
 import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -28,6 +49,7 @@ import org.bukkit.Bukkit;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
 
+<<<<<<< Updated upstream
 public class GUI
 {
     public static void MainMenu(final Player p) {
@@ -45,6 +67,32 @@ public class GUI
         player_head.setItemMeta((ItemMeta)headdata);
         final ItemMeta levelsData = levels.getItemMeta();
         levelsData.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;, String.valueOf(ChatColor.BLUE)));
+=======
+import static me.dnfneca.plugin.listeners.PlayerJoin.Players;
+
+public class GUI {
+
+    public static void MainMenu(Player p) {
+        List<String> lore = new ArrayList<>();
+
+
+        Inventory inv = Bukkit.createInventory(null, 54, "Main Menu");
+
+        ItemStack purple_glass = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1);
+        ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+        ItemStack player_head = new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack classes = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+        ItemStack levels = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
+
+        SkullMeta headdata = (SkullMeta) player_head.getItemMeta();
+        headdata.setOwningPlayer(p);
+        headdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        headdata.setDisplayName(ChatColor.RED + "Stats");
+        player_head.setItemMeta(headdata);
+
+        ItemMeta levelsData = levels.getItemMeta();
+        levelsData.setDisplayName(ChatColor.BLUE + "Levels");
+>>>>>>> Stashed changes
         levels.setItemMeta(levelsData);
         final LeatherArmorMeta classesdata = (LeatherArmorMeta)classes.getItemMeta();
         classesdata.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;, String.valueOf(ChatColor.GREEN)));
@@ -76,6 +124,7 @@ public class GUI
         }
         p.openInventory(inv);
     }
+<<<<<<< Updated upstream
     
     public static void StatsMenu(final Player player) {
         final Inventory inv = Bukkit.createInventory((InventoryHolder)null, 54, "Stats");
@@ -111,9 +160,57 @@ public class GUI
         final ItemMeta strengthmeta = strength.getItemMeta();
         strengthmeta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
         strengthmeta.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;D)Ljava/lang/String;, String.valueOf(ChatColor.GRAY), String.valueOf(ChatColor.RED), p.getStrength()));
+=======
+    public static void StatsMenu(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 54, "Stats");
+
+
+        ItemStack purple_glass = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1);
+        ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+        ItemStack arrow = new ItemStack(Material.ARROW, 1);
+        ItemStack player_head = new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack damage = new ItemStack(Material.IRON_SWORD, 1);
+        ItemStack defence = new ItemStack(Material.SHIELD, 1);
+        ItemStack strength = new ItemStack(Material.IRON_AXE, 1);
+        ItemStack speed = new ItemStack(Material.POTION, 1);
+        ItemStack mana = new ItemStack(Material.POTION, 1);
+        ItemStack critdamage = new ItemStack(Material.POTION, 1);
+        ItemStack critchance = new ItemStack(Material.TRIPWIRE_HOOK, 1);
+        ItemStack stealth = new ItemStack(Material.RABBIT_FOOT, 1);
+
+
+        PlayerStats p = PlayerStats.getPlayerStats(player.getUniqueId());
+
+        SkullMeta healthdata = (SkullMeta) player_head.getItemMeta();
+        healthdata.setOwningPlayer(player);
+        healthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        healthdata.setDisplayName(ChatColor.GRAY + "Health: " + ChatColor.RED + "" + p.getHealth());
+        player_head.setItemMeta(healthdata);
+
+
+        ItemMeta arrowmeta = arrow.getItemMeta();
+        arrowmeta.setDisplayName(ChatColor.GRAY + "Back to Main Menu");
+        arrow.setItemMeta(arrowmeta);
+
+
+        ItemMeta damagemeta = damage.getItemMeta();
+        damagemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        damagemeta.setDisplayName(ChatColor.GRAY + "Damage: " + ChatColor.RED + "" + p.getDamage());
+        damage.setItemMeta(damagemeta);
+
+        ItemMeta defencemeta = defence.getItemMeta();
+        defencemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        defencemeta.setDisplayName(ChatColor.GRAY + "Defence: " + ChatColor.GREEN + "" + p.getDefence());
+        defence.setItemMeta(defencemeta);
+
+        ItemMeta strengthmeta = strength.getItemMeta();
+        strengthmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        strengthmeta.setDisplayName(ChatColor.GRAY + "Strength: " + ChatColor.RED + "" + p.getStrength());
+>>>>>>> Stashed changes
         strength.setItemMeta(strengthmeta);
         final PotionMeta speedmeta = (PotionMeta)speed.getItemMeta();
         speedmeta.setBasePotionData(new PotionData(PotionType.SPEED));
+<<<<<<< Updated upstream
         speedmeta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS });
         speedmeta.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;D)Ljava/lang/String;, String.valueOf(ChatColor.GRAY), String.valueOf(ChatColor.WHITE), p.getSpeed()));
         speed.setItemMeta((ItemMeta)speedmeta);
@@ -134,6 +231,32 @@ public class GUI
         final ItemMeta stealthdata = stealth.getItemMeta();
         stealthdata.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
         stealthdata.setDisplayName(invokedynamic(makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;D)Ljava/lang/String;, String.valueOf(ChatColor.GRAY), String.valueOf(ChatColor.DARK_GRAY), p.getStealth()));
+=======
+        speedmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
+        speedmeta.setDisplayName(ChatColor.GRAY + "Speed: " + ChatColor.WHITE + "" + p.getSpeed());
+        speed.setItemMeta(speedmeta);
+
+        PotionMeta manameta = (PotionMeta) mana.getItemMeta();
+        manameta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
+        manameta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
+        manameta.setDisplayName(ChatColor.GRAY + "Mana: " + ChatColor.AQUA + "" + p.getMana());
+        mana.setItemMeta(manameta);
+
+        PotionMeta critdmeta = (PotionMeta) critdamage.getItemMeta();
+        critdmeta.setBasePotionData(new PotionData(PotionType.STRENGTH));
+        critdmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
+        critdmeta.setDisplayName(ChatColor.GRAY + "Critical Damage: " + ChatColor.RED + "" + p.getCritDamage() + "%");
+        critdamage.setItemMeta(critdmeta);
+
+        ItemMeta critcmeta = critchance.getItemMeta();
+        critcmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        critcmeta.setDisplayName(ChatColor.GRAY + "Critical Chance: " + ChatColor.RED + "" + p.getCritChance() + "%");
+        critchance.setItemMeta(critcmeta);
+
+        ItemMeta stealthdata = stealth.getItemMeta();
+        stealthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        stealthdata.setDisplayName(ChatColor.GRAY + "Stealth: " + ChatColor.DARK_GRAY + "" + p.getStealth() + "%");
+>>>>>>> Stashed changes
         stealth.setItemMeta(stealthdata);
         final ItemMeta data1 = purple_glass.getItemMeta();
         data1.setDisplayName("   ");
@@ -179,6 +302,15 @@ public class GUI
                 inv.setItem(i, blue_glass);
             }
         }
+<<<<<<< Updated upstream
+=======
+//        ItemStack clay = new ItemStack(CLAY, 64);
+//        ItemMeta clayMeta = clay.getItemMeta();
+//        lore.add(ChatColor.DARK_PURPLE + "Staff");
+//        clayMeta.setLore(lore);
+//        clay.setItemMeta(clayMeta);
+//        inv.addItem(clay);
+>>>>>>> Stashed changes
         player.openInventory(inv);
     }
     
@@ -429,6 +561,7 @@ public class GUI
         }
         p.openInventory(inv);
     }
+<<<<<<< Updated upstream
     
     public static void MenuChoice(final Player p) {
         for (final PlayerStats player : PlayerJoin.Players) {
@@ -441,5 +574,22 @@ public class GUI
                 }.runTaskLater((org.bukkit.plugin.Plugin)Plugin.getInstance(), 5L);
             }
         }
+=======
+    public static void MenuChoice(Player p) {
+        for (PlayerStats player : Players) {
+            if(player.getUUID().toString().equals(p.getPlayer().getUniqueId().toString())) {
+                player.setChoiceCD(1);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.setChoiceCD(0);
+                    }
+                }.runTaskLater(Plugin.getInstance() , 5L);
+            }
+        }
+
+
+
+>>>>>>> Stashed changes
     }
 }

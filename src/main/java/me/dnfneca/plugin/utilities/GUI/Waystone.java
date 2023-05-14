@@ -10,10 +10,17 @@ import java.util.List;
 import org.bukkit.Location;
 import java.util.ArrayList;
 import org.bukkit.event.inventory.InventoryClickEvent;
+<<<<<<< Updated upstream
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.FileReader;
+=======
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
+>>>>>>> Stashed changes
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -179,12 +186,24 @@ public class Waystone implements Listener
     
     public static String[][] getWaystones(final Player p) {
         try {
+<<<<<<< Updated upstream
             final JSONParser parser = new JSONParser();
             final JSONObject data = (JSONObject)parser.parse((Reader)new FileReader("./plugins/MMORPGData/Waystones.json"));
             final Object values = data.get((Object)p.getUniqueId().toString());
             final String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
             final String[] array = edit1.split(",");
             final String[][] waypoints = new String[100][100];
+=======
+            JSONParser parser = new JSONParser();
+            JSONObject data = (JSONObject) parser.parse(
+                    new FileReader("./plugins/MMORPGData/Waystones.json"));//path to the JSON file.
+
+            Object values = data.get(p.getUniqueId().toString());
+            String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
+            String[] array = edit1.split(",");
+
+            String[][] waypoints = new String[100][100];
+>>>>>>> Stashed changes
             int temp = 0;
             int i = 0;
             int j = 0;
@@ -220,12 +239,24 @@ public class Waystone implements Listener
     
     public static String[] getWaystonesNames(final Player p) {
         try {
+<<<<<<< Updated upstream
             final JSONParser parser = new JSONParser();
             final JSONObject data = (JSONObject)parser.parse((Reader)new FileReader("./plugins/MMORPGData/Waystones.json"));
             final Object values = data.get((Object)p.getUniqueId().toString());
             final String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
             final String[] array = edit1.split(",");
             final String[] waystones = new String[100];
+=======
+            JSONParser parser = new JSONParser();
+            JSONObject data = (JSONObject) parser.parse(
+                    new FileReader("./plugins/MMORPGData/Waystones.json"));//path to the JSON file.
+
+            Object values = data.get(p.getUniqueId().toString());
+            String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
+            String[] array = edit1.split(",");
+
+            String[] waystones = new String[100];
+>>>>>>> Stashed changes
             int i = 0;
             for (final String s : array) {
                 if (s.contains("Waystone")) {
@@ -286,6 +317,7 @@ public class Waystone implements Listener
             int i = 0;
             for (final String s2 : waystoneNames) {
                 if (ClickedItem.getItemMeta().getDisplayName().contains(waystoneNames[i])) {
+<<<<<<< Updated upstream
                     final String[] location = findWaystoneByName(p, waystoneNames[i]);
                     final Location playerloc = p.getLocation();
                     final Location standV = new Location(p.getWorld(), (double)Float.parseFloat(location[0]), (double)Float.parseFloat(location[1]), (double)Float.parseFloat(location[2]));
@@ -294,6 +326,18 @@ public class Waystone implements Listener
                     standV.setYaw(playerloc.getYaw());
                     p.sendMessage(String.valueOf(playerloc));
                     p.teleport(standV);
+=======
+                    String[] location = findWaystoneByName(p, waystoneNames[i]);
+                    Location playerloc = p.getLocation();
+                    Location standV = new Location(p.getWorld(), Float.parseFloat(location[0]), Float.parseFloat(location[1]), Float.parseFloat(location[2]));
+                    Vector face = playerloc.toVector().subtract(standV.toVector());
+                    playerloc.setDirection(face);
+                    standV.setYaw(playerloc.getYaw());
+                    p.sendMessage(String.valueOf(playerloc));
+//                    standV.setDirection(p.getLocation().toVector().subtract(standV.toVector()));
+                    p.teleport(standV);
+
+>>>>>>> Stashed changes
                 }
                 ++i;
             }
