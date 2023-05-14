@@ -1,18 +1,8 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.dnfneca.plugin.utilities.managers;
 
 import java.util.Random;
 import java.util.UUID;
 
-<<<<<<< Updated upstream
-public class Stats
-{
-    public static String getRandomRarity(final UUID MobUUID) {
-        final Random rand = new Random();
-=======
 public class Stats {
 
     public static String getRandomRarity(UUID MobUUID) {
@@ -20,59 +10,62 @@ public class Stats {
 
 
         Random rand = new Random();
->>>>>>> Stashed changes
         String rarity = null;
         int rarityNumber = 0;
+// nextInt as provided by Random is exclusive of the top value, so you need to add 1
         rand.setSeed(MobUUID.hashCode());
-        final double randomNum = rand.nextDouble();
-        if (randomNum < 0.55) {
-            rarityNumber = 1;
+
+
+        double randomNum = rand.nextDouble();
+        if(randomNum < .55) {               // 55%
+            rarityNumber=1;
+        } else if(randomNum < .78) {        // 23%
+            rarityNumber=2;
+        } else if(randomNum < .93) {        // 15%
+            rarityNumber=3;
+        } else if(randomNum < .98) {        // 5%
+            rarityNumber=4;
+        } else {                            // 2%
+            rarityNumber=5;
         }
-        else if (randomNum < 0.78) {
-            rarityNumber = 2;
-        }
-        else if (randomNum < 0.93) {
-            rarityNumber = 3;
-        }
-        else if (randomNum < 0.98) {
-            rarityNumber = 4;
-        }
-        else {
-            rarityNumber = 5;
-        }
-        switch (rarityNumber) {
-            case 2: {
-                rarity = "Uncommon";
+
+
+
+        switch (rarityNumber){
+            case 2:
+                rarity="Uncommon";
                 break;
-            }
-            case 3: {
-                rarity = "Rare";
+            case 3:
+                rarity="Rare";
                 break;
-            }
-            case 4: {
-                rarity = "Epic";
+            case 4:
+                rarity="Epic";
                 break;
-            }
-            case 5: {
-                rarity = "Legendary";
+            case 5:
+                rarity="Legendary";
                 break;
-            }
-            default: {
-                rarity = "Common";
+            default:
+                rarity="Common";
                 break;
-            }
         }
+
+
         return rarity;
     }
-    
-    public static int getRandomLevel(final int min, final int max) {
-        final Random rand = new Random();
-        return rand.nextInt(max - min + 1) + min;
+    public static int getRandomLevel(int min, int max) {
+        Random rand = new Random();
+// nextInt as provided by Random is exclusive of the top value, so you need to add 1
+
+        return rand.nextInt((max - min) + 1) + min;
     }
-    
-    public static boolean getCritRoll(final double Percentage) {
-        final double procent = Percentage * 0.01;
-        final double r = Math.random();
-        return r < procent;
+
+    public static boolean getCritRoll(double Percentage) {
+        double procent = Percentage * 0.01;
+        double r = Math.random();
+        if(r < procent) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
