@@ -30,126 +30,124 @@ import java.util.UUID;
 
 
 public class Ghoul implements Listener {
-    public static int MaxHealth = 1200;
-    public static int Level = 90;
-    public static String Type = "Ghoul";
-    public static String Name = "Ghoul";
-    public static int Defence = 50;
-    public static int Strength = 85;
-    public static int Damage = 100;
+	public static int MaxHealth = 1200;
+	public static int Level = 90;
+	public static String Type = "Ghoul";
+	public static String Name = "Ghoul";
+	public static int Defence = 50;
+	public static int Strength = 85;
+	public static int Damage = 100;
 
-    static Plugin plugin;
+	static Plugin plugin;
 
-    public Ghoul(Plugin plugin) {
-        this.plugin = plugin;
-    }
+	public Ghoul(final Plugin plugin) {
+		Ghoul.plugin = plugin;
+	}
 
-    public static void createGhoul(Location location, Player player) {
-        final long[] AB1CD = {0};
-        final long[] AB2CD = {0};
-        final String[] entities = new String[0];
+	public static void createGhoul(final Location location, final Player player) {
+		long[] AB1CD = {0};
+		long[] AB2CD = {0};
+		String[] entities = new String[0];
 
-        Husk spider = location.getWorld().spawn(location, Husk.class);
+		final Husk spider = location.getWorld().spawn(location, Husk.class);
 
-        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU3MzMwYzdkNWNkOGEwYTU1YWI5ZTk1MzIxNTM1YWM3YWUzMGZlODM3YzM3ZWE5ZTUzYmVhN2JhMmRlODZiIn19fQ==";
+		final String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU3MzMwYzdkNWNkOGEwYTU1YWI5ZTk1MzIxNTM1YWM3YWUzMGZlODM3YzM3ZWE5ZTUzYmVhN2JhMmRlODZiIn19fQ==";
 
-        String id = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUv";
+		final String id = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUv";
 
-        ItemStack VexHead = new ItemStack(Material.PLAYER_HEAD, 1);
+		final ItemStack VexHead = new ItemStack(Material.PLAYER_HEAD, 1);
 
-        ItemMeta skullMeta = VexHead.getItemMeta();
+		final ItemMeta skullMeta = VexHead.getItemMeta();
 //        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
 
-        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID()); // Get a new player profile
-        PlayerTextures textures = profile.getTextures();
-        URL urlObject = null;
+		final PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID()); // Get a new player profile
+		final PlayerTextures textures = profile.getTextures();
+		URL urlObject = null;
 
 
-        try {
-            urlObject = new URL("https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18"); // The URL to the skin, for example: https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        textures.setSkin(urlObject);
+		try {
+			urlObject = new URL("https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18"); // The URL to the skin, for example: https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18
+		} catch (final MalformedURLException e) {
+			e.printStackTrace();
+		}
+		textures.setSkin(urlObject);
 
 
 //        PlayerProfile profile = getProfile("https://textures.minecraft.net/texture/18813764b2abc94ec3c3bc67b9147c21be850cdf996679703157f4555997ea63");
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
-        meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
-        head.setItemMeta(meta);
-        player.getInventory().addItem(head);
+		final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+		final SkullMeta meta = (SkullMeta) head.getItemMeta();
+		meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
+		head.setItemMeta(meta);
+		player.getInventory().addItem(head);
 
 
+		spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
+		spider.setCustomNameVisible(true);
 
 
-        spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
-        spider.setCustomNameVisible(true);
-
-
-        SkullMeta headMeta = (SkullMeta) VexHead.getItemMeta();
+		final SkullMeta headMeta = (SkullMeta) VexHead.getItemMeta();
 //        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
 //        profile.getProperties().put("textures", new Property("textures", id));
 
-        try {
-            Field profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-        } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+		try {
+			final Field profileField = headMeta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			profileField.set(headMeta, profile);
+		} catch (final IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 
-        VexHead.setItemMeta(headMeta);
+		VexHead.setItemMeta(headMeta);
 
-        spider.getEquipment().setHelmet(head);
-        Attributable creatureAt = spider;
-        AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attribute.setBaseValue(100);
-        spider.setHealth(100);
-        String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
-        String level = getScores[0];
-        spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Ghoul ");
+		spider.getEquipment().setHelmet(head);
+		final Attributable creatureAt = spider;
+		final AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		attribute.setBaseValue(100);
+		spider.setHealth(100);
+		final String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
+		final String level = getScores[0];
+		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Ghoul.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Ghoul ");
 
-        new BukkitRunnable() {
-            public void run() {
-                int index = 0;
-                int range = 10;
-                if (!(spider.isDead())) {
-                    spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
-                    if (spider.getTarget() == null) {
-                        List<Entity> entityaround;
-                        List<Player> allPlayers = new ArrayList<>();
-                        entityaround = spider.getNearbyEntities(range, range, range);
-                        for (Entity p : entityaround) {
-                            if(p instanceof Player) {
-                                int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
-                                double distance = spider.getLocation().distance(p.getLocation());
-                                double stealthRange = (double)range - (double)range * (double)stealth*0.01;
-                                if(distance <= stealthRange) {
-                                    allPlayers.add((Player) p);
-                                }
-                            }
-                        }
-                        for(Player p : allPlayers) {
-                            Player target = allPlayers.get(index);
-                            if(index >= 1) {
-                                if (target.getScoreboard().getObjective("Stats").getScore("Health").getScore() < allPlayers.get(index - 1).getScoreboard().getObjective("Stats").getScore("Health").getScore()) {
-                                    spider.setTarget(p);
-                                    p.sendMessage(p.getDisplayName());
-                                }
-                            } else {
-                                spider.setTarget(allPlayers.get(0));
-                                p.sendMessage(p.getDisplayName());
-                            }
-                            index ++;
-                        }
-                    }
-                } else {
-                    cancel();
-                }
-            }
-        }.runTaskTimer(plugin, 0L, 10L);
-    }
+		new BukkitRunnable() {
+			public void run() {
+				int index = 0;
+				final int range = 10;
+				if (!(spider.isDead())) {
+					spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
+					if (null == spider.getTarget()) {
+						final List<Entity> entityaround;
+						final List<Player> allPlayers = new ArrayList<>();
+						entityaround = spider.getNearbyEntities(range, range, range);
+						for (final Entity p : entityaround) {
+							if (p instanceof Player) {
+								final int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
+								final double distance = spider.getLocation().distance(p.getLocation());
+								final double stealthRange = range - (double) range * stealth * 0.01;
+								if (distance <= stealthRange) {
+									allPlayers.add((Player) p);
+								}
+							}
+						}
+						for (final Player p : allPlayers) {
+							final Player target = allPlayers.get(index);
+							if (1 <= index) {
+								if (target.getScoreboard().getObjective("Stats").getScore("Health").getScore() < allPlayers.get(index - 1).getScoreboard().getObjective("Stats").getScore("Health").getScore()) {
+									spider.setTarget(p);
+									p.sendMessage(p.getDisplayName());
+								}
+							} else {
+								spider.setTarget(allPlayers.get(0));
+								p.sendMessage(p.getDisplayName());
+							}
+							index++;
+						}
+					}
+				} else {
+					this.cancel();
+				}
+			}
+		}.runTaskTimer(Ghoul.plugin, 0L, 10L);
+	}
 }

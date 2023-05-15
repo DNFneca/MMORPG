@@ -4,43 +4,28 @@
 
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.CustomMobs.Ghoul;
-import me.dnfneca.plugin.utilities.managers.CustomMobs.Dummy;
-import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicWolf;
-import me.dnfneca.plugin.utilities.managers.CustomMobs.BasicSpider;
-import org.bukkit.entity.Player;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.*;
 import org.bukkit.command.Command;
-import javax.annotation.Nonnull;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-public class summonmob implements CommandExecutor
-{
-    public boolean onCommand(@Nonnull final CommandSender sender, @Nonnull final Command command, @Nonnull final String label, @Nonnull final String[] args) {
-        if (sender instanceof Player) {
-            final Player player = (Player)sender;
-            if (player.isOp()) {
-                if (command.getName().equalsIgnoreCase("summonmob")) {
-                    if (args[0].equalsIgnoreCase("Basic_Spider")) {
-                        BasicSpider.createSpider(player.getLocation());
-                    }
-                    else if (args[0].equalsIgnoreCase("Basic_Wolf")) {
-                        BasicWolf.createWolf(player.getLocation());
-                    }
-                    else if (args[0].equalsIgnoreCase("Dummy")) {
-                        Dummy.createDummy(player.getLocation());
-                    }
-                    else if (args[0].equalsIgnoreCase("Ghoul")) {
-                        Ghoul.createGhoul(player.getLocation(), player);
-                    }
-                }
-            }
-            else {
-                player.sendMessage("You are not allowed to use this command!");
-            }
-            return true;
-        }
-        sender.sendMessage("Only players can use this command!");
-        return true;
-    }
+import javax.annotation.Nonnull;
+
+public class summonmob implements CommandExecutor {
+	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+		if (sender instanceof Player player) {
+			if (player.isOp()) {
+				if ("summonmob".equalsIgnoreCase(command.getName())) {
+					System.out.println(args[0]);
+					SpawnMob.spawnMob(args[0], player.getLocation());
+				}
+			} else {
+				player.sendMessage("You are not allowed to use this command!");
+			}
+			return true;
+		}
+		sender.sendMessage("Only players can use this command!");
+		return true;
+	}
 }

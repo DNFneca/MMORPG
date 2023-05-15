@@ -8,20 +8,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class classreset implements CommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
-            if (command.getName().equalsIgnoreCase("classreset")) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    PlayerStats.getPlayerStats(p.getUniqueId()).setClass("none");
-                    GUI.ChooseClassesMenu(p);
-                }
-            }
+	@Override
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+		if (sender.isOp()) {
+			if ("classreset".equalsIgnoreCase(command.getName())) {
+				if (sender instanceof Player p) {
+					PlayerStats.getPlayerStats(p.getUniqueId()).setClass("none");
+					GUI.ChooseClassesMenu(p);
+				}
+			}
 
-        } else {
-            sender.sendMessage("You are not allowed to use this command!");
-        }
-        return true;
-    }
+		} else {
+			sender.sendMessage("You are not allowed to use this command!");
+		}
+		return true;
+	}
 }

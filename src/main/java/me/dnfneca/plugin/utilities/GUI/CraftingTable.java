@@ -13,51 +13,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CraftingTable implements Listener {
-    public static void MainCraftingInventory (Player p) {
-        List<String> lore = new ArrayList<>();
+	public static void MainCraftingInventory(final Player p) {
+		final List<String> lore = new ArrayList<>();
 
 
-        Inventory inv = Bukkit.createInventory(null, 45, "Crafting Table");
+		final Inventory inv = Bukkit.createInventory(null, 45, "Crafting Table");
 
-        ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-        ItemStack recipe = new ItemStack(Material.BARRIER, 1);
-
-
-        ItemStack arrow = new ItemStack(Material.ARROW, 1);
-
-        ItemMeta arrowmeta = arrow.getItemMeta();
-        arrowmeta.setDisplayName(ChatColor.GRAY + "To Forge");
-        arrow.setItemMeta(arrowmeta);
+		final ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+		final ItemStack recipe = new ItemStack(Material.BARRIER, 1);
 
 
+		final ItemStack arrow = new ItemStack(Material.ARROW, 1);
+
+		final ItemMeta arrowmeta = arrow.getItemMeta();
+		arrowmeta.setDisplayName(ChatColor.GRAY + "To Forge");
+		arrow.setItemMeta(arrowmeta);
 
 
-        ItemMeta data2 = blue_glass.getItemMeta();
-        data2.setDisplayName("   ");
-        blue_glass.setItemMeta(data2);
+		final ItemMeta data2 = blue_glass.getItemMeta();
+		data2.setDisplayName("   ");
+		blue_glass.setItemMeta(data2);
 
-        ItemMeta recipedata = recipe.getItemMeta();
-        recipedata.setDisplayName("Your recipe will appear here");
-        recipe.setItemMeta(recipedata);
+		final ItemMeta recipedata = recipe.getItemMeta();
+		recipedata.setDisplayName("Your recipe will appear here");
+		recipe.setItemMeta(recipedata);
 
 
-        for(int i = 0; i <= 44; i++) {
-            if(i == 10 || i == 11 || i == 12 || i == 19 || i == 20 || i == 21 || i == 28 || i == 29 || i == 30){
-                inv.setItem(i, new ItemStack(Material.AIR));
-            } else if (i == 24) {
-                inv.setItem(i, recipe);
-            } else if (i == inv.getSize() - 1) {
-                inv.setItem(i, arrow);
-            } else {
-                inv.setItem(i, blue_glass);
-            }
-        }
+		for (int i = 0; 44 >= i; i++) {
+			if (10 == i || 11 == i || 12 == i || 19 == i || 20 == i || 21 == i || 28 == i || 29 == i || 30 == i) {
+				inv.setItem(i, new ItemStack(Material.AIR));
+			} else if (24 == i) {
+				inv.setItem(24, recipe);
+			} else if (i == inv.getSize() - 1) {
+				inv.setItem(i, arrow);
+			} else {
+				inv.setItem(i, blue_glass);
+			}
+		}
 //        ItemStack clay = new ItemStack(CLAY, 64);
 //        ItemMeta clayMeta = clay.getItemMeta();
 //        lore.add(ChatColor.DARK_PURPLE + "Staff");
 //        clayMeta.setLore(lore);
 //        clay.setItemMeta(clayMeta);
 //        inv.addItem(clay);
-        p.openInventory(inv);
-    }
+		p.openInventory(inv);
+	}
 }

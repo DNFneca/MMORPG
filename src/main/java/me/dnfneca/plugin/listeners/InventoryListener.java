@@ -27,329 +27,330 @@ import static me.dnfneca.plugin.utilities.GUI.GUI.*;
 
 public class InventoryListener implements Listener {
 
-    @EventHandler
-    public void onInventoryEvent(InventoryCloseEvent e) {
-        Player p = (Player) e.getPlayer();
-        String title = p.getOpenInventory().getTitle();
-        if(title.contains("Choose a Class") || title.contains("Choose a Mage Subclass") || title.contains("Choose a Warrior Subclass") || title.contains("Choose a Ranger Subclass") || title.contains("Are you sure. Confirm your class")) {
-            for (PlayerStats player : Players) {
-                if(player.getUUID().equals(e.getPlayer().getUniqueId())) {
-                    if(player.getChoiceCD() == 0) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                p.sendMessage("Are you sure you don't want to select a class?");
-                                setClass(p, "none");
-                                ChooseClassesMenu(p);
-                            }
-                        }.runTaskLater(Plugin.getInstance() , 5L);
+	@EventHandler
+	public void onInventoryEvent(final InventoryCloseEvent e) {
+		final Player p = (Player) e.getPlayer();
+		final String title = p.getOpenInventory().getTitle();
+		if (title.contains("Choose a Class") || title.contains("Choose a Mage Subclass") || title.contains("Choose a Warrior Subclass") || title.contains("Choose a Ranger Subclass") || title.contains("Are you sure. Confirm your class")) {
+			for (final PlayerStats player : Players) {
+				if (player.getUUID().equals(e.getPlayer().getUniqueId())) {
+					if (0 == player.getChoiceCD()) {
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								p.sendMessage("Are you sure you don't want to select a class?");
+								InventoryListener.this.setClass(p, "none");
+								ChooseClassesMenu(p);
+							}
+						}.runTaskLater(Plugin.getInstance(), 5L);
 
-                    }
-                }
-            }
-
-
-        }
-    }
-
-    @EventHandler
-    public void onInventoryEvent(InventoryClickEvent e) {
-        Player p = (Player) e.getWhoClicked();
-        List<String> lore = new ArrayList<>();
-        Inventory inv = e.getInventory();
-
-        ItemStack ClickedItem = null;
-
-        try {
-            ClickedItem = e.getCurrentItem();
-        } catch (Error error) {
-            System.out.println(error);
-        }
-        if(ClickedItem == null) {
-            return;
-        }
+					}
+				}
+			}
 
 
-        if (ClickedItem != null) {
-            if (ClickedItem.getItemMeta() !=null) {
+		}
+	}
+
+	@EventHandler
+	public void onInventoryEvent(final InventoryClickEvent e) {
+		final Player p = (Player) e.getWhoClicked();
+		final List<String> lore = new ArrayList<>();
+		Inventory inv = e.getInventory();
+
+		ItemStack ClickedItem = null;
+
+		try {
+			ClickedItem = e.getCurrentItem();
+		} catch (final Error error) {
+			System.out.println(error);
+		}
+		if (null == ClickedItem) {
+			return;
+		}
+
+
+		if (null != ClickedItem) {
+			if (null != ClickedItem.getItemMeta()) {
 //                System.out.println(ClickedItem);
 
 
-                  if(ClickedItem.getItemMeta().getDisplayName().contains(":")
-                          || ClickedItem.getItemMeta().getDisplayName().contains("   ")
-                          || ClickedItem.getItemMeta().getDisplayName().contains("Can't reforge this")
-                          || ClickedItem.getItemMeta().getDisplayName().contains("Level Progress")) {
-                    e.setCancelled(true);
-                    return;
-                  }
+				if (ClickedItem.getItemMeta().getDisplayName().contains(":")
+						|| ClickedItem.getItemMeta().getDisplayName().contains("   ")
+						|| ClickedItem.getItemMeta().getDisplayName().contains("Can't reforge this")
+						|| ClickedItem.getItemMeta().getDisplayName().contains("Level Progress")) {
+					e.setCancelled(true);
+					return;
+				}
 
 
-                  if(ClickedItem.getItemMeta().getDisplayName().contains("To Forge")) {
-                      ReforgeMenu.Open(p);
-                  }
+				if (ClickedItem.getItemMeta().getDisplayName().contains("To Forge")) {
+					ReforgeMenu.Open(p);
+				}
 
 
+				final PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
 
-                PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
+				if (e.getView().getTitle().contains("Choose a Class")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Mage")) {
+						e.setCancelled(true);
 
-                if(e.getView().getTitle().contains("Choose a Class")) {
-                     if (ClickedItem.getItemMeta().getDisplayName().contains("Mage")) {
-                        e.setCancelled(true);
 
+						MageSubclassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Warrior")) {
+						e.setCancelled(true);
 
-                        MageSubclassMenu(p);
-                     } else if (ClickedItem.getItemMeta().getDisplayName().contains("Warrior")) {
-                         e.setCancelled(true);
 
+						WarriorSubclassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Ranger")) {
+						e.setCancelled(true);
 
-                         WarriorSubclassMenu(p);
-                     } else if (ClickedItem.getItemMeta().getDisplayName().contains("Ranger")) {
-                         e.setCancelled(true);
 
+						RangerSubclassMenu(p);
+					}
+				} else if (e.getView().getTitle().contains("Main Menu")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Class")) {
+						e.setCancelled(true);
 
-                         RangerSubclassMenu(p);
-                     }
-                } else if(e.getView().getTitle().contains("Main Menu")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Class")) {
-                        e.setCancelled(true);
+						ClassMenus.ClassMenu(p, this.getClass(p));
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Levels")) {
+						e.setCancelled(true);
 
-                        ClassMenus.ClassMenu(p,getClass(p));
-                    } else if(ClickedItem.getItemMeta().getDisplayName().contains("Levels")) {
-                        e.setCancelled(true);
+						LevelsMenu.LevelsMenu(p);
+					}
+				} else if (e.getView().getTitle().contains("Choose a Mage Subclass")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage")) {
+						e.setCancelled(true);
 
-                        LevelsMenu.LevelsMenu(p);
-                    }
-                } else if (e.getView().getTitle().contains("Choose a Mage Subclass")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Battle Mage");
+						MenuChoice(p);
 
-                        setClass(p, "Battle Mage");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Wizard")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Wizard")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Wizard");
+						MenuChoice(p);
 
-                        setClass(p, "Wizard");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Healer")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Healer")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Healer");
+						MenuChoice(p);
 
-                        setClass(p, "Healer");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Necromancer")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Necromancer")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Necromancer");
+						MenuChoice(p);
 
-                        setClass(p, "Necromancer");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
-                        e.setCancelled(true);
+						ChooseClassesMenu(p);
 
-                        ChooseClassesMenu(p);
+						this.setClass(p, "none");
+					}
+				} else if (e.getView().getTitle().contains("Choose a Warrior Subclass")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian")) {
+						e.setCancelled(true);
 
-                        setClass(p, "none");
-                    }
-                } else if (e.getView().getTitle().contains("Choose a Warrior Subclass")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian")) {
-                        e.setCancelled(true);
+						System.out.println("Barbarian");
+						p.sendMessage("Barbarian");
+						this.setClass(p, "Barbarian");
+						MenuChoice(p);
 
-                        System.out.println("Barbarian");
-                        p.sendMessage("Barbarian");
-                        setClass(p, "Barbarian");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Samurai")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Samurai")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Samurai");
+						MenuChoice(p);
 
-                        setClass(p, "Samurai");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Paladin")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Paladin")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Paladin");
+						MenuChoice(p);
 
-                        setClass(p, "Paladin");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Viking")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Viking")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Viking");
+						MenuChoice(p);
 
-                        setClass(p, "Viking");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
-                        e.setCancelled(true);
+						ChooseClassesMenu(p);
 
-                        ChooseClassesMenu(p);
+						this.setClass(p, "none");
 
-                        setClass(p, "none");
+					}
+				} else if (e.getView().getTitle().contains("Choose a Ranger Subclass")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Sniper")) {
+						e.setCancelled(true);
 
-                    }
-                } else if (e.getView().getTitle().contains("Choose a Ranger Subclass")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Sniper")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Sniper");
+						MenuChoice(p);
 
-                        setClass(p, "Sniper");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Hunter")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Hunter")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Hunter");
+						MenuChoice(p);
 
-                        setClass(p, "Hunter");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Scout")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Scout")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Scout");
+						MenuChoice(p);
 
-                        setClass(p, "Scout");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Assassin")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Assassin")) {
-                        e.setCancelled(true);
+						this.setClass(p, "Assassin");
+						MenuChoice(p);
 
-                        setClass(p, "Assassin");
-                        MenuChoice(p);
+						areYouSureClassMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
+						e.setCancelled(true);
 
-                        areYouSureClassMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
-                        e.setCancelled(true);
+						ChooseClassesMenu(p);
 
-                        ChooseClassesMenu(p);
+						this.setClass(p, "none");
 
-                        setClass(p, "none");
+					}
+				} else if (e.getView().getTitle().contains("Are you sure. Confirm your class")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Yes (You can't choose a different class on this profile)")) {
 
-                    }
-                } else if (e.getView().getTitle().contains("Are you sure. Confirm your class")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Yes (You can't choose a different class on this profile)")) {
+						e.setCancelled(true);
 
-                        e.setCancelled(true);
+						this.setClass(p, this.getClass(p));
 
-                        setClass(p, getClass(p));
+						MenuChoice(p);
 
-                        MenuChoice(p);
-                        
-                        p.closeInventory();
+						p.closeInventory();
 
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("No")) {
-                        e.setCancelled(true);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("No")) {
+						e.setCancelled(true);
 
-                        setClass(p, "none");
+						this.setClass(p, "none");
 
-                        MenuChoice(p);
+						MenuChoice(p);
 
-                        ChooseClassesMenu(p);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Yes")) {
-                        e.setCancelled(true);
+						ChooseClassesMenu(p);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Yes")) {
+						e.setCancelled(true);
 
-                        MenuChoice(p);
+						MenuChoice(p);
 
-                        ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+						final ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
 
-                        ItemMeta meta2 = blue_glass.getItemMeta();
-                        meta2.setDisplayName("   ");
-                        blue_glass.setItemMeta(meta2);
+						final ItemMeta meta2 = blue_glass.getItemMeta();
+						meta2.setDisplayName("   ");
+						blue_glass.setItemMeta(meta2);
 
-                        ItemStack yes = new ItemStack(Material.GREEN_CONCRETE, 1);
-                        ItemStack no = new ItemStack(Material.RED_CONCRETE, 1);
+						final ItemStack yes = new ItemStack(Material.GREEN_CONCRETE, 1);
+						final ItemStack no = new ItemStack(Material.RED_CONCRETE, 1);
 
 
-                        ItemMeta yesmeta = yes.getItemMeta();
-                        yesmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                        yesmeta.setDisplayName(ChatColor.GREEN + "Yes (You can't choose a different class on this profile)");
-                        yes.setItemMeta(yesmeta);
+						final ItemMeta yesmeta = yes.getItemMeta();
+						yesmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+						yesmeta.setDisplayName(ChatColor.GREEN + "Yes (You can't choose a different class on this profile)");
+						yes.setItemMeta(yesmeta);
 
-                        ItemMeta nometa = no.getItemMeta();
-                        nometa.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
-                        nometa.setDisplayName(ChatColor.GOLD + "No");
-                        no.setItemMeta(nometa);
+						final ItemMeta nometa = no.getItemMeta();
+						nometa.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
+						nometa.setDisplayName(ChatColor.GOLD + "No");
+						no.setItemMeta(nometa);
 
-                        inv = Bukkit.createInventory(null, 27, "Are you sure. Confirm your class");
+						inv = Bukkit.createInventory(null, 27, "Are you sure. Confirm your class");
 
-                        for (int i = 0; i < 27; i++) {
-                            if (i == 11) {
-                                inv.setItem(i, yes);
-                            } else if (i == 15) {
-                                inv.setItem(i, no);
-                            } else {
-                                inv.setItem(i, blue_glass);
-                            }
-                        }
-                        p.openInventory(inv);
-                    }
-                } else if(e.getView().getTitle().contains("Class Specific Stats")) {
-                    if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage") || ClickedItem.getItemMeta().getDisplayName().contains("Wizard") || ClickedItem.getItemMeta().getDisplayName().contains("Healer") || ClickedItem.getItemMeta().getDisplayName().contains("Necromancer")) {
-                        e.setCancelled(true);
+						for (int i = 0; 27 > i; i++) {
+							if (11 == i) {
+								inv.setItem(11, yes);
+							} else if (15 == i) {
+								inv.setItem(15, no);
+							} else {
+								inv.setItem(i, blue_glass);
+							}
+						}
+						p.openInventory(inv);
+					}
+				} else if (e.getView().getTitle().contains("Class Specific Stats")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage") || ClickedItem.getItemMeta().getDisplayName().contains("Wizard") || ClickedItem.getItemMeta().getDisplayName().contains("Healer") || ClickedItem.getItemMeta().getDisplayName().contains("Necromancer")) {
+						e.setCancelled(true);
 
-                        ClassMenus.ClassMenu(p,playerStats.getPlayerClass().replace("\"", ""));
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian") || ClickedItem.getItemMeta().getDisplayName().contains("Samurai") || ClickedItem.getItemMeta().getDisplayName().contains("Paladin") || ClickedItem.getItemMeta().getDisplayName().contains("Viking")) {
-                        e.setCancelled(true);
+						ClassMenus.ClassMenu(p, playerStats.getPlayerClass().replace("\"", ""));
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian") || ClickedItem.getItemMeta().getDisplayName().contains("Samurai") || ClickedItem.getItemMeta().getDisplayName().contains("Paladin") || ClickedItem.getItemMeta().getDisplayName().contains("Viking")) {
+						e.setCancelled(true);
 
-                        ClassMenus.ClassMenu(p,playerStats.getPlayerClass().replace("\"", ""));
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("Sniper") || ClickedItem.getItemMeta().getDisplayName().contains("Hunter") || ClickedItem.getItemMeta().getDisplayName().contains("Scout") || ClickedItem.getItemMeta().getDisplayName().contains("Assassin")) {
-                        e.setCancelled(true);
+						ClassMenus.ClassMenu(p, playerStats.getPlayerClass().replace("\"", ""));
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Sniper") || ClickedItem.getItemMeta().getDisplayName().contains("Hunter") || ClickedItem.getItemMeta().getDisplayName().contains("Scout") || ClickedItem.getItemMeta().getDisplayName().contains("Assassin")) {
+						e.setCancelled(true);
 
-                        ClassMenus.ClassMenu(p,playerStats.getPlayerClass().replace("\"", ""));
-                    }
-                } else if(e.getView().getTitle().contains("Crafting Table")) {
-                    if(ClickedItem.getItemMeta().getDisplayName().contains("Your recipe will appear here")) {
-                        e.setCancelled(true);
-                    } else if (ClickedItem.getItemMeta().getDisplayName().contains("To Forge Menu")) {
-                        ReforgeMenu.Open(p);
-                    }
-                }
+						ClassMenus.ClassMenu(p, playerStats.getPlayerClass().replace("\"", ""));
+					}
+				} else if (e.getView().getTitle().contains("Crafting Table")) {
+					if (ClickedItem.getItemMeta().getDisplayName().contains("Your recipe will appear here")) {
+						e.setCancelled(true);
+					} else if (ClickedItem.getItemMeta().getDisplayName().contains("To Forge Menu")) {
+						ReforgeMenu.Open(p);
+					}
+				}
 
 
-                if (ClickedItem.getItemMeta().getDisplayName().contains("Menu")) {
-                    e.setCancelled(true);
+				if (ClickedItem.getItemMeta().getDisplayName().contains("Menu")) {
+					e.setCancelled(true);
 
-                    MainMenu(p);
-                } else if(ClickedItem.getItemMeta().getDisplayName().contains("Stats")) {
-                    e.setCancelled(true);
+					MainMenu(p);
+				} else if (ClickedItem.getItemMeta().getDisplayName().contains("Stats")) {
+					e.setCancelled(true);
 
-                    StatsMenu(p);
-                } else if(ClickedItem.getItemMeta().getDisplayName().contains("Back to Main Menu")) {
-                    e.setCancelled(true);
+					StatsMenu(p);
+				} else if (ClickedItem.getItemMeta().getDisplayName().contains("Back to Main Menu")) {
+					e.setCancelled(true);
 
-                    MainMenu(p);
-                } else if (ClickedItem.getItemMeta().getDisplayName().contains("Class")) {
-                    e.setCancelled(true);
+					MainMenu(p);
+				} else if (ClickedItem.getItemMeta().getDisplayName().contains("Class")) {
+					e.setCancelled(true);
 
 
-                }
+				}
 //            System.out.println(lore);
 //            System.out.println(ClickedItem.getItemMeta().getLore());
 //                p.sendMessage(ClickedItem.getItemMeta().getLore().toString().toLowerCase());
 //            System.out.println(ClickedItem.getItemMeta().getLore().toString().toLowerCase());
 
-            }
-        }
-    }
-    public void setClass(Player p, String Class) {
-        for (PlayerStats player : Players) {
-            if(player.getUUID().toString().equals(p.getUniqueId().toString())) {
-                player.setClass(Class);
-            }
-        }
+			}
+		}
+	}
 
-    }
-    public String getClass(Player p) {
-        for (PlayerStats player : Players) {
-            if(player.getUUID().toString().equals(p.getUniqueId().toString())) {
-                return player.getPlayerClass();
-            }
-        }
-        return null;
-    }
+	public void setClass(final Player p, final String Class) {
+		for (final PlayerStats player : Players) {
+			if (player.getUUID().toString().equals(p.getUniqueId().toString())) {
+				player.setClass(Class);
+			}
+		}
+
+	}
+
+	public String getClass(final Player p) {
+		for (final PlayerStats player : Players) {
+			if (player.getUUID().toString().equals(p.getUniqueId().toString())) {
+				return player.getPlayerClass();
+			}
+		}
+		return null;
+	}
 }

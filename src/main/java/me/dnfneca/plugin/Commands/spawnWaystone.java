@@ -12,18 +12,18 @@ import java.util.Arrays;
 
 public class spawnWaystone implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Location location = ((Player) sender).getLocation();
+	@Override
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+		if (sender instanceof Player) {
+			final Location location = ((Player) sender).getLocation();
 
-            ArmorStand waystone = location.getWorld().spawn(location, ArmorStand.class);
+			final ArmorStand waystone = location.getWorld().spawn(location, ArmorStand.class);
 
-            waystone.setCustomName(Arrays.toString(args).replace("[", "").replace("]", "") + " Waystone");
-            waystone.setInvulnerable(true);
-            waystone.setCustomNameVisible(true);
+			waystone.setCustomName(Arrays.toString(args).replace("[", "").replace("]", "") + " Waystone");
+			waystone.setInvulnerable(true);
+			waystone.setCustomNameVisible(true);
 //            waystone.setVisible(false);
-        }
-        return true;
-    }
+		}
+		return true;
+	}
 }

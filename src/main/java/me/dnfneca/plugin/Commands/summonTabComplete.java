@@ -4,23 +4,32 @@
 
 package me.dnfneca.plugin.Commands;
 
-import java.util.ArrayList;
-import java.util.List;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.MobStats;
+import me.dnfneca.plugin.utilities.managers.Item.Item;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-public class summonTabComplete implements TabCompleter
-{
-    public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
-        if (args.length == 1) {
-            final List<String> p = new ArrayList<String>();
-            p.add("DUMMY");
-            p.add("BASIC_WOLF");
-            p.add("BASIC_SPIDER");
-            p.add("GHOUL");
-            return p;
-        }
-        return null;
-    }
+import java.util.ArrayList;
+import java.util.List;
+
+import static me.dnfneca.plugin.Plugin.CustomItems;
+import static me.dnfneca.plugin.listeners.PlayerJoin.CustomMobs;
+
+public class summonTabComplete implements TabCompleter {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+		if (1 == args.length) {
+			List<String> p = new ArrayList<>();
+			for (MobStats s : CustomMobs) {
+				if (null != s.getName()) {
+					String name = s.getName().replace(" ", "_");
+					if(s.getName().contains(args[0])) {
+						p.add(s.getName());
+					}
+				}
+			}
+			return p;
+		}
+		return null;
+	}
 }

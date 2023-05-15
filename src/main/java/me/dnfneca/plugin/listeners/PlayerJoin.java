@@ -2,6 +2,7 @@ package me.dnfneca.plugin.listeners;
 
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.managers.CustomMobs.MobStats;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,90 +24,92 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import static me.dnfneca.plugin.utilities.GUI.GUI.ChooseClassesMenu;
 
 
-public class PlayerJoin implements Listener{
+public class PlayerJoin implements Listener {
 
-    static Plugin plugin;
-    public PlayerJoin(Plugin plugin) {
-        this.plugin = plugin;
-    }
+	static Plugin plugin;
 
-    public static List<PlayerStats> Players = new ArrayList<>(1000);
+	public PlayerJoin(final Plugin plugin) {
+		PlayerJoin.plugin = plugin;
+	}
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+	public static List<PlayerStats> Players = new ArrayList<>(1000);
+	public static List<MobStats> CustomMobs = new ArrayList<>(10000);
+
+
+	@EventHandler
+	public void onPlayerJoin(final PlayerJoinEvent e) {
 //        System.out.println(Players);
-                try {
-                    JSONArray jsonArray = new JSONArray();
-                    JSONParser parser = new JSONParser();
-                    JSONObject data = (JSONObject) parser.parse(
-                            new FileReader("./plugins/MMORPGData/Players.json"));
-                    data.keySet().forEach(keyStr -> {
-                        if(keyStr.toString().equals(e.getPlayer().getUniqueId().toString())) {
-                            Object keyvalue = data.get(keyStr);
-                            String[] array = keyvalue.toString().split(",");
-                            for (String s: array) {
-                                s = s.replace("[", "").replace("]", "");
-                                jsonArray.add(s);
-                            }
+		try {
+			final JSONArray jsonArray = new JSONArray();
+			final JSONParser parser = new JSONParser();
+			final JSONObject data = (JSONObject) parser.parse(
+					new FileReader("./plugins/MMORPGData/Players.json", StandardCharsets.UTF_8));
+			data.keySet().forEach(keyStr -> {
+				if (keyStr.toString().equals(e.getPlayer().getUniqueId().toString())) {
+					final Object keyvalue = data.get(keyStr);
+					final String[] array = keyvalue.toString().split(",");
+					for (String s : array) {
+						s = s.replace("[", "").replace("]", "");
+						jsonArray.add(s);
+					}
 
-                        }
-                    });
-
-
-                    if(!jsonArray.isEmpty()) {
-                        Players.add(new PlayerStats(e.getPlayer().getUniqueId(),
-                                Double.parseDouble(jsonArray.get(0).toString()),
-                                Double.parseDouble(jsonArray.get(1).toString()),
-                                Double.parseDouble(jsonArray.get(2).toString()),
-                                Double.parseDouble(jsonArray.get(3).toString()),
-                                Double.parseDouble(jsonArray.get(4).toString()),
-                                Double.parseDouble(jsonArray.get(5).toString()),
-                                Double.parseDouble(jsonArray.get(6).toString()),
-                                Double.parseDouble(jsonArray.get(7).toString()),
-                                Double.parseDouble(jsonArray.get(8).toString()),
-                                Integer.parseInt(jsonArray.get(9).toString()),
-                                jsonArray.get(10).toString()));
-                    } else {
-                        PlayerStats p = new PlayerStats(e.getPlayer().getUniqueId(), 100, 50, 25, 10, 100, 100, 0, 0, 0, 0, "none");
-                        jsonArray.add(p.getHealth());
-                        jsonArray.add(p.getDamage());
-                        jsonArray.add(p.getDefence());
-                        jsonArray.add(p.getStrength());
-                        jsonArray.add(p.getSpeed());
-                        jsonArray.add(p.getMana());
-                        jsonArray.add(p.getCritDamage());
-                        jsonArray.add(p.getCritChance());
-                        jsonArray.add(p.getStealth());
-                        jsonArray.add(p.getXp());
-                        jsonArray.add(p.getPlayerClass());
+				}
+			});
 
 
-                        JSONObject jsonObject = data;
+			if (!jsonArray.isEmpty()) {
+				PlayerJoin.Players.add(new PlayerStats(e.getPlayer().getUniqueId(),
+						Double.parseDouble(jsonArray.get(0).toString()),
+						Double.parseDouble(jsonArray.get(1).toString()),
+						Double.parseDouble(jsonArray.get(2).toString()),
+						Double.parseDouble(jsonArray.get(3).toString()),
+						Double.parseDouble(jsonArray.get(4).toString()),
+						Double.parseDouble(jsonArray.get(5).toString()),
+						Double.parseDouble(jsonArray.get(6).toString()),
+						Double.parseDouble(jsonArray.get(7).toString()),
+						Double.parseDouble(jsonArray.get(8).toString()),
+						Integer.parseInt(jsonArray.get(9).toString()),
+						jsonArray.get(10).toString()));
+			} else {
+				final PlayerStats p = new PlayerStats(e.getPlayer().getUniqueId(), 100, 50, 25, 10, 100, 100, 0, 0, 0, 0, "none");
+				jsonArray.add(p.getHealth());
+				jsonArray.add(p.getDamage());
+				jsonArray.add(p.getDefence());
+				jsonArray.add(p.getStrength());
+				jsonArray.add(p.getSpeed());
+				jsonArray.add(p.getMana());
+				jsonArray.add(p.getCritDamage());
+				jsonArray.add(p.getCritChance());
+				jsonArray.add(p.getStealth());
+				jsonArray.add(p.getXp());
+				jsonArray.add(p.getPlayerClass());
 
-                        jsonObject.put(p.getUUID(), jsonArray);
 
-                        Players.add(p);
+				final JSONObject jsonObject = data;
 
-                        try {
-                            FileWriter file = new FileWriter("./plugins/MMORPGData/Players.json");
-                            file.write(jsonObject.toString());
-                            file.close();
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
+				jsonObject.put(p.getUUID(), jsonArray);
 
-                } catch (IOException | ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+				PlayerJoin.Players.add(p);
 
+				try {
+					final FileWriter file = new FileWriter("./plugins/MMORPGData/Players.json", StandardCharsets.UTF_8);
+					file.write(jsonObject.toString());
+					file.close();
+				} catch (final IOException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
 
+		} catch (final IOException | ParseException ex) {
+			throw new RuntimeException(ex);
+		}
 
 
 //        if(!doesPlayerExist) {
@@ -183,31 +186,29 @@ public class PlayerJoin implements Listener{
 //                throw new RuntimeException(ex);
 //            }
 //        }
-        
+
 //        PlayerStats playerr = new PlayerStats(e.getPlayer().getUniqueId(), 100, 25, 5, 25, 100, 100, 0, 0, 0, 0, "none");
 //        Players.add(playerr);
 //        System.out.println(Players);
-        Player player = e.getPlayer();
-        ItemStack MainMenu = new ItemStack(Material.NETHER_STAR, 1);
-        ItemMeta MenuMeta = MainMenu.getItemMeta();
-        MenuMeta.setDisplayName(ChatColor.GRAY + "Menu");
-        MenuMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        MainMenu.setItemMeta(MenuMeta);
-        player.getInventory().setItem(8, MainMenu);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
+		final Player player = e.getPlayer();
+		final ItemStack MainMenu = new ItemStack(Material.NETHER_STAR, 1);
+		final ItemMeta MenuMeta = MainMenu.getItemMeta();
+		MenuMeta.setDisplayName(ChatColor.GRAY + "Menu");
+		MenuMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		MainMenu.setItemMeta(MenuMeta);
+		player.getInventory().setItem(8, MainMenu);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 
-        for (PlayerStats p: Players) {
-            if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
-                Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), new Runnable()  {
-                    @Override
-                    public void run() {
-                        if (p.getChoiceCD() == 0) {
-                            ChooseClassesMenu(player);
-                        }
-                    }
-                } , 20L);
-
-
+		for (final PlayerStats p : PlayerJoin.Players) {
+			if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
+				Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), new Runnable() {
+					@Override
+					public void run() {
+						if (0 == p.getChoiceCD()) {
+							ChooseClassesMenu(player);
+						}
+					}
+				}, 20L);
 
 
 //                new BukkitRunnable() {
@@ -231,8 +232,8 @@ public class PlayerJoin implements Listener{
 //                    }
 //                }.runTaskTimer(plugin , 0L, 20L);
 
-            }
-        }
+			}
+		}
 
-    }
+	}
 }

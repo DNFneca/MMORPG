@@ -7,27 +7,29 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Fireball {
-    public static void Fireball(PlayerStats p) {
-        p.setManaSpent(25);
-        p.setManaTimer(6);
+public enum Fireball {
+	;
 
-        new BukkitRunnable() {
-            double distanceTraveled;
+	public static void Fireball(final PlayerStats p) {
+		p.setManaSpent(25);
+		p.setManaTimer(6);
 
-            public void run() {
-                Location loc = p.getPlayer().getEyeLocation();
-                for (distanceTraveled = 0; distanceTraveled <= 15; distanceTraveled ++) {
-                    loc.add(loc.getDirection());
-        //              BLOOD COLOR                  p.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(135, 5, 1), 20.0F));
-                    p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(255, 51, 21), 20.0F));
-                    if(HitDetection.HitDetection(loc, 0.2, 150)) {
-                        this.cancel();
-                        return;
-                    }
-                }
-                this.cancel();
-            }
-        }.runTaskTimer(Plugin.getInstance(), 4, 1);
-    }
+		new BukkitRunnable() {
+			double distanceTraveled;
+
+			public void run() {
+				final Location loc = p.getPlayer().getEyeLocation();
+				for (this.distanceTraveled = 0; 15 >= distanceTraveled; this.distanceTraveled++) {
+					loc.add(loc.getDirection());
+					//              BLOOD COLOR                  p.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(135, 5, 1), 20.0F));
+					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(255, 51, 21), 20.0F));
+					if (HitDetection.HitDetection(loc, 0.2, 150)) {
+						cancel();
+						return;
+					}
+				}
+				cancel();
+			}
+		}.runTaskTimer(Plugin.getInstance(), 4, 1);
+	}
 }

@@ -4,28 +4,36 @@
 
 package me.dnfneca.plugin.listeners;
 
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.EventHandler;
+import me.dnfneca.plugin.utilities.managers.Health.MobHealth;
 import me.dnfneca.plugin.utilities.managers.Health.PlayerHealth;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import java.util.ArrayList;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 
-public class PlayerHealthListener implements Listener
-{
-    ArrayList<String> tags;
-    
-    public PlayerHealthListener() {
-        this.tags = new ArrayList<String>();
-    }
-    
-    @EventHandler
-    public void onBowDamage(final ProjectileHitEvent e) {
-        PlayerHealth.ProjectileHitHealth(e);
-    }
-    
-    @EventHandler
-    public void onDamage(final EntityDamageByEntityEvent e) {
-        PlayerHealth.PlayerHealth(e);
-    }
+import java.util.ArrayList;
+
+public class PlayerHealthListener implements Listener {
+	@EventHandler
+	public void onBowDamage(ProjectileHitEvent e) {
+		if(e != null && e.getEntity() != null && e.getHitEntity() instanceof Player) {
+			PlayerHealth.ProjectileHitHealth(e);
+		}
+		if(e != null && e.getEntity() != null && e.getHitEntity() instanceof LivingEntity) {
+			MobHealth.MobProjectileHitHealth(e);
+		}
+	}
+
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent e) {
+		if(e.getEntity() instanceof Player) {
+			PlayerHealth.PlayerHitHealth(e);
+
+		} else {
+			MobHealth.MobHitHealth(e);
+		}
+	}
 }
