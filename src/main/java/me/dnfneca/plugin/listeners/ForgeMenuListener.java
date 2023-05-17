@@ -23,7 +23,6 @@ import java.util.List;
 import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.CustomReforges;
 import static me.dnfneca.plugin.listeners.PlayerJoin.plugin;
-import static me.dnfneca.plugin.utilities.inventory.ItemStats.RegisteredReforges;
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getItemReforge;
 import static me.dnfneca.plugin.utilities.managers.Item.Items.isItemReforged;
 

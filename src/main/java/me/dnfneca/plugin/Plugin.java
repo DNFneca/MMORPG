@@ -3,7 +3,6 @@ package me.dnfneca.plugin;
 import me.dnfneca.plugin.Commands.*;
 import me.dnfneca.plugin.listeners.*;
 import me.dnfneca.plugin.utilities.GUI.Waystone;
-import me.dnfneca.plugin.utilities.inventory.ItemStats;
 import me.dnfneca.plugin.utilities.managers.CustomMobs.*;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
@@ -72,7 +71,6 @@ public final class Plugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
         this.getServer().getPluginManager().registerEvents(new RightClickListener(), this);
-        this.getServer().getPluginManager().registerEvents(new LeftClickListener(), this);
         this.getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
         this.getServer().getPluginManager().registerEvents(new DropItemListener(), this);
         this.getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
@@ -1079,12 +1077,12 @@ public final class Plugin extends JavaPlugin {
 				0));
 
 
-		ItemStats.RegisteredReforges[0][0] = "Strength Artifact";
-		ItemStats.RegisteredReforges[0][1] = "Strong";
-		ItemStats.RegisteredReforges[1][0] = "Aegis of Zeus";
-		ItemStats.RegisteredReforges[1][1] = "Reinforced";
-		ItemStats.RegisteredReforges[2][0] = "The Wizards Last Wish";
-		ItemStats.RegisteredReforges[2][1] = "Smart";
+//		ItemStats.RegisteredReforges[0][0] = "Strength Artifact";
+//		ItemStats.RegisteredReforges[0][1] = "Strong";
+//		ItemStats.RegisteredReforges[1][0] = "Aegis of Zeus";
+//		ItemStats.RegisteredReforges[1][1] = "Reinforced";
+//		ItemStats.RegisteredReforges[2][0] = "The Wizards Last Wish";
+//		ItemStats.RegisteredReforges[2][1] = "Smart";
 	}
 
 	@Override

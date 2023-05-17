@@ -46,8 +46,7 @@ public class RightClickListener implements Listener {
 			for (final PlayerStats player : Players) {
 				if (p.getUniqueId().equals(player.getUUID())) {
 					for (final Item item : CustomItems) {
-						System.out.println(item.getName());
-						if (item.getName().equals(ChatColor.stripColor(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName()))) {
+						if (ChatColor.stripColor(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName()).contains(item.getName())) {
 							AbilitiesManager.getAbility(item.getAbility(), player);
 						}
 					}

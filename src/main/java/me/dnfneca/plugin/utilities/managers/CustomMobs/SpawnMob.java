@@ -10,6 +10,8 @@ import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import static me.dnfneca.plugin.listeners.PlayerJoin.CustomMobs;
+
 public class SpawnMob {
 
 	public static void spawnMob(String Type, Location location) {
@@ -17,7 +19,7 @@ public class SpawnMob {
 		switch (Type) {
 			case "Ghoul":
 				entity = location.getWorld().spawn(location, Zombie.class);
-				PlayerJoin.CustomMobs.add(new MobStats(entity.getUniqueId(),
+				CustomMobs.add(new MobStats(entity.getUniqueId(),
 						"Ghoul",
 						100,
 						10,
@@ -28,11 +30,12 @@ public class SpawnMob {
 						10,
 						10,
 						10,
-						entity));
+						entity,
+						10));
 				break;
 			case "Oni":
 				entity = location.getWorld().spawn(location, ZombieVillager.class);
-				PlayerJoin.CustomMobs.add(new MobStats(entity.getUniqueId(),
+				CustomMobs.add(new MobStats(entity.getUniqueId(),
 						"Oni",
 						10000,
 						50,
@@ -43,11 +46,12 @@ public class SpawnMob {
 						5,
 						10,
 						1000,
-						entity));
+						entity,
+						100));
 				break;
 			case "ent.player.Human.Reflect":
 				entity = location.getWorld().spawn(location, Zombie.class);
-				PlayerJoin.CustomMobs.add(new MobStats(entity.getUniqueId(),
+				CustomMobs.add(new MobStats(entity.getUniqueId(),
 					"ent.player.Human.Reflect",
 						(Math.random() * ((300 - 5) + 1)) + 5,
 						(Math.random()),
@@ -58,7 +62,8 @@ public class SpawnMob {
 						(Math.random() * ((300 - 5) + 1)) + 5,
 						(Math.random() * ((300 - 5) + 1)) + 5,
 						1000,
-								entity));
+								entity,
+						25));
 			break;
 
 		}
@@ -74,12 +79,5 @@ public class SpawnMob {
 		final String level = getScores[0];
 		entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Dummy.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Dummy ");
 	}
-	public static int MaxHealth = 1200;
-	public static int Level = 90;
-	public static String Type = "Ghoul";
-	public static String Name = "Ghoul";
-	public static int Defence = 50;
-	public static int Strength = 85;
-	public static int Damage = 100;
 
 }

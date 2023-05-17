@@ -33,7 +33,7 @@ public class MobHealth {
 				double damageToDealToPlayer = shooterDamage + shooterDamage * (shooterStrength * 0.01 + 1);
 
 				if(damageToDealToPlayer > shotPlayerEffectiveHealth || shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer) < 0.00) {
-					killPlayer((LivingEntity) e.getEntity(), " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
+					killPlayer((LivingEntity) e.getEntity(), " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName(), shotPlayer);
 
 				} else {
 
@@ -56,7 +56,7 @@ public class MobHealth {
 				double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
 
 				if(damageToDealToPlayer > shotPlayerEffectiveHealth || shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer) < 0.00) {
-					killPlayer((LivingEntity) e.getEntity(), " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
+					killPlayer((LivingEntity) e.getEntity(), " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName(), shotPlayer);
 
 				} else {
 
@@ -96,7 +96,7 @@ public class MobHealth {
 				double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
 
 				if(damageToDealToPlayer > shotPlayerEffectiveHealth || (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer))) < 0.00) {
-					killPlayer((LivingEntity) e.getEntity(), " was killed by " + playerShooter);
+					killPlayer((LivingEntity) e.getEntity(), " was killed by " + playerShooter, shotPlayer);
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
@@ -121,7 +121,7 @@ public class MobHealth {
 				System.out.println(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
 
 				if(damageToDealToPlayer > shotPlayerEffectiveHealth || (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer))) < 0.00) {
-					killPlayer((LivingEntity) e.getEntity(), " was killed by " + playerShooter);
+					killPlayer((LivingEntity) e.getEntity(), " was killed by " + playerShooter, shotPlayer);
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
@@ -283,9 +283,10 @@ public class MobHealth {
 //		}
 //	}
 	public static void updatePlayerHealth(MobStats p) {
-		p.getEntity(p.getUUID()).setCustomName(ChatColor.RED + "❤ " + String.valueOf(p.getCurrentHealth()) + "/" + String.valueOf(p.getHealth()));
+		p.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + ChatColor.RED + "❤ " + String.valueOf(p.getCurrentHealth()) + "/" + String.valueOf(p.getHealth()));
 	}
-	public static void killPlayer(LivingEntity p, String killMessage) {
+	public static void killPlayer(LivingEntity p, String killMessage, MobStats mob) {
 		p.remove();
+		CustomMobs.remove(mob);
 	}
 }

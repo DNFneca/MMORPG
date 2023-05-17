@@ -42,9 +42,11 @@ public class MobStats {
 	double BaseSpeed = 0;
 	double BaseCritDamage = 0;
 	double BaseCritChance = 0;
-	static UUID UUID;
+	UUID UUID;
 
-	public MobStats(UUID UUID, String Name, double Health, final double Damage, final double Defence, final double Strength, final double Speed, final double CritDamage, final double CritChance, final double Stealth, int xpDropAmount, LivingEntity entityType) {
+	int Level;
+
+	public MobStats(UUID UUID, String Name, double Health, final double Damage, final double Defence, final double Strength, final double Speed, final double CritDamage, final double CritChance, final double Stealth, int xpDropAmount, LivingEntity entityType, int Level) {
 		this.Name = Name;
 		this.UUID = UUID;
 		this.Health = Health;
@@ -58,14 +60,15 @@ public class MobStats {
 		this.xpDropAmount = xpDropAmount;
 		this.entityType = entityType;
 		HealthRegenTime = 4;
-		this.BaseHealth = Health;
-		this.BaseDamage = Damage;
-		this.BaseDefence = Defence;
-		this.BaseStrength = Strength;
-		this.BaseSpeed = Speed;
-		this.BaseCritDamage = CritDamage;
-		this.BaseCritChance = CritChance;
-		this.main();
+		BaseHealth = Health;
+		BaseDamage = Damage;
+		BaseDefence = Defence;
+		BaseStrength = Strength;
+		BaseSpeed = Speed;
+		BaseCritDamage = CritDamage;
+		BaseCritChance = CritChance;
+		this.Level = Level;
+		main();
 	}
 
 	public void main() {
@@ -167,6 +170,7 @@ public class MobStats {
 
 	public static MobStats getMob(UUID mobUUID) {
 		for (MobStats mob : CustomMobs) {
+//			System.out.println(mob.getUUID());
 			if(mob.getUUID().equals(mobUUID)) {
 				return mob;
 			}
@@ -191,16 +195,9 @@ public class MobStats {
 		return this.CurrentHealth;
 	}
 
-
-	public static MobStats getMobEntity() {
-		for (MobStats player : CustomMobs) {
-			if (player.getUUID().equals(UUID)) {
-				return player;
-			}
-		}
-		return null;
+	public int getLevel() {
+		return this.Level;
 	}
-
 
 	public java.util.UUID getUUID() {
 		return this.UUID;
@@ -244,5 +241,13 @@ public class MobStats {
 
 	public LivingEntity getEntityType() {
 		return this.entityType;
+	}
+	public MobStats getStatsByEntity(LivingEntity entity) {
+		for (MobStats customMob : CustomMobs) {
+			if(customMob.getEntityType().equals(entity)) {
+				return customMob;
+			}
+		}
+		return null;
 	}
 }

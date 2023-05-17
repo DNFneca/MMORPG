@@ -39,8 +39,8 @@ public class PlayerJoin implements Listener {
 		PlayerJoin.plugin = plugin;
 	}
 
-	public static List<PlayerStats> Players = new ArrayList<>(1000);
-	public static List<MobStats> CustomMobs = new ArrayList<>(10000);
+	public static List<PlayerStats> Players = new ArrayList<>();
+	public static List<MobStats> CustomMobs = new ArrayList<>();
 
 
 	@EventHandler

@@ -23,7 +23,7 @@ public class summonTabComplete implements TabCompleter {
 			for (MobStats s : CustomMobs) {
 				if (null != s.getName()) {
 					String name = s.getName().replace(" ", "_");
-					if(s.getName().contains(args[0])) {
+					if(name.contains(args[0])) {
 						p.add(s.getName());
 					}
 				}

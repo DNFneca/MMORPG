@@ -61,10 +61,10 @@ public class MobStatsCalc {
 
 
 		if (0 == p.getHealthRegenTime()) {
-			if (p.getCurrentHealth() + p.getHealth() * 0.1 > p.getHealth()) {
+			if (p.getCurrentHealth() + p.getHealth() * 0.01 > p.getHealth()) {
 				p.setCurrentHealth(p.getHealth());
 			} else {
-				p.setCurrentHealth(p.getCurrentHealth() + p.getHealth() * 0.1);
+				p.setCurrentHealth(p.getCurrentHealth() + p.getHealth() * 0.01);
 			}
 			p.setHealthRegenTime(4);
 		}
@@ -84,9 +84,9 @@ public class MobStatsCalc {
 
 		if(p.getHealth() == p.getCurrentHealth()) {
 			p.getEntity(p.getUUID()).setCustomNameVisible(true);
-			p.getEntity(p.getUUID()).setCustomName(String.valueOf(p.getHealth()));
+			p.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + "❤" + String.valueOf(p.getHealth()));
 		} else {
-			p.getEntity(p.getUUID()).setCustomName(ChatColor.RED + "❤ " + String.valueOf(p.getCurrentHealth()) + "/" + String.valueOf(p.getHealth()));
+			p.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + ChatColor.RED + "❤ " + String.valueOf(p.getCurrentHealth()) + "/" + String.valueOf(p.getHealth()));
 		}
 	}
 

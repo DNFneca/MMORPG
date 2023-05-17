@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 public class test implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-		final Player player = (Player) sender;
-		PlayerLevels.add(player, 100);
 
 		return true;
 	}

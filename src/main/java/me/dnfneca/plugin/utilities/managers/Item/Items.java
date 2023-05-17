@@ -80,7 +80,6 @@ public enum Items {
 		final Item item = Items.getCustomItemByName(ChatColor.stripColor(itemName));
 		final ItemStack itemInQ = inventory.getItem(itemSlot);
 
-
 		final ChatColor color;
 		if (null == item) return;
 		final String reforgeName = itemName.replace(item.Name, "");
@@ -90,9 +89,9 @@ public enum Items {
 		if (null != itemInQ && itemInQ.getItemMeta().hasLore() && null == reforge) {
 			return;
 		}
-		if(originalMeta.getDisplayName().equals(itemInQ.getItemMeta().getDisplayName())) {
-			return;
-		}
+//
+//
+//
 
 		switch (item.getRarity()) {
 			case "Rare":
@@ -393,7 +392,9 @@ public enum Items {
 		Lore.add("");
 		Lore.add(color + item.Rarity);
 		itemMeta.setLore(Lore);
-
+		if(originalMeta.getDisplayName().equals(itemMeta.getDisplayName())) {
+			return;
+		}
 		if(originalMeta.hasLore())
 			if(originalMeta.getLore().equals(Lore)) {
 				return;
