@@ -15,22 +15,22 @@ import java.util.List;
 public enum Recipes {
 	;
 
-	public static void get(List<ItemStack> itemList, Inventory inventory) {
-		ItemStack recipe = new ItemStack(Material.BARRIER, 1);
-		ItemMeta recipedata = recipe.getItemMeta();
+	public static void get(final List<ItemStack> itemList, final Inventory inventory) {
+		final ItemStack recipe = new ItemStack(Material.BARRIER, 1);
+		final ItemMeta recipedata = recipe.getItemMeta();
 		recipedata.setDisplayName("Your recipe will appear here");
 		recipe.setItemMeta(recipedata);
-		String[] result = Recipes.getRecipes(itemList);
+		final String[] result = getRecipes(itemList);
 		if (null == result) {
 			inventory.setItem(24, recipe);
 			return;
 		}
-		ItemStack item = Recipes.getItemStack(result[0]);
+		final ItemStack item = getItemStack(result[0]);
 		item.setAmount(Integer.parseInt(result[1]));
 		inventory.setItem(24, item);
 	}
 
-	public static String[] getRecipes(List<ItemStack> list) {
+	public static String[] getRecipes(final List<ItemStack> list) {
 		switch (list.size()) {
 			case 1: {
 				if (Material.OAK_WOOD == list.get(0).getType()) {
@@ -48,9 +48,9 @@ public enum Recipes {
 		return null;
 	}
 
-	public static ItemStack getItemStack(String e) {
-		ItemStack recipe = new ItemStack(Material.BARRIER, 1);
-		ItemMeta recipedata = recipe.getItemMeta();
+	public static ItemStack getItemStack(final String e) {
+		final ItemStack recipe = new ItemStack(Material.BARRIER, 1);
+		final ItemMeta recipedata = recipe.getItemMeta();
 		switch (e) {
 			case "wood": {
 				recipedata.setDisplayName("Oak Planks");
@@ -67,8 +67,8 @@ public enum Recipes {
 		return recipe;
 	}
 
-	public static void ItemTakeOut(String e, Inventory inventory) {
-		List<ItemStack> list = new ArrayList<ItemStack>();
+	public static void ItemTakeOut(final String e, final Inventory inventory) {
+		final List<ItemStack> list = new ArrayList<ItemStack>();
 		if (e.contains("Oak Planks")) {
 			for (int i = 0; i <= inventory.getSize(); ++i) {
 				if ((10 == i || 11 == i || 12 == i || 19 == i || 20 == i || 21 == i || 28 == i || 29 == i || 30 == i) && null != inventory.getItem(i)) {

@@ -14,19 +14,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static me.dnfneca.plugin.listeners.PlayerJoin.Players;
+import static me.dnfneca.plugin.Plugin.CustomMobs;
+import static me.dnfneca.plugin.Plugin.Players;
 
 public class PlayerLeave implements Listener {
 	@EventHandler
-	public void onPlayerQuit(final PlayerQuitEvent e) {
-		for (final PlayerStats p : Players) {
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		System.out.println(CustomMobs.get(0).getUUID());
+		for (PlayerStats p : Players) {
 			if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
 				try {
 
-					final JSONParser parser = new JSONParser();
-					final JSONObject data = (JSONObject) parser.parse(
+					JSONParser parser = new JSONParser();
+					JSONObject data = (JSONObject) parser.parse(
 							new FileReader("./plugins/MMORPGData/Players.json", StandardCharsets.UTF_8));
-					final JSONArray jsonArray = new JSONArray();
+					JSONArray jsonArray = new JSONArray();
 
 
 					jsonArray.add(p.getHealth());
@@ -42,21 +44,19 @@ public class PlayerLeave implements Listener {
 					jsonArray.add(p.getPlayerClass().replace("\"", ""));
 
 
-					final JSONObject jsonObject = data;
+					JSONObject jsonObject = data;
 					jsonObject.remove(p.getUUID().toString());
 					jsonObject.put(p.getUUID(), jsonArray);
-					System.out.println(p.getHealth());
-
 					try {
-						final FileWriter file = new FileWriter("./plugins/MMORPGData/Players.json", StandardCharsets.UTF_8);
+						FileWriter file = new FileWriter("./plugins/MMORPGData/Players.json", StandardCharsets.UTF_8);
 						file.write(jsonObject.toString());
 						file.close();
-					} catch (final IOException ex) {
+					} catch (IOException ex) {
 						throw new RuntimeException(ex);
 					}
 					Players.remove(p);
 					return;
-				} catch (final IOException | ParseException ex) {
+				} catch (IOException | ParseException ex) {
 					throw new RuntimeException(ex);
 				}
 			}

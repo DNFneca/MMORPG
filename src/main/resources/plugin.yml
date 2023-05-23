@@ -34,3 +34,6 @@ commands:
   setLevel:
     description: set a level for yourself
     usage: /setLevel <int level>
+  enchantitem:
+    description: enchant the item you're holding
+    usage: /enchantitem <enchantment>

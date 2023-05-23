@@ -22,24 +22,24 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.dnfneca.plugin.listeners.PlayerJoin.Players;
+import static me.dnfneca.plugin.Plugin.Players;
 import static me.dnfneca.plugin.utilities.GUI.GUI.*;
 
 public class InventoryListener implements Listener {
 
 	@EventHandler
-	public void onInventoryEvent(final InventoryCloseEvent e) {
-		final Player p = (Player) e.getPlayer();
-		final String title = p.getOpenInventory().getTitle();
+	public void onInventoryEvent(InventoryCloseEvent e) {
+		Player p = (Player) e.getPlayer();
+		String title = p.getOpenInventory().getTitle();
 		if (title.contains("Choose a Class") || title.contains("Choose a Mage Subclass") || title.contains("Choose a Warrior Subclass") || title.contains("Choose a Ranger Subclass") || title.contains("Are you sure. Confirm your class")) {
-			for (final PlayerStats player : Players) {
+			for (PlayerStats player : Players) {
 				if (player.getUUID().equals(e.getPlayer().getUniqueId())) {
 					if (0 == player.getChoiceCD()) {
 						new BukkitRunnable() {
 							@Override
 							public void run() {
 								p.sendMessage("Are you sure you don't want to select a class?");
-								InventoryListener.this.setClass(p, "none");
+								setClass(p, "none");
 								ChooseClassesMenu(p);
 							}
 						}.runTaskLater(Plugin.getInstance(), 5L);
@@ -53,16 +53,16 @@ public class InventoryListener implements Listener {
 	}
 
 	@EventHandler
-	public void onInventoryEvent(final InventoryClickEvent e) {
-		final Player p = (Player) e.getWhoClicked();
-		final List<String> lore = new ArrayList<>();
+	public void onInventoryEvent(InventoryClickEvent e) {
+		Player p = (Player) e.getWhoClicked();
+		List<String> lore = new ArrayList<>();
 		Inventory inv = e.getInventory();
 
 		ItemStack ClickedItem = null;
 
 		try {
 			ClickedItem = e.getCurrentItem();
-		} catch (final Error error) {
+		} catch (Error error) {
 			System.out.println(error);
 		}
 		if (null == ClickedItem) {
@@ -89,7 +89,7 @@ public class InventoryListener implements Listener {
 				}
 
 
-				final PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
+				PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
 
 				if (e.getView().getTitle().contains("Choose a Class")) {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Mage")) {
@@ -112,7 +112,7 @@ public class InventoryListener implements Listener {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Class")) {
 						e.setCancelled(true);
 
-						ClassMenus.ClassMenu(p, this.getClass(p));
+						ClassMenus.ClassMenu(p, getClass(p));
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Levels")) {
 						e.setCancelled(true);
 
@@ -122,28 +122,28 @@ public class InventoryListener implements Listener {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Battle Mage")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Battle Mage");
+						setClass(p, "Battle Mage");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Wizard")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Wizard");
+						setClass(p, "Wizard");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Healer")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Healer");
+						setClass(p, "Healer");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Necromancer")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Necromancer");
+						setClass(p, "Necromancer");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
@@ -152,7 +152,7 @@ public class InventoryListener implements Listener {
 
 						ChooseClassesMenu(p);
 
-						this.setClass(p, "none");
+						setClass(p, "none");
 					}
 				} else if (e.getView().getTitle().contains("Choose a Warrior Subclass")) {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian")) {
@@ -160,28 +160,28 @@ public class InventoryListener implements Listener {
 
 						System.out.println("Barbarian");
 						p.sendMessage("Barbarian");
-						this.setClass(p, "Barbarian");
+						setClass(p, "Barbarian");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Samurai")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Samurai");
+						setClass(p, "Samurai");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Paladin")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Paladin");
+						setClass(p, "Paladin");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Viking")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Viking");
+						setClass(p, "Viking");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
@@ -190,35 +190,35 @@ public class InventoryListener implements Listener {
 
 						ChooseClassesMenu(p);
 
-						this.setClass(p, "none");
+						setClass(p, "none");
 
 					}
 				} else if (e.getView().getTitle().contains("Choose a Ranger Subclass")) {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Sniper")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Sniper");
+						setClass(p, "Sniper");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Hunter")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Hunter");
+						setClass(p, "Hunter");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Scout")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Scout");
+						setClass(p, "Scout");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("Assassin")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "Assassin");
+						setClass(p, "Assassin");
 						MenuChoice(p);
 
 						areYouSureClassMenu(p);
@@ -227,7 +227,7 @@ public class InventoryListener implements Listener {
 
 						ChooseClassesMenu(p);
 
-						this.setClass(p, "none");
+						setClass(p, "none");
 
 					}
 				} else if (e.getView().getTitle().contains("Are you sure. Confirm your class")) {
@@ -235,7 +235,7 @@ public class InventoryListener implements Listener {
 
 						e.setCancelled(true);
 
-						this.setClass(p, this.getClass(p));
+						setClass(p, getClass(p));
 
 						MenuChoice(p);
 
@@ -244,7 +244,7 @@ public class InventoryListener implements Listener {
 					} else if (ClickedItem.getItemMeta().getDisplayName().contains("No")) {
 						e.setCancelled(true);
 
-						this.setClass(p, "none");
+						setClass(p, "none");
 
 						MenuChoice(p);
 
@@ -254,22 +254,22 @@ public class InventoryListener implements Listener {
 
 						MenuChoice(p);
 
-						final ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+						ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
 
-						final ItemMeta meta2 = blue_glass.getItemMeta();
+						ItemMeta meta2 = blue_glass.getItemMeta();
 						meta2.setDisplayName("   ");
 						blue_glass.setItemMeta(meta2);
 
-						final ItemStack yes = new ItemStack(Material.GREEN_CONCRETE, 1);
-						final ItemStack no = new ItemStack(Material.RED_CONCRETE, 1);
+						ItemStack yes = new ItemStack(Material.GREEN_CONCRETE, 1);
+						ItemStack no = new ItemStack(Material.RED_CONCRETE, 1);
 
 
-						final ItemMeta yesmeta = yes.getItemMeta();
+						ItemMeta yesmeta = yes.getItemMeta();
 						yesmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 						yesmeta.setDisplayName(ChatColor.GREEN + "Yes (You can't choose a different class on this profile)");
 						yes.setItemMeta(yesmeta);
 
-						final ItemMeta nometa = no.getItemMeta();
+						ItemMeta nometa = no.getItemMeta();
 						nometa.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 						nometa.setDisplayName(ChatColor.GOLD + "No");
 						no.setItemMeta(nometa);
@@ -336,8 +336,8 @@ public class InventoryListener implements Listener {
 		}
 	}
 
-	public void setClass(final Player p, final String Class) {
-		for (final PlayerStats player : Players) {
+	public void setClass(Player p, String Class) {
+		for (PlayerStats player : Players) {
 			if (player.getUUID().toString().equals(p.getUniqueId().toString())) {
 				player.setClass(Class);
 			}
@@ -345,8 +345,8 @@ public class InventoryListener implements Listener {
 
 	}
 
-	public String getClass(final Player p) {
-		for (final PlayerStats player : Players) {
+	public String getClass(Player p) {
+		for (PlayerStats player : Players) {
 			if (player.getUUID().toString().equals(p.getUniqueId().toString())) {
 				return player.getPlayerClass();
 			}

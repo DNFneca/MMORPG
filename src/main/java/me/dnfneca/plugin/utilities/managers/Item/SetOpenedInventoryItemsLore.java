@@ -10,25 +10,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class SetOpenedInventoryItemsLore implements Listener {
 	@EventHandler
-	public void onOpenedInventorySetItemLore(final InventoryOpenEvent e) {
+	public void onOpenedInventorySetItemLore(InventoryOpenEvent e) {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				System.out.println(e.getViewers());
 				if (e.getViewers().isEmpty()) {
-					cancel();
+					this.cancel();
 				}
-				SetOpenedInventoryItemsLore.this.setOpenedInventoryItemsLore(e.getInventory());
+				setOpenedInventoryItemsLore(e.getInventory());
 
 			}
 		}.runTaskTimer(Plugin.getInstance(), 0L, 5L);
 	}
 
-	public void setOpenedInventoryItemsLore(final Inventory inventory) {
-		final int Slots = inventory.getSize();
+	public void setOpenedInventoryItemsLore(Inventory inventory) {
+		int Slots = inventory.getSize();
 		for (int i = 0; i < Slots; i++) {
 			if (null != inventory.getItem(i) && null != inventory.getItem(i).getItemMeta() && inventory.getItem(i).hasItemMeta() && inventory.getItem(i).getItemMeta().hasDisplayName()) {
-				final ItemMeta meta = inventory.getItem(i).getItemMeta();
+				ItemMeta meta = inventory.getItem(i).getItemMeta();
 				Items.setItemLore(inventory, meta, i);
 			}
 		}

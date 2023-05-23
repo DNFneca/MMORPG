@@ -23,36 +23,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Waystone implements Listener {
-	public static void WaystoneMenu(final Player p, final String menuName) {
-		final Inventory inv = Bukkit.createInventory(null, 27, menuName);
+	public static void WaystoneMenu(Player p, String menuName) {
+		Inventory inv = Bukkit.createInventory(null, 27, menuName);
 
 
-		final String[] waystoneNames = Waystone.getWaystonesNames(p);
+		String[] waystoneNames = getWaystonesNames(p);
 		int numofWaystones = 0;
-		for (final String s : waystoneNames) {
+		for (String s : waystoneNames) {
 			if (null != s) {
 				numofWaystones++;
 			}
 		}
 
-		final ItemStack purple_glass = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1);
-		final ItemStack gray_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+		ItemStack purple_glass = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1);
+		ItemStack gray_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
 
-		final ItemStack next = new ItemStack(Material.ARROW, 1);
-		final ItemStack back = new ItemStack(Material.ARROW, 1);
+		ItemStack next = new ItemStack(Material.ARROW, 1);
+		ItemStack back = new ItemStack(Material.ARROW, 1);
 
-		final ItemMeta nextData = next.getItemMeta();
+		ItemMeta nextData = next.getItemMeta();
 		nextData.setDisplayName("Next");
 		next.setItemMeta(nextData);
 
-		final ItemMeta backData = next.getItemMeta();
+		ItemMeta backData = next.getItemMeta();
 		backData.setDisplayName("Back");
 		back.setItemMeta(backData);
 
-		final ItemStack waystone1 = new ItemStack(Material.GRASS_BLOCK, 1);
-		final ItemStack waystone2 = new ItemStack(Material.GRASS_BLOCK, 1);
-		final ItemStack waystone3 = new ItemStack(Material.GRASS_BLOCK, 1);
-		final ItemStack waystone4 = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemStack waystone1 = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemStack waystone2 = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemStack waystone3 = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemStack waystone4 = new ItemStack(Material.GRASS_BLOCK, 1);
 
 		if (1 == numofWaystones) {
 			waystone2.setType(Material.AIR);
@@ -65,20 +65,20 @@ public class Waystone implements Listener {
 			waystone4.setType(Material.AIR);
 		}
 
-		final ItemMeta waystone1Data = waystone1.getItemMeta();
-		final ItemMeta waystone2Data = waystone2.getItemMeta();
-		final ItemMeta waystone3Data = waystone3.getItemMeta();
-		final ItemMeta waystone4Data = waystone4.getItemMeta();
+		ItemMeta waystone1Data = waystone1.getItemMeta();
+		ItemMeta waystone2Data = waystone2.getItemMeta();
+		ItemMeta waystone3Data = waystone3.getItemMeta();
+		ItemMeta waystone4Data = waystone4.getItemMeta();
 
 		String Page = "1";
 		int waystoneNum = 0;
 
 		if (menuName.contains("Page")) {
-			final String s = menuName;
-			final String[] sedit1 = s.split(" ");
+			String s = menuName;
+			String[] sedit1 = s.split(" ");
 			Page = sedit1[sedit1.length - 1];
 		}
-		boolean isPage1 = 1 == Integer.parseInt(Page);
+		final boolean isPage1 = 1 == Integer.parseInt(Page);
 
 		int temp = 0;
 
@@ -115,11 +115,11 @@ public class Waystone implements Listener {
 		waystone3.setItemMeta(waystone3Data);
 		waystone4.setItemMeta(waystone4Data);
 
-		final ItemMeta purple_glassData = purple_glass.getItemMeta();
+		ItemMeta purple_glassData = purple_glass.getItemMeta();
 		purple_glassData.setDisplayName(ChatColor.GRAY + "   ");
 		purple_glass.setItemMeta(purple_glassData);
 
-		final ItemMeta gray_glassData = gray_glass.getItemMeta();
+		ItemMeta gray_glassData = gray_glass.getItemMeta();
 		gray_glassData.setDisplayName(ChatColor.GRAY + "   ");
 		gray_glass.setItemMeta(gray_glassData);
 
@@ -166,20 +166,20 @@ public class Waystone implements Listener {
 
 	}
 
-	public static String[][] getWaystones(final Player p) {
+	public static String[][] getWaystones(Player p) {
 		try {
-			final JSONParser parser = new JSONParser();
-			final JSONObject data = (JSONObject) parser.parse(
+			JSONParser parser = new JSONParser();
+			JSONObject data = (JSONObject) parser.parse(
 					new FileReader("./plugins/MMORPGData/Waystones.json", StandardCharsets.UTF_8));//path to the JSON file.
 
-			final Object values = data.get(p.getUniqueId().toString());
-			final String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
-			final String[] array = edit1.split(",");
+			Object values = data.get(p.getUniqueId().toString());
+			String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
+			String[] array = edit1.split(",");
 
-			final String[][] waypoints = new String[100][100];
+			String[][] waypoints = new String[100][100];
 			int temp = 0;
 			int i = 0, j = 0;
-			for (final String s : array) {
+			for (String s : array) {
 				if (s.contains("Waystone")) {
 					temp = 0;
 				}
@@ -199,24 +199,24 @@ public class Waystone implements Listener {
 			return waypoints;
 
 //            System.out.println(Arrays.deepToString(waypoints));
-		} catch (final IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static String[] getWaystonesNames(final Player p) {
+	public static String[] getWaystonesNames(Player p) {
 		try {
-			final JSONParser parser = new JSONParser();
-			final JSONObject data = (JSONObject) parser.parse(
+			JSONParser parser = new JSONParser();
+			JSONObject data = (JSONObject) parser.parse(
 					new FileReader("./plugins/MMORPGData/Waystones.json", StandardCharsets.UTF_8));//path to the JSON file.
 
-			final Object values = data.get(p.getUniqueId().toString());
-			final String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
-			final String[] array = edit1.split(",");
+			Object values = data.get(p.getUniqueId().toString());
+			String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
+			String[] array = edit1.split(",");
 
-			final String[] waystones = new String[100];
+			String[] waystones = new String[100];
 			int i = 0;
-			for (final String s : array) {
+			for (String s : array) {
 				if (s.contains("Waystone")) {
 					waystones[i] = s;
 					i++;
@@ -234,15 +234,15 @@ public class Waystone implements Listener {
 			return waystones;
 
 //            System.out.println(Arrays.deepToString(waypoints));
-		} catch (final IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 
-	public static String[] findWaystoneByName(final Player p, final String waystoneName) {
-		final String[][] playerWaystones = Waystone.getWaystones(p);
-		final String[] waystoneLocation = new String[100];
+	public static String[] findWaystoneByName(Player p, String waystoneName) {
+		String[][] playerWaystones = getWaystones(p);
+		String[] waystoneLocation = new String[100];
 		for (int i = 0; 100 > i; i++) {
 			for (int j = 0; 100 > j; j++) {
 				if (null != playerWaystones[i][j]) {
@@ -259,25 +259,25 @@ public class Waystone implements Listener {
 	}
 
 	@EventHandler
-	public void onInventoryEvent(final InventoryClickEvent e) {
-		final Player p = (Player) e.getWhoClicked();
-		final List<String> lore = new ArrayList<>();
-		final Inventory inv = e.getInventory();
+	public void onInventoryEvent(InventoryClickEvent e) {
+		Player p = (Player) e.getWhoClicked();
+		List<String> lore = new ArrayList<>();
+		Inventory inv = e.getInventory();
 
 		ItemStack ClickedItem = null;
 
 		try {
 			ClickedItem = e.getCurrentItem();
-		} catch (final Error error) {
+		} catch (Error error) {
 			System.out.println(error);
 		}
 		if (null == ClickedItem) {
 			return;
 		}
 
-		final String[] waystoneNames = Waystone.getWaystonesNames(p);
+		String[] waystoneNames = getWaystonesNames(p);
 		int numofWaystones = 0;
-		for (final String s : waystoneNames) {
+		for (String s : waystoneNames) {
 			if (null != s) {
 				numofWaystones++;
 			}
@@ -286,12 +286,12 @@ public class Waystone implements Listener {
 
 		if (ClickedItem.getItemMeta().getDisplayName().contains("Waystone")) {
 			int i = 0;
-			for (final String s : waystoneNames) {
+			for (String s : waystoneNames) {
 				if (ClickedItem.getItemMeta().getDisplayName().contains(waystoneNames[i])) {
-					final String[] location = Waystone.findWaystoneByName(p, waystoneNames[i]);
-					final Location playerloc = p.getLocation();
-					final Location standV = new Location(p.getWorld(), Float.parseFloat(location[0]), Float.parseFloat(location[1]), Float.parseFloat(location[2]));
-					final Vector face = playerloc.toVector().subtract(standV.toVector());
+					String[] location = findWaystoneByName(p, waystoneNames[i]);
+					Location playerloc = p.getLocation();
+					Location standV = new Location(p.getWorld(), Float.parseFloat(location[0]), Float.parseFloat(location[1]), Float.parseFloat(location[2]));
+					Vector face = playerloc.toVector().subtract(standV.toVector());
 					playerloc.setDirection(face);
 					standV.setYaw(playerloc.getYaw());
 					p.sendMessage(String.valueOf(playerloc));
@@ -308,8 +308,8 @@ public class Waystone implements Listener {
 			String pageName = "";
 
 			if (p.getOpenInventory().getTitle().contains("Page")) {
-				final String s = p.getOpenInventory().getTitle();
-				final String[] sedit1 = s.split(" ");
+				String s = p.getOpenInventory().getTitle();
+				String[] sedit1 = s.split(" ");
 				Page = Integer.parseInt(sedit1[sedit1.length - 1]) + 1;
 				for (int i = 0; i < sedit1.length - 1; i++) {
 					if (!pageName.isEmpty()) {
@@ -323,7 +323,7 @@ public class Waystone implements Listener {
 				pageName = pageName + " Page";
 			}
 
-			Waystone.WaystoneMenu(p, pageName + " " + Page);
+			WaystoneMenu(p, pageName + " " + Page);
 		}
 
 		if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
@@ -331,8 +331,8 @@ public class Waystone implements Listener {
 			String pageName = "";
 
 			if (p.getOpenInventory().getTitle().contains("Page")) {
-				final String s = p.getOpenInventory().getTitle();
-				final String[] sedit1 = s.split(" ");
+				String s = p.getOpenInventory().getTitle();
+				String[] sedit1 = s.split(" ");
 				Page = Integer.parseInt(sedit1[sedit1.length - 1]) - 1;
 				for (int i = 0; i < sedit1.length - 1; i++) {
 					if (!pageName.isEmpty()) {
@@ -346,7 +346,7 @@ public class Waystone implements Listener {
 				pageName = pageName + " Page";
 			}
 
-			Waystone.WaystoneMenu(p, pageName + " " + Page);
+			WaystoneMenu(p, pageName + " " + Page);
 		}
 
 

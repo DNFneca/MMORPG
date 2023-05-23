@@ -1,6 +1,11 @@
 package me.dnfneca.plugin.utilities.managers.Item;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import static me.dnfneca.plugin.Plugin.CustomItems;
 
 public class Item {
 
@@ -24,7 +29,7 @@ public class Item {
 	int MinimalLevelForUsage;
 	double AttackSpeed;
 
-	public Item(final String Name, final double Health, final double Damage, final double Defence, final double Strength, final double Speed, final double Mana, final double CritDamage, final double CritChance, final double Stealth, final String Ability, final String FullSetBonus, final String Rarity, final Material ItemMaterial, final String CodeName, final int CustomLookCode, final String Type, final int MinimalLevelForUsage, final double AttackSpeed) {
+	public Item(String Name, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, String Ability, String FullSetBonus, String Rarity, Material ItemMaterial, String CodeName, int CustomLookCode, String Type, int MinimalLevelForUsage, double AttackSpeed) {
 		this.Name = Name;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -49,78 +54,80 @@ public class Item {
 
 
 	public double getAttackSpeed() {
-		return AttackSpeed;
+		return this.AttackSpeed;
 	}
 
 	public int getMinimalLevelForUsage() {
-		return this.MinimalLevelForUsage;
+		return MinimalLevelForUsage;
 	}
 
 	public String getType() {
-		return this.Type;
+		return Type;
 	}
 
 	public String getCodeName() {
-		return this.CodeName;
+		return CodeName;
 	}
 
 	public Material getItemMaterial() {
-		return this.ItemMaterial;
+		return ItemMaterial;
 	}
 
 	public int getCustomLookCode() {
-		return this.CustomLookCode;
+		return CustomLookCode;
 	}
 
 	public String getName() {
-		return this.Name;
+		return Name;
 	}
 
 	public String getRarity() {
-		return this.Rarity;
+		return Rarity;
 	}
 
 	public double getHealth() {
-		return this.Health;
+		return Health;
 	}
 
 	public double getDamage() {
-		return this.Damage;
+		return Damage;
 	}
 
 	public double getDefence() {
-		return this.Defence;
+		return Defence;
 	}
 
 	public double getStrength() {
-		return this.Strength;
+		return Strength;
 	}
 
 	public double getSpeed() {
-		return this.Speed;
+		return Speed;
 	}
 
 	public double getMana() {
-		return this.Mana;
+		return Mana;
 	}
 
 	public double getCritDamage() {
-		return this.CritDamage;
+		return CritDamage;
 	}
 
 	public double getCritChance() {
-		return this.CritChance;
+		return CritChance;
 	}
 
 	public double getStealth() {
-		return this.Stealth;
+		return Stealth;
 	}
 
 	public String getAbility() {
-		return this.Ability;
+		return Ability;
 	}
 
 	public String getFullSetBonus() {
-		return this.FullSetBonus;
+		return FullSetBonus;
 	}
+
+
 }

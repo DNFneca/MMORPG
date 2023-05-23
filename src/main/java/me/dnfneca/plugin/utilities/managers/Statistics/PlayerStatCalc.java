@@ -11,56 +11,56 @@ import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomItemByNam
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomReforgeByName;
 
 
-public enum StatCalc {
+public enum PlayerStatCalc {
     ;
 
-    public static void Calculate(PlayerStats p) {
+    public static void Calculate(final PlayerStats p) {
 
-		final Player player = p.getPlayer();
-		final String[] classStats = StatCalc.getPlayerClassStats(p);
-		final double classHealth = Double.parseDouble(classStats[0]);
-		final double classDamage = Double.parseDouble(classStats[1]);
-		final double classDefence = Double.parseDouble(classStats[2]);
-		final double classStrength = Double.parseDouble(classStats[3]);
-		final double classSpeed = Double.parseDouble(classStats[4]);
-		final double classMana = Double.parseDouble(classStats[5]);
-		final double classCritDamage = Double.parseDouble(classStats[6]);
-		final double classCritChance = Double.parseDouble(classStats[7]);
-		final double classStealth = Double.parseDouble(classStats[8]);
+		Player player = p.getPlayer();
+		String[] classStats = getPlayerClassStats(p);
+		double classHealth = Double.parseDouble(classStats[0]);
+		double classDamage = Double.parseDouble(classStats[1]);
+		double classDefence = Double.parseDouble(classStats[2]);
+		double classStrength = Double.parseDouble(classStats[3]);
+		double classSpeed = Double.parseDouble(classStats[4]);
+		double classMana = Double.parseDouble(classStats[5]);
+		double classCritDamage = Double.parseDouble(classStats[6]);
+		double classCritChance = Double.parseDouble(classStats[7]);
+		double classStealth = Double.parseDouble(classStats[8]);
 
 
-		final String[] itemStats = StatCalc.getPlayerWeaponStats(player);
-		final double itemHealth = Double.parseDouble(itemStats[0]);
-		final double itemDamage = Double.parseDouble(itemStats[1]);
-		final double itemDefence = Double.parseDouble(itemStats[2]);
-		final double itemStrength = Double.parseDouble(itemStats[3]);
-		final double itemSpeed = Double.parseDouble(itemStats[4]);
-		final double itemMana = Double.parseDouble(itemStats[5]);
-		final double itemCritDamage = Double.parseDouble(itemStats[6]);
-		final double itemCritChance = Double.parseDouble(itemStats[7]);
-		final double itemStealth = Double.parseDouble(itemStats[8]);
+		String[] itemStats = getPlayerWeaponStats(player);
+		double itemHealth = Double.parseDouble(itemStats[0]);
+		double itemDamage = Double.parseDouble(itemStats[1]);
+		double itemDefence = Double.parseDouble(itemStats[2]);
+		double itemStrength = Double.parseDouble(itemStats[3]);
+		double itemSpeed = Double.parseDouble(itemStats[4]);
+		double itemMana = Double.parseDouble(itemStats[5]);
+		double itemCritDamage = Double.parseDouble(itemStats[6]);
+		double itemCritChance = Double.parseDouble(itemStats[7]);
+		double itemStealth = Double.parseDouble(itemStats[8]);
 
-		final String[] armorStats = StatCalc.getPlayerCombinedArmorStats(player);
-		final double armorHealth = Double.parseDouble(armorStats[0]);
-		final double armorDamage = Double.parseDouble(armorStats[1]);
-		final double armorDefence = Double.parseDouble(armorStats[2]);
-		final double armorStrength = Double.parseDouble(armorStats[3]);
-		final double armorSpeed = Double.parseDouble(armorStats[4]);
-		final double armorMana = Double.parseDouble(armorStats[5]);
-		final double armorCritDamage = Double.parseDouble(armorStats[6]);
-		final double armorCritChance = Double.parseDouble(armorStats[7]);
-		final double armorStealth = Double.parseDouble(armorStats[8]);
+		String[] armorStats = getPlayerCombinedArmorStats(player);
+		double armorHealth = Double.parseDouble(armorStats[0]);
+		double armorDamage = Double.parseDouble(armorStats[1]);
+		double armorDefence = Double.parseDouble(armorStats[2]);
+		double armorStrength = Double.parseDouble(armorStats[3]);
+		double armorSpeed = Double.parseDouble(armorStats[4]);
+		double armorMana = Double.parseDouble(armorStats[5]);
+		double armorCritDamage = Double.parseDouble(armorStats[6]);
+		double armorCritChance = Double.parseDouble(armorStats[7]);
+		double armorStealth = Double.parseDouble(armorStats[8]);
 
-		final String[] reforgeStats = StatCalc.getPlayerCombinedReforgeStats(player);
-		final double reforgeHealth = Double.parseDouble(reforgeStats[0]);
-		final double reforgeDamage = Double.parseDouble(reforgeStats[1]);
-		final double reforgeDefence = Double.parseDouble(reforgeStats[2]);
-		final double reforgeStrength = Double.parseDouble(reforgeStats[3]);
-		final double reforgeSpeed = Double.parseDouble(reforgeStats[4]);
-		final double reforgeMana = Double.parseDouble(reforgeStats[5]);
-		final double reforgeCritDamage = Double.parseDouble(reforgeStats[6]);
-		final double reforgeCritChance = Double.parseDouble(reforgeStats[7]);
-		final double reforgeStealth = Double.parseDouble(reforgeStats[8]);
+		String[] reforgeStats = getPlayerCombinedReforgeStats(player);
+		double reforgeHealth = Double.parseDouble(reforgeStats[0]);
+		double reforgeDamage = Double.parseDouble(reforgeStats[1]);
+		double reforgeDefence = Double.parseDouble(reforgeStats[2]);
+		double reforgeStrength = Double.parseDouble(reforgeStats[3]);
+		double reforgeSpeed = Double.parseDouble(reforgeStats[4]);
+		double reforgeMana = Double.parseDouble(reforgeStats[5]);
+		double reforgeCritDamage = Double.parseDouble(reforgeStats[6]);
+		double reforgeCritChance = Double.parseDouble(reforgeStats[7]);
+		double reforgeStealth = Double.parseDouble(reforgeStats[8]);
 
 
 		final double BaseHealth = 100;
@@ -132,7 +132,7 @@ public enum StatCalc {
 
 
 		if (0 != p.getManaSpent() || 0 != p.getManaTimer()) {
-			final double OldManaCost = p.getManaSpent();
+			double OldManaCost = p.getManaSpent();
 
 
 			if (6 <= p.getManaTimer()) {
@@ -163,9 +163,9 @@ public enum StatCalc {
 //    double CritDamage;
 //    double CritChance;
 //    double Stealth;
-	public static String[] getPlayerClassStats(final PlayerStats p) {
-		final String[] classStats = new String[9];
-		final String className = p.getPlayerClass().replace("\"", "");
+	public static String[] getPlayerClassStats(PlayerStats p) {
+		String[] classStats = new String[9];
+		String className = p.getPlayerClass().replace("\"", "");
 		switch (className) {
 			case "Battle Mage":
 				classStats[0] = "-15";
@@ -314,20 +314,20 @@ public enum StatCalc {
 		return classStats;
 	}
 
-	public static String[] getPlayerWeaponStats(final Player player) {
-		final String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+	public static String[] getPlayerWeaponStats(Player player) {
+		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
 		if (null == player.getInventory().getItemInMainHand().getItemMeta()) {
 			return itemStats;
 		}
-		final Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
+		Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
 		if (null == item) {
 			return itemStats;
 		}
 		if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) < getCustomItemByName(ChatColor.stripColor(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName())).getMinimalLevelForUsage()) {
 			return itemStats;
 		}
-		if ("Weapon".equals(item.getType())) {
+		if ("Melee".equals(item.getType()) || "Bow".equals(item.getType()) || "Staff".equals(item.getType())) {
 			itemStats[0] = String.valueOf(item.getHealth());
 			itemStats[1] = String.valueOf(item.getDamage());
 			itemStats[2] = String.valueOf(item.getDefence());
@@ -343,18 +343,18 @@ public enum StatCalc {
 		}
 	}
 
-	public static String[] getPlayerCombinedReforgeStats(final Player player) {
-		final String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+	public static String[] getPlayerCombinedReforgeStats(Player player) {
+		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
 		if (player.getInventory().getItemInMainHand().hasItemMeta()) {
-			final String itemName = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+			String itemName = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 			if (itemName.contains("Menu")) {
 				return itemStats;
 			}
-			final Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
+			Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
 			if (null != item && ("Weapon".equals(item.getType()) || "Melee".equals(item.getType()) || "Ranged".equals(item.getType()))) {
 				if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) > getCustomItemByName(ChatColor.stripColor(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName())).getMinimalLevelForUsage()) {
-					final String reforgeName = itemName.replace(item.getName(), "");
-					final Reforge reforge = getCustomReforgeByName(reforgeName.replace(" ", ""));
+					String reforgeName = itemName.replace(item.getName(), "");
+					Reforge reforge = getCustomReforgeByName(reforgeName.replace(" ", ""));
 					if (null != reforge) {
 						itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + reforge.getHealth());
 						itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + reforge.getDamage());
@@ -373,10 +373,10 @@ public enum StatCalc {
 
 		for (int i = 36; 39 >= i; i++) {
 			if (null != player.getInventory().getItem(i) && null != player.getInventory().getItem(i).getItemMeta() && null != player.getInventory().getItem(i).getItemMeta().getDisplayName()) {
-				final Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()));
+				Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()));
 				if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) > getCustomItemByName(ChatColor.stripColor(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer().getInventory().getItem(i).getItemMeta().getDisplayName())).getMinimalLevelForUsage()) {
-					final String reforgeName = ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()).replace(item.getName(), "");
-					final Reforge reforge = getCustomReforgeByName(reforgeName.replace(" ", ""));
+					String reforgeName = ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()).replace(item.getName(), "");
+					Reforge reforge = getCustomReforgeByName(reforgeName.replace(" ", ""));
 					if (null != item && null != reforge && "Armor".equals(item.getType())) {
 						itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + reforge.getHealth());
 						itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + reforge.getDamage());
@@ -394,12 +394,12 @@ public enum StatCalc {
 		return itemStats;
 	}
 
-	public static String[] getPlayerCombinedArmorStats(final Player player) {
-		final String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+	public static String[] getPlayerCombinedArmorStats(Player player) {
+		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
 		for (int i = 36; 39 >= i; i++) {
 			if (null != player.getInventory().getItem(i) && null != player.getInventory().getItem(i).getItemMeta() && null != player.getInventory().getItem(i).getItemMeta().getDisplayName()) {
 
-				final Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()));
+				Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItem(i).getItemMeta().getDisplayName()));
 				if (null != item && "Armor".equals(item.getType())) {
 					if (null != player.getInventory().getItem(i) || null != player.getInventory().getItem(i).getItemMeta()) {
 						if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) > getCustomItemByName(ChatColor.stripColor(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer().getInventory().getItem(i).getItemMeta().getDisplayName())).getMinimalLevelForUsage()) {

@@ -13,39 +13,39 @@ import java.nio.charset.StandardCharsets;
 public enum PlayerLevels {
 	;
 
-	public static void add(final Player p, final int amountOfXP) {
+	public static void add(Player p, int amountOfXP) {
 		try {
-			final JSONParser parser = new JSONParser();
-			final JSONObject data = (JSONObject) parser.parse(
+			JSONParser parser = new JSONParser();
+			JSONObject data = (JSONObject) parser.parse(
 					new FileReader("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8));//path to the JSON file.
-			final int newAmountOfXP = PlayerLevels.getXP(p) + amountOfXP;
-			final Object xe = data.get(p.getUniqueId().toString());
+			int newAmountOfXP = getXP(p) + amountOfXP;
+			Object xe = data.get(p.getUniqueId().toString());
 			if (null == xe) {
-				final JSONObject jsonObject = data;
+				JSONObject jsonObject = data;
 				jsonObject.put(p.getUniqueId(), amountOfXP);
-				final FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
+				FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
 				file.write(jsonObject.toString());
 				file.close();
 			} else {
-				final Object Value = data.get(p.getUniqueId().toString());
-				final JSONObject jsonObject = data;
-				final JSONObject newJSONObject = data;
+				Object Value = data.get(p.getUniqueId().toString());
+				JSONObject jsonObject = data;
+				JSONObject newJSONObject = data;
 				newJSONObject.put(p.getUniqueId().toString(), newAmountOfXP);
-				final FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
+				FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
 				jsonObject.replace(p.getUniqueId(), jsonObject, newJSONObject);
 				file.write(jsonObject.toString());
 				file.close();
 			}
-		} catch (final IOException | ParseException exception) {
+		} catch (IOException | ParseException exception) {
 			exception.printStackTrace();
 		}
 	}
 
-	public static int getXP(final Player p) {
+	public static int getXP(Player p) {
 		try {
 
-			final JSONParser parser = new JSONParser();
-			final JSONObject data = (JSONObject) parser.parse(
+			JSONParser parser = new JSONParser();
+			JSONObject data = (JSONObject) parser.parse(
 					new FileReader("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8));//path to the JSON file.
 			int xpAmount = 1;
 
@@ -60,20 +60,20 @@ public enum PlayerLevels {
 
 			return xpAmount;
 
-		} catch (final IOException | ParseException e) {
+		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}
 
 
 	}
 
-	public static int getLevel(final Player p) {
+	public static int getLevel(Player p) {
 
-		final int xpAmount = PlayerLevels.getXP(p) + 1;
+		int xpAmount = getXP(p) + 1;
 		int PlayerLevel = 0;
 
 		for (int i = 0; 101 > i; i++) {
-			final int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
+			int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
 			if (Level > xpAmount) {
 				PlayerLevel = i;
 				break;
@@ -83,30 +83,30 @@ public enum PlayerLevels {
 		return PlayerLevel;
 	}
 
-	public static void setLevel(final Player p, final int level) {
+	public static void setLevel(Player p, int level) {
 
 		for (int i = 0; i < level; i++) {
-			add(p, PlayerLevels.getLeftXp(p));
+			PlayerLevels.add(p, getLeftXp(p));
 		}
 	}
 
-	public static int getLeftXp(final Player p) {
+	public static int getLeftXp(Player p) {
 
-		final int xpAmount = PlayerLevels.getXP(p);
+		int xpAmount = getXP(p);
 		int xpLeft = 0;
 
-		final int i = PlayerLevels.getLevel(p);
-		final int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
+		int i = getLevel(p);
+		int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
 		xpLeft = Level - xpAmount;
 		return xpLeft;
 	}
 
-	public static int getLevelXp(final Player p) {
+	public static int getLevelXp(Player p) {
 
-		final int levelXp;
+		int levelXp;
 
-		final int i = PlayerLevels.getLevel(p);
-		final int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
+		int i = getLevel(p);
+		int Level = (int) Math.round(Math.pow(Math.sqrt((10 * (i * 10))), 3));
 		levelXp = Level - (int) Math.round(Math.pow(Math.sqrt((10 * ((i - 1) * 10))), 3));
 
 		return levelXp;

@@ -4,8 +4,7 @@
 
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.CustomMobs.MobStats;
-import me.dnfneca.plugin.utilities.managers.Item.Item;
+import me.dnfneca.plugin.CustomMobs.MobStats;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -13,18 +12,17 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.dnfneca.plugin.Plugin.CustomItems;
-import static me.dnfneca.plugin.listeners.PlayerJoin.CustomMobs;
+import static me.dnfneca.plugin.Plugin.CustomMobsAvailable;
 
 public class summonTabComplete implements TabCompleter {
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
 		if (1 == args.length) {
-			List<String> p = new ArrayList<>();
-			for (MobStats s : CustomMobs) {
+			final List<String> p = new ArrayList<>();
+			for (final MobStats s : CustomMobsAvailable) {
 				if (null != s.getName()) {
-					String name = s.getName().replace(" ", "_");
+					final String name = s.getName().replace(" ", "_");
 					if(name.contains(args[0])) {
-						p.add(s.getName());
+						p.add(name);
 					}
 				}
 			}

@@ -16,44 +16,44 @@ import java.util.List;
 public enum LevelsMenu {
 	;
 
-	public static void LevelsMenu(final Player p) {
-		final List<String> lore = new ArrayList<>();
+	public static void LevelsMenu(Player p) {
+		List<String> lore = new ArrayList<>();
 
 
-		final Inventory inv = Bukkit.createInventory(null, 27, "Crafting Table");
+		Inventory inv = Bukkit.createInventory(null, 27, "Crafting Table");
 
-		final ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-		final ItemStack level = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
+		ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+		ItemStack level = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
 
 
-		final ItemStack arrow = new ItemStack(Material.ARROW, 1);
+		ItemStack arrow = new ItemStack(Material.ARROW, 1);
 
-		final ItemMeta arrowmeta = arrow.getItemMeta();
+		ItemMeta arrowmeta = arrow.getItemMeta();
 		arrowmeta.setDisplayName(ChatColor.GRAY + "To Forge");
 		arrow.setItemMeta(arrowmeta);
 
 
-		final ItemMeta data2 = blue_glass.getItemMeta();
+		ItemMeta data2 = blue_glass.getItemMeta();
 		data2.setDisplayName("   ");
 		blue_glass.setItemMeta(data2);
 
-		final int playerLevel = PlayerLevels.getLevel(p);
-		final int leftXp = PlayerLevels.getLeftXp(p);
-		final int levelXp = PlayerLevels.getLevelXp(p);
+		int playerLevel = PlayerLevels.getLevel(p);
+		int leftXp = PlayerLevels.getLeftXp(p);
+		int levelXp = PlayerLevels.getLevelXp(p);
 		int currentLevelXp = levelXp - leftXp;
 
 		if (0 > currentLevelXp) currentLevelXp = 0;
 
 
-		final int valueOfSlot = levelXp / 10;
+		int valueOfSlot = levelXp / 10;
 		final int numOfSlots = 10;
 
 
-		final ItemMeta levelData = level.getItemMeta();
-		final ArrayList<String> levelLore = new ArrayList<>();
-		final String[] test = new String[10];
+		ItemMeta levelData = level.getItemMeta();
+		ArrayList<String> levelLore = new ArrayList<>();
+		String[] test = new String[10];
 
-		for (int i = 0; i < numOfSlots; i++) {
+		for (int i = 0; numOfSlots > i; i++) {
 			if (valueOfSlot * i < currentLevelXp) {
 				test[i] = ChatColor.GREEN + "||";
 			} else {

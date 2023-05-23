@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.Plugin;
 import org.bukkit.ChatColor;
@@ -23,27 +23,27 @@ public class Dummy implements Listener {
 
 	static Plugin plugin;
 
-	public Dummy(final Plugin plugin) {
+	public Dummy(Plugin plugin) {
 		Dummy.plugin = plugin;
 	}
 
-	public static void createDummy(final Location location) {
-		long[] AB1CD = {0};
-		long[] AB2CD = {0};
-		String[] entities = new String[0];
+	public static void createDummy(Location location) {
+		final long[] AB1CD = {0};
+		final long[] AB2CD = {0};
+		final String[] entities = new String[0];
 
-		final Zombie spider = location.getWorld().spawn(location, Zombie.class);
+		Zombie spider = location.getWorld().spawn(location, Zombie.class);
 
 		spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 		spider.setCustomNameVisible(true);
 		spider.setAI(false);
-		final Attributable creatureAt = spider;
-		final AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		Attributable creatureAt = spider;
+		AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		attribute.setBaseValue(100);
 		spider.setHealth(100);
-		final String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
-		final String level = getScores[0];
-		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Dummy.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Dummy ");
+		String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
+		String level = getScores[0];
+		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Dummy ");
 
 
 	}

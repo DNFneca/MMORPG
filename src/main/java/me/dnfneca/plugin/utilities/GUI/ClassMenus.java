@@ -16,67 +16,67 @@ import org.bukkit.potion.PotionType;
 public enum ClassMenus {
 	;
 
-	public static void ClassMenu(final Player p, String PlayerClass) {
+	public static void ClassMenu(Player p, String PlayerClass) {
 //        Objective obj = p.getScoreboard().getObjective("Stats");
 
-		final ItemStack icon = new ItemStack(Material.IRON_SWORD, 1);
-		final ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
-		final ItemStack back = new ItemStack(Material.ARROW, 1);
-		final ItemStack health = new ItemStack(Material.PLAYER_HEAD, 1);
-		final ItemStack damage = new ItemStack(Material.IRON_SWORD, 1);
-		final ItemStack defence = new ItemStack(Material.SHIELD, 1);
-		final ItemStack strength = new ItemStack(Material.IRON_AXE, 1);
-		final ItemStack speed = new ItemStack(Material.POTION, 1);
-		final ItemStack mana = new ItemStack(Material.POTION, 1);
-		final ItemStack critdamage = new ItemStack(Material.POTION, 1);
-		final ItemStack critchance = new ItemStack(Material.TRIPWIRE_HOOK, 1);
-		final ItemStack sneak = new ItemStack(Material.RABBIT_FOOT, 1);
+		ItemStack icon = new ItemStack(Material.IRON_SWORD, 1);
+		ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+		ItemStack back = new ItemStack(Material.ARROW, 1);
+		ItemStack health = new ItemStack(Material.PLAYER_HEAD, 1);
+		ItemStack damage = new ItemStack(Material.IRON_SWORD, 1);
+		ItemStack defence = new ItemStack(Material.SHIELD, 1);
+		ItemStack strength = new ItemStack(Material.IRON_AXE, 1);
+		ItemStack speed = new ItemStack(Material.POTION, 1);
+		ItemStack mana = new ItemStack(Material.POTION, 1);
+		ItemStack critdamage = new ItemStack(Material.POTION, 1);
+		ItemStack critchance = new ItemStack(Material.TRIPWIRE_HOOK, 1);
+		ItemStack sneak = new ItemStack(Material.RABBIT_FOOT, 1);
 
-		final ItemMeta data1 = blue_glass.getItemMeta();
+		ItemMeta data1 = blue_glass.getItemMeta();
 		data1.setDisplayName("   ");
 		blue_glass.setItemMeta(data1);
 
-		final ItemMeta arrowmeta = back.getItemMeta();
+		ItemMeta arrowmeta = back.getItemMeta();
 		arrowmeta.setDisplayName(ChatColor.GRAY + "Back to Main Menu");
 		back.setItemMeta(arrowmeta);
 
-		final ItemMeta iconmeta = icon.getItemMeta();
+		ItemMeta iconmeta = icon.getItemMeta();
 		iconmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final SkullMeta healthdata = (SkullMeta) health.getItemMeta();
+		SkullMeta healthdata = (SkullMeta) health.getItemMeta();
 		healthdata.setOwningPlayer(p);
 		healthdata.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
 
-		final ItemMeta damagemeta = damage.getItemMeta();
+		ItemMeta damagemeta = damage.getItemMeta();
 
 		damagemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final ItemMeta defencemeta = defence.getItemMeta();
+		ItemMeta defencemeta = defence.getItemMeta();
 		defencemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final ItemMeta strengthmeta = strength.getItemMeta();
+		ItemMeta strengthmeta = strength.getItemMeta();
 		strengthmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final PotionMeta speedmeta = (PotionMeta) speed.getItemMeta();
+		PotionMeta speedmeta = (PotionMeta) speed.getItemMeta();
 		speedmeta.setBasePotionData(new PotionData(PotionType.SPEED));
 		speedmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 
-		final PotionMeta manameta = (PotionMeta) mana.getItemMeta();
+		PotionMeta manameta = (PotionMeta) mana.getItemMeta();
 		manameta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
 		manameta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 
-		final PotionMeta critdmeta = (PotionMeta) critdamage.getItemMeta();
+		PotionMeta critdmeta = (PotionMeta) critdamage.getItemMeta();
 		critdmeta.setBasePotionData(new PotionData(PotionType.STRENGTH));
 		critdmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 
-		final ItemMeta critcmeta = critchance.getItemMeta();
+		ItemMeta critcmeta = critchance.getItemMeta();
 		critcmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final ItemMeta sneakmeta = sneak.getItemMeta();
+		ItemMeta sneakmeta = sneak.getItemMeta();
 		critcmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-		final Inventory inv = Bukkit.createInventory(null, 27, "Class Specific Stats");
+		Inventory inv = Bukkit.createInventory(null, 27, "Class Specific Stats");
 
 		PlayerClass = PlayerClass.replace("\"", "");
 		switch (PlayerClass) {
@@ -121,7 +121,7 @@ public enum ClassMenus {
 				break;
 			case "Wizard":
 				icon.setType(Material.POTION);
-				final PotionMeta iconmetaWizard = (PotionMeta) icon.getItemMeta();
+				PotionMeta iconmetaWizard = (PotionMeta) icon.getItemMeta();
 
 				iconmetaWizard.setBasePotionData(new PotionData(PotionType.SPEED));
 				iconmetaWizard.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
@@ -162,7 +162,7 @@ public enum ClassMenus {
 				break;
 			case "Healer":
 				icon.setType(Material.POTION);
-				final PotionMeta iconmetaHealer = (PotionMeta) icon.getItemMeta();
+				PotionMeta iconmetaHealer = (PotionMeta) icon.getItemMeta();
 
 				iconmetaHealer.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL));
 				iconmetaHealer.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);

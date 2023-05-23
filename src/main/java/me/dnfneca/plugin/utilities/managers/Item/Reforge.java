@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.utilities.managers.Item;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Reforge {
@@ -13,14 +14,15 @@ public class Reforge {
 	double CritDamage;
 	double CritChance;
 	double Stealth;
+	int CustomLookCode;
 	String Name;
 	String Rarity;
-	ItemMeta ReforgeItemMeta;
+	ItemStack ReforgeItemStack;
 	String ReforgeName;
 	int MinimalLevelForUsage;
 	String Type;
 
-	public Reforge(final String Name, final double Health, final double Damage, final double Defence, final double Strength, final double Speed, final double Mana, final double CritDamage, final double CritChance, final double Stealth, final String Rarity, final ItemMeta ReforgeItemMeta, final String ReforgeName, final int CustomLookCode, final String Type, final int MinimalLevelForUsage) {
+	public Reforge(String Name, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, String Rarity, ItemStack ReforgeItemStack, String ReforgeName, int CustomLookCode, String Type, int MinimalLevelForUsage) {
 		this.Name = Name;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -32,70 +34,79 @@ public class Reforge {
 		this.CritChance = CritChance;
 		this.Stealth = Stealth;
 		this.Rarity = Rarity;
-		this.ReforgeItemMeta = ReforgeItemMeta;
+		this.ReforgeItemStack = ReforgeItemStack;
 		this.ReforgeName = ReforgeName;
 		this.MinimalLevelForUsage = MinimalLevelForUsage;
+		this.CustomLookCode = CustomLookCode;
 		this.Type = Type;
 	}
 	// Get
 
 //	public static String getReforge
 	public String getType() {
-		return this.Type;
+		return Type;
 	}
 	public int getMinimalLevelForUsage() {
-		return this.MinimalLevelForUsage;
+		return MinimalLevelForUsage;
 	}
 
 	public String getReforgeName() {
-		return this.ReforgeName;
+		return ReforgeName;
+	}
+
+	public int getCustomLookCode() {
+		return CustomLookCode;
+	}
+
+	public ItemStack getReforgeItemStack() {
+		return ReforgeItemStack;
 	}
 
 	public ItemMeta getReforgeItemMeta() {
-		return this.ReforgeItemMeta;
+		return ReforgeItemStack.getItemMeta();
 	}
 
 	public String getName() {
-		return this.Name;
+		return Name;
 	}
 
 	public String getRarity() {
-		return this.Rarity;
+		return Rarity;
 	}
 
 	public double getHealth() {
-		return this.Health;
+		return Health;
 	}
 
 	public double getDamage() {
-		return this.Damage;
+		return Damage;
 	}
 
 	public double getDefence() {
-		return this.Defence;
+		return Defence;
 	}
 
 	public double getStrength() {
-		return this.Strength;
+		return Strength;
 	}
 
 	public double getSpeed() {
-		return this.Speed;
+		return Speed;
 	}
 
 	public double getMana() {
-		return this.Mana;
+		return Mana;
 	}
 
 	public double getCritDamage() {
-		return this.CritDamage;
+		return CritDamage;
 	}
 
 	public double getCritChance() {
-		return this.CritChance;
+		return CritChance;
 	}
 
 	public double getStealth() {
-		return this.Stealth;
+		return Stealth;
 	}
 }

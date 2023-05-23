@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.Plugin;
 import org.bukkit.Bukkit;
@@ -40,43 +40,43 @@ public class Ghoul implements Listener {
 
 	static Plugin plugin;
 
-	public Ghoul(final Plugin plugin) {
+	public Ghoul(Plugin plugin) {
 		Ghoul.plugin = plugin;
 	}
 
-	public static void createGhoul(final Location location, final Player player) {
-		long[] AB1CD = {0};
-		long[] AB2CD = {0};
-		String[] entities = new String[0];
+	public static void createGhoul(Location location, Player player) {
+		final long[] AB1CD = {0};
+		final long[] AB2CD = {0};
+		final String[] entities = new String[0];
 
-		final Husk spider = location.getWorld().spawn(location, Husk.class);
+		Husk spider = location.getWorld().spawn(location, Husk.class);
 
 		final String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU3MzMwYzdkNWNkOGEwYTU1YWI5ZTk1MzIxNTM1YWM3YWUzMGZlODM3YzM3ZWE5ZTUzYmVhN2JhMmRlODZiIn19fQ==";
 
 		final String id = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUv";
 
-		final ItemStack VexHead = new ItemStack(Material.PLAYER_HEAD, 1);
+		ItemStack VexHead = new ItemStack(Material.PLAYER_HEAD, 1);
 
-		final ItemMeta skullMeta = VexHead.getItemMeta();
+		ItemMeta skullMeta = VexHead.getItemMeta();
 //        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
 
-		final PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID()); // Get a new player profile
-		final PlayerTextures textures = profile.getTextures();
+		PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID()); // Get a new player profile
+		PlayerTextures textures = profile.getTextures();
 		URL urlObject = null;
 
 
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18"); // The URL to the skin, for example: https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		textures.setSkin(urlObject);
 
 
 //        PlayerProfile profile = getProfile("https://textures.minecraft.net/texture/18813764b2abc94ec3c3bc67b9147c21be850cdf996679703157f4555997ea63");
-		final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-		final SkullMeta meta = (SkullMeta) head.getItemMeta();
+		ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta meta = (SkullMeta) head.getItemMeta();
 		meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
 		head.setItemMeta(meta);
 		player.getInventory().addItem(head);
@@ -86,29 +86,29 @@ public class Ghoul implements Listener {
 		spider.setCustomNameVisible(true);
 
 
-		final SkullMeta headMeta = (SkullMeta) VexHead.getItemMeta();
+		SkullMeta headMeta = (SkullMeta) VexHead.getItemMeta();
 //        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
 //        profile.getProperties().put("textures", new Property("textures", id));
 
 		try {
-			final Field profileField = headMeta.getClass().getDeclaredField("profile");
+			Field profileField = headMeta.getClass().getDeclaredField("profile");
 			profileField.setAccessible(true);
 			profileField.set(headMeta, profile);
-		} catch (final IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
+		} catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 
 		VexHead.setItemMeta(headMeta);
 
 		spider.getEquipment().setHelmet(head);
-		final Attributable creatureAt = spider;
-		final AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		Attributable creatureAt = spider;
+		AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		attribute.setBaseValue(100);
 		spider.setHealth(100);
-		final String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
-		final String level = getScores[0];
-		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Ghoul.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Ghoul ");
+		String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
+		String level = getScores[0];
+		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Ghoul ");
 
 		new BukkitRunnable() {
 			public void run() {
@@ -117,21 +117,21 @@ public class Ghoul implements Listener {
 				if (!(spider.isDead())) {
 					spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 					if (null == spider.getTarget()) {
-						final List<Entity> entityaround;
-						final List<Player> allPlayers = new ArrayList<>();
+						List<Entity> entityaround;
+						List<Player> allPlayers = new ArrayList<>();
 						entityaround = spider.getNearbyEntities(range, range, range);
-						for (final Entity p : entityaround) {
+						for (Entity p : entityaround) {
 							if (p instanceof Player) {
-								final int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
-								final double distance = spider.getLocation().distance(p.getLocation());
-								final double stealthRange = range - (double) range * stealth * 0.01;
+								int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
+								double distance = spider.getLocation().distance(p.getLocation());
+								double stealthRange = range - (double) range * stealth * 0.01;
 								if (distance <= stealthRange) {
 									allPlayers.add((Player) p);
 								}
 							}
 						}
-						for (final Player p : allPlayers) {
-							final Player target = allPlayers.get(index);
+						for (Player p : allPlayers) {
+							Player target = allPlayers.get(index);
 							if (1 <= index) {
 								if (target.getScoreboard().getObjective("Stats").getScore("Health").getScore() < allPlayers.get(index - 1).getScoreboard().getObjective("Stats").getScore("Health").getScore()) {
 									spider.setTarget(p);
@@ -145,9 +145,9 @@ public class Ghoul implements Listener {
 						}
 					}
 				} else {
-					this.cancel();
+					cancel();
 				}
 			}
-		}.runTaskTimer(Ghoul.plugin, 0L, 10L);
+		}.runTaskTimer(plugin, 0L, 10L);
 	}
 }

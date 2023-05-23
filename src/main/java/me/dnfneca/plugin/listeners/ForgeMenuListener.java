@@ -30,19 +30,19 @@ public class ForgeMenuListener implements Listener {
 
 
 	@EventHandler
-	public void onInventoryEvent(final InventoryClickEvent e) {
-		final String InventoryName = e.getView().getTitle();
+	public void onInventoryEvent(InventoryClickEvent e) {
+		String InventoryName = e.getView().getTitle();
 		if (!(InventoryName.contains("Forge Menu"))) {
 			return;
 		}
-		final Player p = (Player) e.getWhoClicked();
-		final List<String> lore = new ArrayList<>();
-		final Inventory inv = e.getInventory();
+		Player p = (Player) e.getWhoClicked();
+		List<String> lore = new ArrayList<>();
+		Inventory inv = e.getInventory();
 		ItemStack ClickedItem = null;
 
 		try {
 			ClickedItem = e.getCurrentItem();
-		} catch (final Error error) {
+		} catch (Error error) {
 			System.out.println(error);
 		}
 		if (null == ClickedItem) {
@@ -55,8 +55,8 @@ public class ForgeMenuListener implements Listener {
 			public void run() {
 				final boolean isRegistered = false;
 
-				final ItemStack none = new ItemStack(Material.BARRIER, 1);
-				final ItemMeta none_meta = none.getItemMeta();
+				ItemStack none = new ItemStack(Material.BARRIER, 1);
+				ItemMeta none_meta = none.getItemMeta();
 				none_meta.setDisplayName("Can't reforge this");
 				none.setItemMeta(none_meta);
 
@@ -66,7 +66,7 @@ public class ForgeMenuListener implements Listener {
 				if (e.getViewers().isEmpty()) {
 					return;
 				}
-				final ItemStack reforgable_item = e.getInventory().getItem(11);
+				ItemStack reforgable_item = e.getInventory().getItem(11);
 				if (null == reforgable_item) e.getInventory().setItem(40, none);
 
 //                for (String s : RegisteredItems) {
@@ -86,16 +86,16 @@ public class ForgeMenuListener implements Listener {
 				}
 
 
-				if(e.getInventory().getItem(15) != null && e.getInventory().getItem(15).getItemMeta().getDisplayName() != null) {
-					ItemStack reforged_item = reforgable_item.clone();
+				if(null != e.getInventory().getItem(15) && null != e.getInventory().getItem(15).getItemMeta().getDisplayName()) {
+					final ItemStack reforged_item = reforgable_item.clone();
 					if(isItemReforged(e.getInventory().getItem(11).getItemMeta().getDisplayName())) {
-						for (Reforge customReforge : CustomReforges) {
+						for (final Reforge customReforge : CustomReforges) {
 							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
 								if(getItemReforge(e.getInventory().getItem(11).getItemMeta().getDisplayName()).equals(customReforge.getReforgeName())) {
 									e.getInventory().setItem(40, none);
 								} else {
-									ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
-									String[] itemName = reforgedItem.getDisplayName().split(" ");
+									final ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
+									final String[] itemName = reforgedItem.getDisplayName().split(" ");
 									reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName().replace(itemName[0] + " ", ""));
 									reforged_item.setItemMeta(reforgedItem);
 									e.getInventory().setItem(40, reforged_item);
@@ -106,9 +106,9 @@ public class ForgeMenuListener implements Listener {
 
 					} else {
 						System.out.println("EE");
-						for (Reforge customReforge : CustomReforges) {
+						for (final Reforge customReforge : CustomReforges) {
 							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
-								ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
+								final ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
 								reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName());
 								reforged_item.setItemMeta(reforgedItem);
 								e.getInventory().setItem(40, reforged_item);
@@ -155,29 +155,29 @@ public class ForgeMenuListener implements Listener {
 	}
 
 	@EventHandler
-	public void onForgeMenuClose(final InventoryCloseEvent e) {
+	public void onForgeMenuClose(InventoryCloseEvent e) {
 		if (e.getView().getTitle().contains("Forge Menu")) {
 			e.getPlayer().getInventory().addItem(e.getInventory().getItem(11));
 		}
 	}
 
-	public static void SetItemStatsLoreInMenu(final int ItemSlot, final Player player) {
+	public static void SetItemStatsLoreInMenu(int ItemSlot, Player player) {
 
 	}
 
-	public static String[] GetInventoryReforge(final Player p, final int ItemSlot) {
-		final String[] data = new String[10];
+	public static String[] GetInventoryReforge(Player p, int ItemSlot) {
+		String[] data = new String[10];
 
 
-		final ItemStack Item = p.getOpenInventory().getItem(ItemSlot);
+		ItemStack Item = p.getOpenInventory().getItem(ItemSlot);
 
 
 		if (null == Item) {
 			return new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 		}
 		if (null != Item.getItemMeta()) {
-			final ItemMeta itemMeta = Item.getItemMeta();
-			final String[] ItemStringArray = itemMeta.getDisplayName().split(" ");
+			ItemMeta itemMeta = Item.getItemMeta();
+			String[] ItemStringArray = itemMeta.getDisplayName().split(" ");
 //            if(Check.ExistingStats(Item.getItemMeta())[7].equals("Armor") || Check.ExistingStats(Item.getItemMeta())[7].equals("Helmet") || Check.ExistingStats(Item.getItemMeta())[7].equals("Chestplate") || Check.ExistingStats(Item.getItemMeta())[7].equals("Leggings") || Check.ExistingStats(Item.getItemMeta())[7].equals("Boots")) {
 //                data = DetermineArmorReforge(itemMeta.getDisplayName());
 //            } else {

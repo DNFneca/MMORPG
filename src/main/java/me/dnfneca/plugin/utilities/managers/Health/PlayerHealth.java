@@ -1,127 +1,125 @@
 package me.dnfneca.plugin.utilities.managers.Health;
 
-import me.dnfneca.plugin.utilities.managers.CustomMobs.MobStats;
+import me.dnfneca.plugin.CustomMobs.MobStats;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-public class PlayerHealth {
-	public static void ProjectileHitHealth(ProjectileHitEvent e) {
-		PlayerStats shotPlayer = PlayerStats.getPlayerStats(e.getHitEntity().getUniqueId());
-		if(e.getEntity().getShooter() instanceof LivingEntity) {
-			LivingEntity shooter = (LivingEntity) e.getEntity().getShooter();
+public enum PlayerHealth {
+	;
+
+	public static void ProjectileHitHealth(final ProjectileHitEvent e) {
+		final PlayerStats shotPlayer = PlayerStats.getPlayerStats(e.getHitEntity().getUniqueId());
+		if(e.getEntity().getShooter() instanceof LivingEntity shooter) {
 			if(shooter instanceof Player) {
-				PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
+				final PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
 
 
-				double shotPlayerHealth = shotPlayer.getHealth();
-				double shotPlayerDefence = shotPlayer.getDefence();
+				final double shotPlayerHealth = shotPlayer.getHealth();
+				final double shotPlayerDefence = shotPlayer.getDefence();
 
-				double shooterStrength = playerShooter.getStrength();
-				double shooterDamage = playerShooter.getDamage();
+				final double shooterStrength = playerShooter.getStrength();
+				final double shooterDamage = playerShooter.getDamage();
 
-				double shotPlayerEffectiveHealth = shotPlayerHealth + shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
-				double damageToDealToPlayer = shooterDamage + shooterDamage * (shooterStrength * 0.01 + 1);
+				final double shotPlayerEffectiveHealth = shotPlayerHealth + shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
+				final double damageToDealToPlayer = shooterDamage + shooterDamage * (shooterStrength * 0.01 + 1);
 
-				if(damageToDealToPlayer > shotPlayerEffectiveHealth || shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer) < 0.00) {
-					killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
+				if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer)) {
+					PlayerHealth.killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
 
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer));
 
-					updatePlayerHealth(shotPlayer);
+					PlayerHealth.updatePlayerHealth(shotPlayer);
 				}
 
 			} else {
-				MobStats playerShooter = MobStats.getMob(shooter.getUniqueId());
+				final MobStats playerShooter = MobStats.getMob(shooter.getUniqueId());
 
 
-				double shotPlayerHealth = shotPlayer.getHealth();
-				double shotPlayerDefence = shotPlayer.getDefence();
+				final double shotPlayerHealth = shotPlayer.getHealth();
+				final double shotPlayerDefence = shotPlayer.getDefence();
 
-				double shooterStrength = playerShooter.getStrength();
-				double shooterDamage = playerShooter.getDamage();
+				final double shooterStrength = playerShooter.getStrength();
+				final double shooterDamage = playerShooter.getDamage();
 
-				double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
-				double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
+				final double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
+				final double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
 
-				if(damageToDealToPlayer > shotPlayerEffectiveHealth || shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer) < 0.00) {
-					killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
+				if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer)) {
+					PlayerHealth.killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
 
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer));
 
-					updatePlayerHealth(shotPlayer);
+					PlayerHealth.updatePlayerHealth(shotPlayer);
 				}
 
 
 			}
 		}
 
-		Entity entityShot = e.getEntity();
+		final Entity entityShot = e.getEntity();
 		entityShot.remove();
 	}
 
-	public static void PlayerHitHealth(EntityDamageByEntityEvent e) {
-		PlayerStats shotPlayer = PlayerStats.getPlayerStats(e.getEntity().getUniqueId());
-		if(e.getDamager() instanceof LivingEntity) {
-			LivingEntity shooter = (LivingEntity) e.getDamager();
+	public static void PlayerHitHealth(final EntityDamageByEntityEvent e) {
+		final PlayerStats shotPlayer = PlayerStats.getPlayerStats(e.getEntity().getUniqueId());
+		if(e.getDamager() instanceof LivingEntity shooter) {
 			if(shooter instanceof Player) {
-				PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
+				final PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
 
 
-				double shotPlayerHealth = shotPlayer.getHealth();
-				double shotPlayerDefence = shotPlayer.getDefence();
+				final double shotPlayerHealth = shotPlayer.getHealth();
+				final double shotPlayerDefence = shotPlayer.getDefence();
 
-				double shooterStrength = playerShooter.getStrength();
-				double shooterDamage = playerShooter.getDamage();
+				final double shooterStrength = playerShooter.getStrength();
+				final double shooterDamage = playerShooter.getDamage();
 
-				double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
-				double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
+				final double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
+				final double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
 
-				if(damageToDealToPlayer > shotPlayerEffectiveHealth || shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer) < 0.00) {
-					killPlayer(shotPlayer, " was killed by " + playerShooter);
+				if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer)) {
+					PlayerHealth.killPlayer(shotPlayer, " was killed by " + playerShooter);
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer));
 
-					updatePlayerHealth(shotPlayer);
+					PlayerHealth.updatePlayerHealth(shotPlayer);
 				}
 
 			} else {
-				MobStats playerShooter = MobStats.getMob(shooter.getUniqueId());
+				final MobStats playerShooter = MobStats.getMob(shooter.getUniqueId());
 
 
-				double shotPlayerHealth = shotPlayer.getHealth();
-				double shotPlayerDefence = shotPlayer.getDefence();
+				final double shotPlayerHealth = shotPlayer.getHealth();
+				final double shotPlayerDefence = shotPlayer.getDefence();
 
-				double shooterStrength = playerShooter.getStrength();
-				double shooterDamage = playerShooter.getDamage();
+				final double shooterStrength = playerShooter.getStrength();
+				final double shooterDamage = playerShooter.getDamage();
 
-				double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
-				double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
+				final double shotPlayerEffectiveHealth = shotPlayerHealth * (shotPlayerDefence * 0.01 + 1);
+				final double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
 
 				System.out.println("Damage " + damageToDealToPlayer);
 				System.out.println(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
 
-				if(damageToDealToPlayer > shotPlayerEffectiveHealth || (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer))) < 0.00) {
-					killPlayer(shotPlayer, " was killed by " + playerShooter);
+				if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)))) {
+					PlayerHealth.killPlayer(shotPlayer, " was killed by " + playerShooter);
 				} else {
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
 
-					updatePlayerHealth(shotPlayer);
+					PlayerHealth.updatePlayerHealth(shotPlayer);
 				}
 
 
@@ -277,10 +275,10 @@ public class PlayerHealth {
 //			}
 //		}
 //	}
-	public static void updatePlayerHealth(PlayerStats p) {
-		Player player = p.getPlayer();
+	public static void updatePlayerHealth(final PlayerStats p) {
+		final Player player = p.getPlayer();
 		if (0 != p.getManaSpent() || 0 != p.getManaTimer()) {
-			final double OldManaCost = p.getManaSpent();
+			double OldManaCost = p.getManaSpent();
 
 			if (6 <= p.getManaTimer()) {
 				p.setCurrentMana(p.getCurrentMana() - p.getManaSpent());
@@ -299,8 +297,8 @@ public class PlayerHealth {
 					new TextComponent(net.md_5.bungee.api.ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + net.md_5.bungee.api.ChatColor.GRAY + "/" + net.md_5.bungee.api.ChatColor.RED + (int) p.getHealth() + "   " + net.md_5.bungee.api.ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + net.md_5.bungee.api.ChatColor.DARK_AQUA + "✎ " + net.md_5.bungee.api.ChatColor.AQUA + (int) p.getCurrentMana() + net.md_5.bungee.api.ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
 		}
 	}
-	public static void killPlayer(PlayerStats p, String killMessage) {
-		Player player = p.getPlayer();
+	public static void killPlayer(final PlayerStats p, final String killMessage) {
+		final Player player = p.getPlayer();
 		player.setHealth(0.00);
 		Bukkit.getServer().broadcastMessage(player.getDisplayName() + killMessage);
 		p.setCurrentHealth(p.getHealth());

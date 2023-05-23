@@ -5,11 +5,14 @@ import me.dnfneca.plugin.utilities.managers.Item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-import static me.dnfneca.plugin.listeners.PlayerJoin.Players;
+import static me.dnfneca.plugin.Plugin.Players;
+
 
 public class PlayerStats {
 
@@ -34,7 +37,7 @@ public class PlayerStats {
 	int HealthRegenTime;
 	int ManaRegenTime;
 
-	public PlayerStats(final UUID UUID, final double Health, final double Damage, final double Defence, final double Strength, final double Speed, final double Mana, final double CritDamage, final double CritChance, final double Stealth, final int Xp, final String Class) {
+	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int Xp, String Class) {
 		this.UUID = UUID;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -47,29 +50,29 @@ public class PlayerStats {
 		this.Stealth = Stealth;
 		this.Xp = Xp;
 		this.Class = Class;
-		ChoiceCD = 0;
-		ManaTimer = 0;
-		HealthRegenTime = 4;
-		ManaRegenTime = 4;
-        this.main();
+		this.ChoiceCD = 0;
+		this.ManaTimer = 0;
+		this.HealthRegenTime = 4;
+		this.ManaRegenTime = 4;
+        main();
 	}
 
 	public void main() {
-        this.CurrentHealth = this.Health;
-        this.CurrentMana = this.Mana;
-		final Plugin plugin = Plugin.getInstance();
-		if (!"none".equals(Class.replace("\"", ""))) {
-            this.ChoiceCD = 1;
+        CurrentHealth = Health;
+        CurrentMana = Mana;
+		Plugin plugin = Plugin.getInstance();
+		if (!"none".equals(this.Class.replace("\"", ""))) {
+            ChoiceCD = 1;
 		}
 		//
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (0 > ChoiceCD) {
-                    PlayerStats.this.ChoiceCD = 0;
+				if (0 > PlayerStats.this.ChoiceCD) {
+                    ChoiceCD = 0;
 				}
-				if (0 > ManaTimer) {
-                    PlayerStats.this.ManaTimer--;
+				if (0 > PlayerStats.this.ManaTimer) {
+                    ManaTimer--;
 				}
 			}
 		}.runTaskTimer(plugin, 0L, 20L);
@@ -79,19 +82,20 @@ public class PlayerStats {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (null == getPlayer()) {
-					cancel();
+				if (null == PlayerStats.this.getPlayer()) {
+					this.cancel();
 					return;
 				}
 
-				StatCalc.Calculate(PlayerStats.getPlayerStats(PlayerStats.this.UUID));
+				PlayerStatCalc.Calculate(getPlayerStats(UUID));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1019, 255));
 
-
-				final int Slots = PlayerStats.this.getPlayer().getInventory().getSize();
+				int Slots = getPlayer().getInventory().getSize();
 				for (int i = 0; i < Slots; i++) {
-					if (null != getPlayer().getInventory().getItem(i) && null != getPlayer().getInventory().getItem(i).getItemMeta() && PlayerStats.this.getPlayer().getInventory().getItem(i).hasItemMeta() && PlayerStats.this.getPlayer().getInventory().getItem(i).getItemMeta().hasDisplayName()) {
-						final ItemMeta meta = PlayerStats.this.getPlayer().getInventory().getItem(i).getItemMeta();
-						Items.setItemLore(PlayerStats.this.getPlayer().getInventory(), meta, i);
+					if (null != PlayerStats.this.getPlayer().getInventory().getItem(i) && null != PlayerStats.this.getPlayer().getInventory().getItem(i).getItemMeta() && getPlayer().getInventory().getItem(i).hasItemMeta() && getPlayer().getInventory().getItem(i).getItemMeta().hasDisplayName()) {
+						ItemMeta meta = getPlayer().getInventory().getItem(i).getItemMeta();
+						Items.setItemLore(getPlayer().getInventory(), meta, i);
 					}
 				}
 			}
@@ -104,114 +108,114 @@ public class PlayerStats {
 	// Set
 
 
-	public void setHealthRegenTime(final int healthRegenTime) {
-        this.HealthRegenTime = healthRegenTime;
+	public void setHealthRegenTime(int healthRegenTime) {
+        HealthRegenTime = healthRegenTime;
 	}
 
-	public void setManaRegenTime(final int manaRegenTime) {
-        this.ManaRegenTime = manaRegenTime;
+	public void setManaRegenTime(int manaRegenTime) {
+        ManaRegenTime = manaRegenTime;
 	}
 
-	public void setCurrentHealth(final double currentHealth) {
-        this.CurrentHealth = currentHealth;
+	public void setCurrentHealth(double currentHealth) {
+        CurrentHealth = currentHealth;
 	}
 
-	public void setCurrentMana(final double currentMana) {
-        this.CurrentMana = currentMana;
+	public void setCurrentMana(double currentMana) {
+        CurrentMana = currentMana;
 	}
 
-	public void setChoiceCD(final int ChoiceCD) {
+	public void setChoiceCD(int ChoiceCD) {
 		this.ChoiceCD = ChoiceCD;
 	}
 
-	public void setManaTimer(final int ManaTimer) {
+	public void setManaTimer(int ManaTimer) {
 		this.ManaTimer = ManaTimer;
 	}
 
-	public void setUUID(final UUID UUID) {
+	public void setUUID(UUID UUID) {
 		this.UUID = UUID;
 	}
 
-	public void setHealth(final double health) {
-        this.Health = health;
+	public void setHealth(double health) {
+        Health = health;
 	}
 
-	public void setDamage(final double damage) {
-        this.Damage = damage;
+	public void setDamage(double damage) {
+        Damage = damage;
 	}
 
-	public void setDefence(final double defence) {
-        this.Defence = defence;
+	public void setDefence(double defence) {
+        Defence = defence;
 	}
 
-	public void setStrength(final double strength) {
-        this.Strength = strength;
+	public void setStrength(double strength) {
+        Strength = strength;
 	}
 
-	public void setSpeed(final double speed) {
-        this.Speed = speed;
+	public void setSpeed(double speed) {
+        Speed = speed;
 	}
 
-	public void setMana(final double mana) {
-        this.Mana = mana;
+	public void setMana(double mana) {
+        Mana = mana;
 	}
 
-	public void setCritDamage(final double critDamage) {
-        this.CritDamage = critDamage;
+	public void setCritDamage(double critDamage) {
+        CritDamage = critDamage;
 	}
 
-	public void setCritChance(final double critChance) {
-        this.CritChance = critChance;
+	public void setCritChance(double critChance) {
+        CritChance = critChance;
 	}
 
-	public void setStealth(final double stealth) {
-        this.Stealth = stealth;
+	public void setStealth(double stealth) {
+        Stealth = stealth;
 	}
 
-	public void setXp(final int xp) {
-        this.Xp = xp;
+	public void setXp(int xp) {
+        Xp = xp;
 	}
 
-	public void setClass(final String aClass) {
-        this.Class = aClass;
+	public void setClass(String aClass) {
+        Class = aClass;
 	}
 
-	public void setManaSpent(final double manaSpent) {
-        this.ManaSpent = manaSpent;
+	public void setManaSpent(double manaSpent) {
+        ManaSpent = manaSpent;
 	}
 	// Get
 
 
 	public int getHealthRegenTime() {
-		return this.HealthRegenTime;
+		return HealthRegenTime;
 	}
 
 	public int getManaRegenTime() {
-		return this.ManaRegenTime;
+		return ManaRegenTime;
 	}
 
 	public double getManaSpent() {
-		return this.ManaSpent;
+		return ManaSpent;
 	}
 
 	public double getCurrentHealth() {
-		return this.CurrentHealth;
+		return CurrentHealth;
 	}
 
 	public double getCurrentMana() {
-		return this.CurrentMana;
+		return CurrentMana;
 	}
 
-	public Player getPlayer(final UUID UUID) {
+	public Player getPlayer(UUID UUID) {
 		return Bukkit.getPlayer(UUID);
 	}
 
 	public Player getPlayer() {
-		return Bukkit.getPlayer(UUID);
+		return Bukkit.getPlayer(this.UUID);
 	}
 
-	public static PlayerStats getPlayerStats(final UUID UUID) {
-		for (final PlayerStats player : Players) {
+	public static PlayerStats getPlayerStats(UUID UUID) {
+		for (PlayerStats player : Players) {
 			if (player.UUID.equals(UUID)) {
 				return player;
 			}
@@ -220,59 +224,59 @@ public class PlayerStats {
 	}
 
 	public UUID getUUID() {
-		return this.UUID;
+		return UUID;
 	}
 
 	public int getManaTimer() {
-		return this.ManaTimer;
+		return ManaTimer;
 	}
 
 	public int getChoiceCD() {
-		return this.ChoiceCD;
+		return ChoiceCD;
 	}
 
 	public double getHealth() {
-		return this.Health;
+		return Health;
 	}
 
 	public double getDamage() {
-		return this.Damage;
+		return Damage;
 	}
 
 	public double getDefence() {
-		return this.Defence;
+		return Defence;
 	}
 
 	public double getStrength() {
-		return this.Strength;
+		return Strength;
 	}
 
 	public double getSpeed() {
-		return this.Speed;
+		return Speed;
 	}
 
 	public double getMana() {
-		return this.Mana;
+		return Mana;
 	}
 
 	public double getCritDamage() {
-		return this.CritDamage;
+		return CritDamage;
 	}
 
 	public double getCritChance() {
-		return this.CritChance;
+		return CritChance;
 	}
 
 	public double getStealth() {
-		return this.Stealth;
+		return Stealth;
 	}
 
 	public int getXp() {
-		return this.Xp;
+		return Xp;
 	}
 
 	public String getPlayerClass() {
-		return this.Class;
+		return Class;
 	}
 
 }

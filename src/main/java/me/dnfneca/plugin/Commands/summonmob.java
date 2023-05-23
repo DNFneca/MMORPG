@@ -4,7 +4,7 @@
 
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.CustomMobs.*;
+import me.dnfneca.plugin.CustomMobs.SpawnMob;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,11 +13,10 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 
 public class summonmob implements CommandExecutor {
-	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
-		if (sender instanceof Player player) {
+	public boolean onCommand(@Nonnull final CommandSender sender, @Nonnull final Command command, @Nonnull final String label, @Nonnull final String[] args) {
+		if (sender instanceof final Player player) {
 			if (player.isOp()) {
 				if ("summonmob".equalsIgnoreCase(command.getName())) {
-					System.out.println(args[0]);
 					SpawnMob.spawnMob(args[0], player.getLocation());
 				}
 			} else {

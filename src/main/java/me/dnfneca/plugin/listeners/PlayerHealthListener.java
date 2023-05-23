@@ -18,20 +18,20 @@ import java.util.ArrayList;
 
 public class PlayerHealthListener implements Listener {
 	@EventHandler
-	public void onBowDamage(ProjectileHitEvent e) {
-		if(e != null && e.getEntity() != null && e.getHitEntity() instanceof Player) {
+	public void onBowDamage(final ProjectileHitEvent e) {
+		if(null != e && null != e.getEntity() && e.getHitEntity() instanceof Player) {
 			PlayerHealth.ProjectileHitHealth(e);
 		}
-		if(e != null && e.getEntity() != null && e.getHitEntity() instanceof LivingEntity) {
+		if(null != e && null != e.getEntity() && e.getHitEntity() instanceof LivingEntity) {
 			MobHealth.MobProjectileHitHealth(e);
 		}
 	}
 
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent e) {
+	public void onDamage(final EntityDamageByEntityEvent e) {
+		System.out.println(e.getEntity());
 		if(e.getEntity() instanceof Player) {
 			PlayerHealth.PlayerHitHealth(e);
-
 		} else {
 			MobHealth.MobHitHealth(e);
 		}

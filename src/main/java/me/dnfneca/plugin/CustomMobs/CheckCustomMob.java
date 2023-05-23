@@ -2,7 +2,7 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.utilities.managers.Stats;
 import org.bukkit.entity.EntityType;
@@ -15,13 +15,13 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 
 public class CheckCustomMob implements Listener {
-	public static ArrayList<String> check(LivingEntity InvolvedEntity) {
-		ArrayList<String> tags = new ArrayList<String>();
+	public static ArrayList<String> check(final LivingEntity InvolvedEntity) {
+		final ArrayList<String> tags = new ArrayList<String>();
 		switch (InvolvedEntity.getType()) {
 			case SPIDER: {
 				if (InvolvedEntity.getCustomName().contains("Spider")) {
 					InvolvedEntity.removeScoreboardTag(String.valueOf(InvolvedEntity.getMaxHealth()));
-					double maxHealth = BasicSpider.MaxHealth;
+					final double maxHealth = BasicSpider.MaxHealth;
 					tags.add(0, String.valueOf(BasicSpider.MaxHealth));
 					tags.add(1, String.valueOf(BasicSpider.Damage));
 					tags.add(2, String.valueOf(BasicSpider.Strength));
@@ -37,7 +37,7 @@ public class CheckCustomMob implements Listener {
 			case WOLF: {
 				if (InvolvedEntity.getCustomName().contains("Wolf")) {
 					InvolvedEntity.removeScoreboardTag(String.valueOf(InvolvedEntity.getMaxHealth()));
-					double maxHealth = BasicWolf.MaxHealth;
+					final double maxHealth = BasicWolf.MaxHealth;
 					tags.add(0, String.valueOf(BasicWolf.MaxHealth));
 					tags.add(1, String.valueOf(BasicWolf.Damage));
 					tags.add(2, String.valueOf(BasicWolf.Strength));
@@ -53,7 +53,7 @@ public class CheckCustomMob implements Listener {
 			case ZOMBIE: {
 				if (InvolvedEntity.getCustomName().contains("Dummy")) {
 					InvolvedEntity.removeScoreboardTag(String.valueOf(InvolvedEntity.getMaxHealth()));
-					double maxHealth = Dummy.MaxHealth;
+					final double maxHealth = Dummy.MaxHealth;
 					tags.add(0, String.valueOf(Dummy.MaxHealth));
 					tags.add(1, String.valueOf(Dummy.Damage));
 					tags.add(2, String.valueOf(Dummy.Strength));
@@ -69,7 +69,7 @@ public class CheckCustomMob implements Listener {
 			case HUSK: {
 				if (InvolvedEntity.getCustomName().contains("Ghoul")) {
 					InvolvedEntity.removeScoreboardTag(String.valueOf(InvolvedEntity.getMaxHealth()));
-					double maxHealth = Ghoul.MaxHealth;
+					final double maxHealth = Ghoul.MaxHealth;
 					tags.add(0, String.valueOf(Ghoul.MaxHealth));
 					tags.add(1, String.valueOf(Ghoul.Damage));
 					tags.add(2, String.valueOf(Ghoul.Strength));
@@ -86,9 +86,9 @@ public class CheckCustomMob implements Listener {
 		return tags;
 	}
 
-	public static ArrayList<String> attack(LivingEntity InvolvedEntity, Player p) {
-		ArrayList<String> tags = new ArrayList<String>();
-		if (InvolvedEntity.getType() == EntityType.SPIDER) {
+	public static ArrayList<String> attack(final LivingEntity InvolvedEntity, final Player p) {
+		final ArrayList<String> tags = new ArrayList<String>();
+		if (EntityType.SPIDER == InvolvedEntity.getType()) {
 			if (InvolvedEntity.getCustomName().contains("Spider")) {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
 			}

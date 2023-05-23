@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.Plugin;
 import org.bukkit.*;
@@ -25,26 +25,26 @@ public class BasicSpider implements Listener {
 
 	static Plugin plugin;
 
-	public BasicSpider(final Plugin plugin) {
+	public BasicSpider(Plugin plugin) {
 		BasicSpider.plugin = plugin;
 	}
 
-	public static void createSpider(final Location location) {
-		long[] AB1CD = {0};
-		long[] AB2CD = {0};
-		String[] entities = new String[0];
+	public static void createSpider(Location location) {
+		final long[] AB1CD = {0};
+		final long[] AB2CD = {0};
+		final String[] entities = new String[0];
 
-		final Spider spider = location.getWorld().spawn(location, Spider.class);
+		Spider spider = location.getWorld().spawn(location, Spider.class);
 
 		spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 		spider.setCustomNameVisible(true);
-		final Attributable creatureAt = spider;
-		final AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		Attributable creatureAt = spider;
+		AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		attribute.setBaseValue(100);
 		spider.setHealth(100);
-		final String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
-		final String level = getScores[0];
-		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + BasicSpider.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Spider ");
+		String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
+		String level = getScores[0];
+		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Spider ");
 
 
 		new BukkitRunnable() {
@@ -56,18 +56,18 @@ public class BasicSpider implements Listener {
 				if (0 <= AB2CD[0]) {
 					AB2CD[0]--;
 				}
-				for (final Player p : Bukkit.getOnlinePlayers()) {
-					final List<Entity> e = p.getNearbyEntities(1, 1, 1);
-					for (final Entity entity : e) {
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					List<Entity> e = p.getNearbyEntities(1, 1, 1);
+					for (Entity entity : e) {
 						if (EntityType.ARMOR_STAND == entity.getType()) {
 							if (entity.getScoreboardTags().contains("FallingBlock")) {
-								for (final Entity en : entity.getNearbyEntities(5, 5, 5)) {
+								for (Entity en : entity.getNearbyEntities(5, 5, 5)) {
 									if (en instanceof Player) {
 										spider.attack(en);
 									}
 								}
 								entity.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, entity.getLocation(), 5);
-								final FallingBlock fb = (FallingBlock) entity.getPassengers().get(0);
+								FallingBlock fb = (FallingBlock) entity.getPassengers().get(0);
 								entity.eject();
 								fb.remove();
 								entity.remove();
@@ -80,7 +80,7 @@ public class BasicSpider implements Listener {
 //                    }
 				}
 			}
-		}.runTaskTimer(BasicSpider.plugin, 0L, 1L);
+		}.runTaskTimer(plugin, 0L, 1L);
 
 
 		new BukkitRunnable() {
@@ -89,12 +89,12 @@ public class BasicSpider implements Listener {
 				if (!(spider.isDead())) {
 					spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 					if (null == spider.getTarget()) {
-						final List<Entity> entityaround;
+						List<Entity> entityaround;
 						List<Player> playerAround;
 						entityaround = spider.getNearbyEntities(range, range, range);
-						for (final Entity p : entityaround) {
+						for (Entity p : entityaround) {
 							if (p instanceof Player) {
-								final int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
+								int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
 								if (spider.getLocation().distance(p.getLocation()) < range - range * stealth * 0.01) {
 									spider.setTarget((Player) p);
 
@@ -103,17 +103,17 @@ public class BasicSpider implements Listener {
 						}
 					}
 				} else {
-					this.cancel();
+					cancel();
 				}
 			}
-		}.runTaskTimer(BasicSpider.plugin, 0L, 10L);
+		}.runTaskTimer(plugin, 0L, 10L);
 
 
 		new BukkitRunnable() {
 			public void run() {
 				if (!(spider.isDead())) {
 					if (null != spider.getTarget() && 0 >= AB1CD[0]) {
-						final LivingEntity target = spider.getTarget();
+						LivingEntity target = spider.getTarget();
 						if (10 < target.getLocation().distanceSquared(spider.getLocation()) && 25 > target.getLocation().distanceSquared(spider.getLocation())) {
 							spider.getWorld().playSound(spider.getLocation(), Sound.ENTITY_WITHER_SHOOT, 5, 5);
 							spider.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, spider.getLocation(), 10);
@@ -122,24 +122,24 @@ public class BasicSpider implements Listener {
 						}
 					}
 				} else {
-					this.cancel();
+					cancel();
 				}
 			}
-		}.runTaskTimer(BasicSpider.plugin, 0L, 20);
+		}.runTaskTimer(plugin, 0L, 20);
 
 
 		new BukkitRunnable() {
 			public void run() {
 				if (!(spider.isDead())) {
 					if (null != spider.getTarget() && 0 >= AB2CD[0]) {
-						final LivingEntity target = spider.getTarget();
+						LivingEntity target = spider.getTarget();
 						if (25 < target.getLocation().distanceSquared(spider.getLocation())) {
 							spider.getWorld().playSound(spider.getLocation(), Sound.ENTITY_SPIDER_HURT, 5, 5);
 							spider.getWorld().spawnParticle(Particle.SMOKE_NORMAL, spider.getLocation(), 10);
-							final FallingBlock web = spider.getWorld().spawnFallingBlock(spider.getLocation(), Material.COBWEB, (byte) 0);
+							FallingBlock web = spider.getWorld().spawnFallingBlock(spider.getLocation(), Material.COBWEB, (byte) 0);
 							web.setGravity(false);
 							web.setInvulnerable(true);
-							final ArmorStand stand = spider.getWorld().spawn(spider.getLocation(), ArmorStand.class);
+							ArmorStand stand = spider.getWorld().spawn(spider.getLocation(), ArmorStand.class);
 							stand.addScoreboardTag("FallingBlock");
 							stand.setInvisible(true);
 							stand.setInvulnerable(true);
@@ -154,10 +154,10 @@ public class BasicSpider implements Listener {
 						}
 					}
 				} else {
-					this.cancel();
+					cancel();
 				}
 			}
-		}.runTaskTimer(BasicSpider.plugin, 0L, 20);
+		}.runTaskTimer(plugin, 0L, 20);
 	}
 
 	public static void HitEffect() {

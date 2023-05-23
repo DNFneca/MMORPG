@@ -7,9 +7,9 @@ import java.util.List;
 public enum DetermineItemAbility {
 	;
 
-	public static void getItemAbilityLore(final List<String> Lore, final Item item) {
+	public static void getItemAbilityLore(List<String> Lore, Item item) {
 		Lore.add("");
-		if (item.getAbility().equals("test")) {
+		if ("test".equals(item.getAbility())) {
 			Lore.add(ChatColor.GOLD + "RIGHT CLICK: test");
 			Lore.add(ChatColor.GRAY + "Ability Description");
 			Lore.add(ChatColor.GRAY + "Mana Cost:" + ChatColor.BLUE + " 25");

@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.Plugin;
 import org.bukkit.ChatColor;
@@ -28,26 +28,26 @@ public class BasicWolf implements Listener {
 
 	static Plugin plugin;
 
-	public BasicWolf(final Plugin plugin) {
+	public BasicWolf(Plugin plugin) {
 		BasicWolf.plugin = plugin;
 	}
 
-	public static void createWolf(final Location location) {
-		long[] AB1CD = {0};
-		long[] AB2CD = {0};
-		String[] entities = new String[0];
+	public static void createWolf(Location location) {
+		final long[] AB1CD = {0};
+		final long[] AB2CD = {0};
+		final String[] entities = new String[0];
 
-		final Wolf spider = location.getWorld().spawn(location, Wolf.class);
+		Wolf spider = location.getWorld().spawn(location, Wolf.class);
 
 		spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 		spider.setCustomNameVisible(true);
-		final Attributable creatureAt = spider;
-		final AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		Attributable creatureAt = spider;
+		AttributeInstance attribute = creatureAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		attribute.setBaseValue(100);
 		spider.setHealth(100);
-		final String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
-		final String level = getScores[0];
-		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + BasicWolf.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Wolf ");
+		String[] getScores = spider.getScoreboardTags().toArray(new String[10]);
+		String level = getScores[0];
+		spider.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Wolf ");
 
 		new BukkitRunnable() {
 			public void run() {
@@ -55,12 +55,12 @@ public class BasicWolf implements Listener {
 				if (!(spider.isDead())) {
 					spider.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 255));
 					if (null == spider.getTarget()) {
-						final List<Entity> entityaround;
+						List<Entity> entityaround;
 						List<Player> playerAround;
 						entityaround = spider.getNearbyEntities(range, range, range);
-						for (final Entity p : entityaround) {
+						for (Entity p : entityaround) {
 							if (p instanceof Player) {
-								final int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
+								int stealth = ((Player) p).getScoreboard().getObjective("Stats").getScore("Stealth").getScore();
 								if (spider.getLocation().distance(p.getLocation()) < range - range * stealth * 0.01) {
 									spider.setTarget((Player) p);
 
@@ -70,9 +70,9 @@ public class BasicWolf implements Listener {
 						}
 					}
 				} else {
-					this.cancel();
+					cancel();
 				}
 			}
-		}.runTaskTimer(BasicWolf.plugin, 0L, 10L);
+		}.runTaskTimer(plugin, 0L, 10L);
 	}
 }

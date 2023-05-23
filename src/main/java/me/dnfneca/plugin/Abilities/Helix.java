@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.Abilities;
+package me.dnfneca.plugin.Abilities;
 
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public enum Helix {
 	;
 
-	public static void Helix(final PlayerStats p) {
+	public static void Helix(PlayerStats p) {
 		p.setManaSpent(25);
 		p.setManaTimer(6);
 
@@ -18,17 +18,17 @@ public enum Helix {
 			double r, C;
 
 			public void run() {
-				this.r = 2;
-				final Location loc = p.getPlayer().getLocation();
+				r = 2;
+				Location loc = p.getPlayer().getLocation();
 				for (double y = 0; 50 >= y; y += 0.05) {
-					final double x = this.r * Math.cos(y);
-					final double z = this.r * Math.sin(y);
+					double x = r * Math.cos(y);
+					double z = r * Math.sin(y);
 					loc.add(x, y, z);
 					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(0, 127, 255), 1.0F));
 					loc.subtract(x, y, z);
 
 				}
-				cancel();
+				this.cancel();
 			}
 		}.runTaskTimer(Plugin.getInstance(), 0, 1);
 	}

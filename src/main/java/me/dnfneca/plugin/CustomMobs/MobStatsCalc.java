@@ -1,58 +1,51 @@
-package me.dnfneca.plugin.utilities.managers.CustomMobs;
+package me.dnfneca.plugin.CustomMobs;
 
 import me.dnfneca.plugin.utilities.managers.Item.Item;
-import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
-import me.dnfneca.plugin.utilities.managers.Statistics.StatCalc;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomItemByName;
-import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomReforgeByName;
 
 
-public class MobStatsCalc {
+public enum MobStatsCalc {
+	;
 
-	public static void Calculate(MobStats p) {
-
-
-
+	public static void Calculate(final MobStats p) {
 
 
-		final String[] itemStats = getWeaponStats(p.getMobStats());
-		final double itemHealth = Double.parseDouble(itemStats[0]);
-		final double itemDamage = Double.parseDouble(itemStats[1]);
-		final double itemDefence = Double.parseDouble(itemStats[2]);
-		final double itemStrength = Double.parseDouble(itemStats[3]);
-		final double itemSpeed = Double.parseDouble(itemStats[4]);
-		final double itemCritDamage = Double.parseDouble(itemStats[6]);
-		final double itemCritChance = Double.parseDouble(itemStats[7]);
+		if(null == p) {
+			return;
+		}
 
-		final String[] armorStats = getCombinedArmorStats(p.getMobStats());
-		final double armorHealth = Double.parseDouble(armorStats[0]);
-		final double armorDamage = Double.parseDouble(armorStats[1]);
-		final double armorDefence = Double.parseDouble(armorStats[2]);
-		final double armorStrength = Double.parseDouble(armorStats[3]);
-		final double armorSpeed = Double.parseDouble(armorStats[4]);
-		final double armorCritDamage = Double.parseDouble(armorStats[6]);
-		final double armorCritChance = Double.parseDouble(armorStats[7]);
 
-		double BaseHealth = p.getBaseHealth();
-		double BaseDamage = p.getBaseDamage();
-		double BaseDefence = p.getBaseDefence();
-		double BaseStrength = p.getBaseStrength();
-		double BaseSpeed = p.getBaseSpeed();
-		double BaseCritDamage = p.getBaseCritDamage();
-		double BaseCritChance = p.getBaseCritChance();
+		String[] itemStats = MobStatsCalc.getWeaponStats(p.getMobStats());
+		double itemHealth = Double.parseDouble(itemStats[0]);
+		double itemDamage = Double.parseDouble(itemStats[1]);
+		double itemDefence = Double.parseDouble(itemStats[2]);
+		double itemStrength = Double.parseDouble(itemStats[3]);
+		double itemSpeed = Double.parseDouble(itemStats[4]);
+		double itemCritDamage = Double.parseDouble(itemStats[6]);
+		double itemCritChance = Double.parseDouble(itemStats[7]);
+
+		String[] armorStats = MobStatsCalc.getCombinedArmorStats(p.getMobStats());
+		double armorHealth = Double.parseDouble(armorStats[0]);
+		double armorDamage = Double.parseDouble(armorStats[1]);
+		double armorDefence = Double.parseDouble(armorStats[2]);
+		double armorStrength = Double.parseDouble(armorStats[3]);
+		double armorSpeed = Double.parseDouble(armorStats[4]);
+		double armorCritDamage = Double.parseDouble(armorStats[6]);
+		double armorCritChance = Double.parseDouble(armorStats[7]);
+
+		final double BaseHealth = p.getBaseHealth();
+		final double BaseDamage = p.getBaseDamage();
+		final double BaseDefence = p.getBaseDefence();
+		final double BaseStrength = p.getBaseStrength();
+		final double BaseSpeed = p.getBaseSpeed();
+		final double BaseCritDamage = p.getBaseCritDamage();
+		final double BaseCritChance = p.getBaseCritChance();
 
 
 		if (p.getCurrentHealth() < p.getHealth() && 0 < p.getHealthRegenTime()) {
@@ -83,10 +76,10 @@ public class MobStatsCalc {
 		p.setCritChance(BaseCritChance + itemCritChance + armorCritChance);
 
 		if(p.getHealth() == p.getCurrentHealth()) {
-			p.getEntity(p.getUUID()).setCustomNameVisible(true);
-			p.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + "❤" + String.valueOf(p.getHealth()));
+			MobStats.getEntity(p.getUUID()).setCustomNameVisible(true);
+			MobStats.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + "❤" + p.getHealth());
 		} else {
-			p.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + ChatColor.RED + "❤ " + String.valueOf(p.getCurrentHealth()) + "/" + String.valueOf(p.getHealth()));
+			MobStats.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + ChatColor.RED + "❤ " + p.getCurrentHealth() + "/" + p.getHealth());
 		}
 	}
 
@@ -100,14 +93,14 @@ public class MobStatsCalc {
 //    double CritChance;
 //    double Stealth;
 
-	public static String[] getWeaponStats(MobStats player) {
-		final String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
-		LivingEntity entity = (LivingEntity) Bukkit.getEntity(player.UUID);
+	public static String[] getWeaponStats(final MobStats player) {
+		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+		final LivingEntity entity = (LivingEntity) Bukkit.getEntity(player.UUID);
 
 		if (null == entity.getEquipment().getItemInMainHand().getItemMeta()) {
 			return itemStats;
 		}
-		final Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getItemInMainHand().getItemMeta().getDisplayName()));
+		Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getItemInMainHand().getItemMeta().getDisplayName()));
 		if (null == item) {
 			return itemStats;
 		}
@@ -131,11 +124,11 @@ public class MobStatsCalc {
 	}
 
 
-	public static String[] getCombinedArmorStats(MobStats player) {
-		final String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
-		LivingEntity entity = (LivingEntity) Bukkit.getEntity(player.UUID);
+	public static String[] getCombinedArmorStats(final MobStats player) {
+		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+		final LivingEntity entity = (LivingEntity) Bukkit.getEntity(player.UUID);
 		if(null != entity.getEquipment().getHelmet() && null != entity.getEquipment().getHelmet().getItemMeta()) {
-			Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getHelmet().getItemMeta().getDisplayName()));
+			final Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getHelmet().getItemMeta().getDisplayName()));
 			if (null != item && "Armor".equals(item.getType())) {
 				itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + item.getHealth());
 				itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + item.getDamage());
@@ -149,7 +142,7 @@ public class MobStatsCalc {
 			}
 		}
 		if(null != entity.getEquipment().getChestplate() && null != entity.getEquipment().getChestplate().getItemMeta()) {
-			Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getChestplate().getItemMeta().getDisplayName()));
+			final Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getChestplate().getItemMeta().getDisplayName()));
 			if (null != item && "Armor".equals(item.getType())) {
 				itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + item.getHealth());
 				itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + item.getDamage());
@@ -163,7 +156,7 @@ public class MobStatsCalc {
 			}
 		}
 		if(null != entity.getEquipment().getLeggings() && null != entity.getEquipment().getLeggings().getItemMeta()) {
-			Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getLeggings().getItemMeta().getDisplayName()));
+			final Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getLeggings().getItemMeta().getDisplayName()));
 			if (null != item && "Armor".equals(item.getType())) {
 				itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + item.getHealth());
 				itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + item.getDamage());
@@ -177,7 +170,7 @@ public class MobStatsCalc {
 			}
 		}
 		if(null != entity.getEquipment().getBoots() && null != entity.getEquipment().getBoots().getItemMeta()) {
-			Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getBoots().getItemMeta().getDisplayName()));
+			final Item item = getCustomItemByName(ChatColor.stripColor(entity.getEquipment().getBoots().getItemMeta().getDisplayName()));
 			if (null != item && "Armor".equals(item.getType())) {
 				itemStats[0] = String.valueOf(Double.parseDouble(itemStats[0]) + item.getHealth());
 				itemStats[1] = String.valueOf(Double.parseDouble(itemStats[1]) + item.getDamage());

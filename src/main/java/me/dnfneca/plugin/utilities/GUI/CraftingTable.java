@@ -13,28 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CraftingTable implements Listener {
-	public static void MainCraftingInventory(final Player p) {
-		final List<String> lore = new ArrayList<>();
+	public static void MainCraftingInventory(Player p) {
+		List<String> lore = new ArrayList<>();
 
 
-		final Inventory inv = Bukkit.createInventory(null, 45, "Crafting Table");
+		Inventory inv = Bukkit.createInventory(null, 45, "Crafting Table");
 
-		final ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-		final ItemStack recipe = new ItemStack(Material.BARRIER, 1);
+		ItemStack blue_glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+		ItemStack recipe = new ItemStack(Material.BARRIER, 1);
 
 
-		final ItemStack arrow = new ItemStack(Material.ARROW, 1);
+		ItemStack arrow = new ItemStack(Material.ARROW, 1);
 
-		final ItemMeta arrowmeta = arrow.getItemMeta();
+		ItemMeta arrowmeta = arrow.getItemMeta();
 		arrowmeta.setDisplayName(ChatColor.GRAY + "To Forge");
 		arrow.setItemMeta(arrowmeta);
 
 
-		final ItemMeta data2 = blue_glass.getItemMeta();
+		ItemMeta data2 = blue_glass.getItemMeta();
 		data2.setDisplayName("   ");
 		blue_glass.setItemMeta(data2);
 
-		final ItemMeta recipedata = recipe.getItemMeta();
+		ItemMeta recipedata = recipe.getItemMeta();
 		recipedata.setDisplayName("Your recipe will appear here");
 		recipe.setItemMeta(recipedata);
 
