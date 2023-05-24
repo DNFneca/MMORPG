@@ -77,7 +77,6 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
         getServer().getPluginManager().registerEvents(new BasicWolf(this), this);
         getServer().getPluginManager().registerEvents(new Dummy(this), this);
-        getServer().getPluginManager().registerEvents(new Ghoul(this), this);
 
 
 		// EVENTS

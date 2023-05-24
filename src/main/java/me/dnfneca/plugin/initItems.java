@@ -935,5 +935,25 @@ public class initItems {
 				42,
 				-3.9));
 
+		CustomItems.add(new Item("Rotten Flesh",
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				"none",
+				"none",
+				"Common",
+				Material.ROTTEN_FLESH,
+				"ROTTEN_FLESH",
+				0,
+				"none",
+				0,
+				0));
+
 	}
 }

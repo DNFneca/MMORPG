@@ -10,8 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomItemByName;
 
 
-public enum MobStatsCalc {
-	;
+public class MobStatsCalc {
 
 	public static void Calculate(final MobStats p) {
 

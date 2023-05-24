@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import static me.dnfneca.plugin.Plugin.CustomMobs;
+import static me.dnfneca.plugin.utilities.managers.MobDrops.MobDrops.dropMobItems;
 
 
 public enum MobHealth {
@@ -37,6 +38,7 @@ public enum MobHealth {
 				if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)))) {
 					killPlayer((LivingEntity) Bukkit.getEntity(shotPlayer.getUUID()), (HumanEntity) shooter, shotPlayer);
 				} else {
+
 
 					shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)));
 
@@ -77,8 +79,6 @@ public enum MobHealth {
 		if(e.getDamager() instanceof LivingEntity shooter) {
 			if(shooter instanceof Player) {
 				final PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
-
-
 
 
 				final double shotPlayerHealth = shotPlayer.getHealth();
@@ -132,7 +132,7 @@ public enum MobHealth {
 		MobStats.getEntity(p.getUUID()).setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.BLUE + p.getLevel() + ChatColor.DARK_GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RED + ChatColor.RED + "❤ " + p.getCurrentHealth() + "/" + p.getHealth());
 	}
 	public static void killPlayer(final LivingEntity p, final HumanEntity shooter, final MobStats mob) {
-		Ghoul.dropCustomDrops(p, shooter);
+		dropMobItems(p, shooter, mob);
 		p.remove();
 		CustomMobs.remove(mob);
 	}

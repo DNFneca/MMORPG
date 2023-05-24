@@ -23,7 +23,7 @@ public class initMobs {
 				10,
 				10,
 				10,
-				(Class<LivingEntity>) EntityType.ZOMBIE.getEntityClass(),
+				(Class<LivingEntity>) EntityType.HUSK.getEntityClass(),
 				10));
 
 		CustomMobsAvailable.add(new MobStats(UUID.randomUUID(),

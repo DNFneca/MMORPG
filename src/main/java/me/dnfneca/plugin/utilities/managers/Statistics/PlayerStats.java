@@ -88,8 +88,8 @@ public class PlayerStats {
 				}
 
 				PlayerStatCalc.Calculate(getPlayerStats(UUID));
-				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255));
-				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1019, 255));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255, false, false));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1019, 255, false, false));
 
 				int Slots = getPlayer().getInventory().getSize();
 				for (int i = 0; i < Slots; i++) {

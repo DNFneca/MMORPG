@@ -12,8 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 import static me.dnfneca.plugin.Plugin.CustomMobs;
 import static me.dnfneca.plugin.Plugin.CustomMobsAvailable;
 
-public enum SpawnMob {
-	;
+public class SpawnMob {
 
 	public static void spawnMob(final String Type, final Location location) {
 		LivingEntity entity = null;
