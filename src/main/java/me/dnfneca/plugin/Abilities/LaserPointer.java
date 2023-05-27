@@ -8,9 +8,10 @@ import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class LaserPointer {
+public enum LaserPointer {
+	;
 
-	public static void LaserPointer(PlayerStats p) {
+	public static boolean LaserPointer(PlayerStats p, float cost) {
 
 		new BukkitRunnable() {
 			double distanceTraveled;
@@ -18,12 +19,13 @@ public class LaserPointer {
 			public void run() {
 				Location loc = p.getPlayer().getEyeLocation();
 				Vector vector = loc.getDirection();
-				for (distanceTraveled = 0; distanceTraveled < 10000; distanceTraveled++) {
+				for (distanceTraveled = 0; 10000 > this.distanceTraveled; distanceTraveled++) {
 					loc.add(vector);
 					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 1, new Particle.DustOptions(Color.fromRGB(255, 51, 21), 1.0F));
 				}
 				this.cancel();
 			}
 		}.runTaskTimer(Plugin.getInstance(), 4, 1);
+		return true;
 	}
 }

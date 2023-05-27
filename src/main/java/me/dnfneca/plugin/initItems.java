@@ -5,7 +5,9 @@ import org.bukkit.Material;
 
 import static me.dnfneca.plugin.Plugin.CustomItems;
 
-public class initItems {
+public enum initItems {
+	;
+
 	public static void init() {
 		CustomItems.add(new Item("ARMOR",
 				100,
@@ -37,7 +39,7 @@ public class initItems {
 				0,
 				0,
 				0,
-				"test",
+				"Hook 125",
 				"Iron Sex",
 				"Rare",
 				Material.STICK,
@@ -57,7 +59,7 @@ public class initItems {
 				730,
 				90,
 				0,
-				"Tangle",
+				"Tangle 25",
 				"none",
 				"Exotic",
 				Material.DIAMOND_HOE,
@@ -116,7 +118,7 @@ public class initItems {
 				+0,
 				+0,
 				0,
-				"LaserPointer",
+				"LaserPointer 25",
 				"none",
 				"Mythic",
 				Material.STICK,
@@ -541,7 +543,7 @@ public class initItems {
 				+55,
 				+45,
 				+0,
-				"reality warp (teleport 10 blocks in the direction your looking -30 mana)",
+				"Reality_Warp 30 10",
 				"none",
 				"Rare",
 				Material.DIAMOND_SWORD,
@@ -618,7 +620,7 @@ public class initItems {
 				+20,
 				+5,
 				+0,
-				"Fireball",
+				"Fireball 25",
 				"none",
 				"Common",
 				Material.GOLDEN_SWORD,
@@ -637,7 +639,7 @@ public class initItems {
 				+10,
 				+25,
 				+0,
-				"Snowball",
+				"Snowball 25",
 				"none",
 				"Common",
 				Material.GOLDEN_SWORD,

@@ -59,7 +59,7 @@ public enum Stats {
 		return rand.nextInt((max - min) + 1) + min;
 	}
 
-	public static boolean getCritRoll(final double Percentage) {
+	public static boolean getCritRoll(double Percentage) {
 		double procent = Percentage * 0.01;
 		double r = Math.random();
 		return r < procent;

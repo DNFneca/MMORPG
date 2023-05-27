@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class God implements CommandExecutor {
-	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-		if (sender instanceof final Player p) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (sender instanceof Player p) {
 			if (p.isInvulnerable()) {
 				p.sendMessage("You are no longer ascended");
 				p.setAllowFlight(false);

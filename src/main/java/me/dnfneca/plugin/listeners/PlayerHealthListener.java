@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class PlayerHealthListener implements Listener {
 	@EventHandler
-	public void onBowDamage(final ProjectileHitEvent e) {
+	public void onBowDamage(ProjectileHitEvent e) {
 		if(null != e && null != e.getEntity() && e.getHitEntity() instanceof Player) {
 			PlayerHealth.ProjectileHitHealth(e);
 		}
@@ -28,7 +28,7 @@ public class PlayerHealthListener implements Listener {
 	}
 
 	@EventHandler
-	public void onDamage(final EntityDamageByEntityEvent e) {
+	public void onDamage(EntityDamageByEntityEvent e) {
 		System.out.println(e.getEntity());
 		if(e.getEntity() instanceof Player) {
 			PlayerHealth.PlayerHitHealth(e);

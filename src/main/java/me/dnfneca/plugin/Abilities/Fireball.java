@@ -12,8 +12,9 @@ import static me.dnfneca.plugin.utilities.managers.Abilities.AbilitiesManager.Hi
 public enum Fireball {
 	;
 
-	public static void Fireball(PlayerStats p) {
-		p.setManaSpent(25);
+	public static boolean Fireball(PlayerStats p, float cost) {
+		p.removeMana(cost);
+		p.setManaSpent(cost);
 		p.setManaTimer(6);
 
 		new BukkitRunnable() {
@@ -25,7 +26,7 @@ public enum Fireball {
 					loc.add(loc.getDirection());
 					//              BLOOD COLOR                  p.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(135, 5, 1), 20.0F));
 					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, new Particle.DustOptions(Color.fromRGB(255, 51, 21), 20.0F));
-					if (HitDetection(loc, 0.2, p)) {
+					if (HitDetection(loc, 0.2, p) != null) {
 						this.cancel();
 						return;
 					}
@@ -33,5 +34,6 @@ public enum Fireball {
 				this.cancel();
 			}
 		}.runTaskTimer(Plugin.getInstance(), 4, 1);
+		return true;
 	}
 }

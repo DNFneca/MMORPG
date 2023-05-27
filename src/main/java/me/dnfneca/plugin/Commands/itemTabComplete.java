@@ -16,13 +16,13 @@ public class itemTabComplete implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (1 == args.length) {
-			final List<String> p = new ArrayList<>();
-			for (final Item s : CustomItems) {
+			List<String> p = new ArrayList<>();
+			for (Item s : CustomItems) {
 				if (null != s.getCodeName() && s.getCodeName().contains(args[0])) {
 					p.add(s.getCodeName());
 				}
 			}
-			for (final Reforge customReforge : CustomReforges) {
+			for (Reforge customReforge : CustomReforges) {
 				if(null != customReforge.getName() && customReforge.getName().toUpperCase().replace(" ", "_").contains(args[0])) {
 					p.add(customReforge.getName().toUpperCase().replace(" ", "_"));
 				}

@@ -78,7 +78,7 @@ public class Waystone implements Listener {
 			String[] sedit1 = s.split(" ");
 			Page = sedit1[sedit1.length - 1];
 		}
-		final boolean isPage1 = 1 == Integer.parseInt(Page);
+		boolean isPage1 = 1 == Integer.parseInt(Page);
 
 		int temp = 0;
 
@@ -284,7 +284,7 @@ public class Waystone implements Listener {
 		}
 
 
-		if (ClickedItem.getItemMeta().getDisplayName().contains("Waystone")) {
+		if (null != ClickedItem.getItemMeta() && null != ClickedItem.getItemMeta().getDisplayName() && ClickedItem.getItemMeta().getDisplayName().contains("Waystone")) {
 			int i = 0;
 			for (String s : waystoneNames) {
 				if (ClickedItem.getItemMeta().getDisplayName().contains(waystoneNames[i])) {
@@ -303,7 +303,7 @@ public class Waystone implements Listener {
 			}
 		}
 
-		if (ClickedItem.getItemMeta().getDisplayName().contains("Next")) {
+		if (null != ClickedItem.getItemMeta() && null != ClickedItem.getItemMeta().getDisplayName() && ClickedItem.getItemMeta().getDisplayName().contains("Next")) {
 			int Page = 1;
 			String pageName = "";
 
@@ -326,7 +326,7 @@ public class Waystone implements Listener {
 			WaystoneMenu(p, pageName + " " + Page);
 		}
 
-		if (ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
+		if (null != ClickedItem.getItemMeta() && null != ClickedItem.getItemMeta().getDisplayName() && ClickedItem.getItemMeta().getDisplayName().contains("Back")) {
 			int Page = 1;
 			String pageName = "";
 

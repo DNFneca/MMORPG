@@ -16,12 +16,12 @@ import org.bukkit.potion.PotionEffectType;
 
 public class AttackListener implements Listener {
 	@EventHandler
-	public void onHit(final EntityDamageByEntityEvent e) {
-		if (e.getDamager() instanceof final Player p) {
-			final LivingEntity hitEntity = (LivingEntity) e.getEntity();
+	public void onHit(EntityDamageByEntityEvent e) {
+		if (e.getDamager() instanceof Player p) {
+			LivingEntity hitEntity = (LivingEntity) e.getEntity();
 			if (null != p.getInventory().getItemInMainHand()) {
-				final ItemStack item = p.getInventory().getItemInMainHand();
-				final ItemMeta meta = item.getItemMeta();
+				ItemStack item = p.getInventory().getItemInMainHand();
+				ItemMeta meta = item.getItemMeta();
 				if (null == meta) {
 					return;
 				}

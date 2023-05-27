@@ -15,12 +15,12 @@ import java.util.List;
 import static me.dnfneca.plugin.Plugin.CustomMobsAvailable;
 
 public class summonTabComplete implements TabCompleter {
-	public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (1 == args.length) {
-			final List<String> p = new ArrayList<>();
-			for (final MobStats s : CustomMobsAvailable) {
+			List<String> p = new ArrayList<>();
+			for (MobStats s : CustomMobsAvailable) {
 				if (null != s.getName()) {
-					final String name = s.getName().replace(" ", "_");
+					String name = s.getName().replace(" ", "_");
 					if(name.contains(args[0])) {
 						p.add(name);
 					}

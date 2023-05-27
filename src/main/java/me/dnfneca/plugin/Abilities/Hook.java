@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package me.dnfneca.plugin.Abilities;
 
 import me.dnfneca.plugin.CustomMobs.MobStats;
@@ -11,21 +7,13 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Objective;
-
-import java.util.Collection;
 
 import static me.dnfneca.plugin.utilities.managers.Abilities.AbilitiesManager.HitDetection;
 
-
-public enum Tangle {
-	;
-
-	public static boolean Tangle(PlayerStats p, float cost) {
+public class Hook {
+	public static boolean Hook(PlayerStats p, float cost) {
 		p.removeMana(cost);
 		p.setManaSpent(cost);
 		p.setManaTimer(6);
@@ -37,18 +25,22 @@ public enum Tangle {
 				this.distanceTraveled = 0.0;
 				while (15.0 >= distanceTraveled) {
 					loc.add(loc.getDirection());
-					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 10, (Object) new Particle.DustOptions(Color.fromRGB(150, 75, 0), 20.0f));
+					p.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, loc, 1, new Particle.DustOptions(Color.fromRGB(51, 255, 0), 4.0F));
 					LivingEntity MobsNearby = HitDetection(loc, 1, p);
-					if (MobsNearby != null){
+					if (MobsNearby != null) {
 						if(MobStats.getMob(MobsNearby.getUniqueId()).setStunDuration(8)) {
 							LivingEntity finalMobsNearby = MobsNearby;
-							MobsNearby.getWorld().playSound(MobsNearby, Sound.ITEM_ARMOR_EQUIP_CHAIN, 10, 1.5F);
+							MobsNearby.getWorld().playSound(MobsNearby, Sound.ITEM_ARMOR_EQUIP_CHAIN, 1, 1.5F);
+							MobsNearby.getWorld().playSound(MobsNearby, Sound.ENTITY_LEASH_KNOT_PLACE, 1, 1.5F);
+							MobsNearby.setVelocity(p.getPlayer().getLocation().getDirection().multiply(-1).normalize());
+							p.setCurrentMana(p.getCurrentMana() + cost * 0.75);
 							new BukkitRunnable() {
 
 								@Override
 								public void run() {
-									finalMobsNearby.setAI(true);
-									finalMobsNearby.getWorld().playSound(finalMobsNearby, Sound.BLOCK_CHAIN_BREAK, 10, 2);
+									if(MobsNearby != null && MobStats.getMob(MobsNearby.getUniqueId()) != null  && MobStats.getMob(MobsNearby.getUniqueId()).getStunDuration() <= 0) {
+										finalMobsNearby.getWorld().playSound(finalMobsNearby, Sound.BLOCK_CHAIN_BREAK, 10, 2);
+									}
 								}
 							}.runTaskLater(Plugin.getInstance(), (long) (2*20));
 						}

@@ -12,9 +12,10 @@ import org.bukkit.potion.PotionEffectType;
 import static me.dnfneca.plugin.Plugin.CustomMobs;
 import static me.dnfneca.plugin.Plugin.CustomMobsAvailable;
 
-public class SpawnMob {
+public enum SpawnMob {
+	;
 
-	public static void spawnMob(final String Type, final Location location) {
+	public static void spawnMob(String Type, Location location) {
 		LivingEntity entity = null;
 
 		for (MobStats mobStats : CustomMobsAvailable) {
@@ -47,6 +48,5 @@ public class SpawnMob {
 		String[] getScores = entity.getScoreboardTags().toArray(new String[10]);
 		String level = getScores[0];
 		entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + Dummy.Level + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " Dummy ");
-		return;
 	}
 }

@@ -4,6 +4,7 @@ import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.GUI.ClassMenus;
 import me.dnfneca.plugin.utilities.GUI.LevelsMenu;
 import me.dnfneca.plugin.utilities.GUI.ReforgeMenu;
+import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,8 +12,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +28,8 @@ import java.util.List;
 
 import static me.dnfneca.plugin.Plugin.Players;
 import static me.dnfneca.plugin.utilities.GUI.GUI.*;
+import static me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc.updatePlayerActionBar;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class InventoryListener implements Listener {
 
@@ -50,6 +56,24 @@ public class InventoryListener implements Listener {
 
 
 		}
+	}
+
+	@EventHandler
+	public void onInventoryEvent(EntityPickupItemEvent e) {
+		Player player = (Player) e.getEntity();
+		int Slots = player.getInventory().getSize();
+		for (int i = 0; i < Slots; i++) {
+			if (null != player.getInventory().getItem(i) && null != player.getInventory().getItem(i).getItemMeta() && player.getInventory().getItem(i).hasItemMeta() && player.getInventory().getItem(i).getItemMeta().hasDisplayName()) {
+				ItemMeta meta = player.getInventory().getItem(i).getItemMeta();
+				Items.setItemLore(player.getInventory(), meta, i);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onInventoryEvent(PlayerItemHeldEvent e) {
+		Player player = e.getPlayer();
+		updatePlayerActionBar(PlayerStats.getPlayerStats(player.getUniqueId()));
 	}
 
 	@EventHandler

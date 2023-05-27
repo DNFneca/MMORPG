@@ -5,8 +5,10 @@ import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 public enum ShieldAbility {
 	;
 
-	public static void TrueShieldAbility(PlayerStats p, int AmountOfStacks) {
-		p.setManaSpent(25);
+	public static boolean TrueShieldAbility(PlayerStats p, int AmountOfStacks, float cost) {
+		p.removeMana(cost);
+		p.setManaSpent(cost);
 		p.setManaTimer(6);
+		return true;
 	}
 }

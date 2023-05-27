@@ -1,6 +1,7 @@
 package me.dnfneca.plugin.Commands;
 
 import me.dnfneca.plugin.utilities.managers.Item.Item;
+import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -21,23 +22,24 @@ public class giveitem implements CommandExecutor {
 	@Override
 	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 
-		if (sender instanceof final Player player) {
+		if (sender instanceof Player player) {
 			player.sendMessage(args[0]);
 			if (player.isOp()) {
 				if ("giveitem".equalsIgnoreCase(command.getName())) {
 					ItemMeta meta;
-					for (final Item item : CustomItems) {
+					for (Item item : CustomItems) {
 						if (args[0].equals(item.getCodeName())) {
 							ItemStack givenItem = new ItemStack(item.getItemMaterial());
 							ItemMeta givenItemMeta = givenItem.getItemMeta();
 							givenItemMeta.setDisplayName(item.getName());
 							givenItemMeta.setCustomModelData(item.getCustomLookCode());
 							givenItem.setItemMeta(givenItemMeta);
+							Items.setItemLore(givenItem, givenItemMeta);
 							player.getInventory().addItem(givenItem);
 							return true;
 						}
 					}
-					for (final Reforge customReforge : CustomReforges) {
+					for (Reforge customReforge : CustomReforges) {
 						if (args[0].equals(customReforge.getName().toUpperCase().replace(" ", "_"))) {
 							ItemStack givenItem = new ItemStack(customReforge.getReforgeItemStack());
 							ItemMeta givenItemMeta = givenItem.getItemMeta();
@@ -47,7 +49,6 @@ public class giveitem implements CommandExecutor {
 							return true;
 						}
 					}
-
 				}
 			} else {
 				player.sendMessage("You are not allowed to use this command!");

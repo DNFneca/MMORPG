@@ -116,7 +116,6 @@ public class PlayerJoin implements Listener {
 		MenuMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		MainMenu.setItemMeta(MenuMeta);
 		player.getInventory().setItem(8, MainMenu);
-		System.out.println(CustomMobs.get(0).getUUID());
 		for (PlayerStats p : Players) {
 			if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
 				Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), new Runnable() {

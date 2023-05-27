@@ -10,7 +10,9 @@ import java.util.UUID;
 import static me.dnfneca.plugin.Plugin.CustomMobs;
 import static me.dnfneca.plugin.Plugin.CustomMobsAvailable;
 
-public class initMobs {
+public enum initMobs {
+	;
+
 	public static void init() {
 		CustomMobsAvailable.add(new MobStats(UUID.randomUUID(),
 				"Ghoul",

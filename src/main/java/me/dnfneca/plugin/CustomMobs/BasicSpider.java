@@ -30,9 +30,9 @@ public class BasicSpider implements Listener {
 	}
 
 	public static void createSpider(Location location) {
-		final long[] AB1CD = {0};
-		final long[] AB2CD = {0};
-		final String[] entities = new String[0];
+		long[] AB1CD = {0};
+		long[] AB2CD = {0};
+		String[] entities = new String[0];
 
 		Spider spider = location.getWorld().spawn(location, Spider.class);
 

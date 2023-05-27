@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 
 public class GUI implements CommandExecutor {
-	public boolean onCommand(@Nonnull final CommandSender sender, @Nonnull final Command command, @Nonnull final String label, @Nonnull final String[] args) {
+	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 		CraftingTable.MainCraftingInventory((Player) sender);
 		return true;
 	}

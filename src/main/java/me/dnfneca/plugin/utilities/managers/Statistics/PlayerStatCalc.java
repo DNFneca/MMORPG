@@ -6,6 +6,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomItemByName;
 import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomReforgeByName;
@@ -14,7 +16,63 @@ import static me.dnfneca.plugin.utilities.managers.Item.Items.getCustomReforgeBy
 public enum PlayerStatCalc {
     ;
 
-    public static void Calculate(final PlayerStats p) {
+    public static void Calculate(PlayerStats p) {
+
+	    if (p.getCurrentHealth() < p.getHealth() && 0 < p.getHealthRegenTime()) {
+		    p.setHealthRegenTime(p.getHealthRegenTime() - 1);
+	    }
+
+
+	    if (p.getCurrentMana() < p.getMana() && 0 < p.getManaRegenTime()) {
+		    p.setManaRegenTime(p.getManaRegenTime() - 1);
+	    }
+
+
+	    if (0 == p.getHealthRegenTime()) {
+		    if (p.getCurrentHealth() - p.getBonusMana() + p.getHealth() * 0.01 > p.getHealth()) {
+			    p.setCurrentHealth(p.getHealth());
+		    } else {
+			    p.setCurrentHealth(p.getCurrentHealth() + p.getBonusHealth() + p.getHealth() * 0.01);
+		    }
+		    p.setHealthRegenTime(4);
+	    }
+
+	    if (0 == p.getManaRegenTime()) {
+		    if (p.getCurrentMana() - p.getBonusMana() + p.getMana() * 0.01 > p.getMana()) {
+			    p.setCurrentMana(p.getMana());
+		    } else {
+			    p.setCurrentMana(p.getCurrentMana() + p.getBonusMana() + p.getMana() * 0.01);
+		    }
+		    p.setManaRegenTime(4);
+	    }
+
+
+	    if(p.getBonusHealthTimer() > 0) {
+		    p.setBonusHealthTimer(p.getBonusHealthTimer() - 1);
+	    } else if (p.getBonusHealthTimer() < 0) {
+		    p.setBonusHealthTimer(0);
+		    p.setBonusHealth(0);
+	    } else {
+		    p.setBonusHealth(0);
+	    }
+
+	    if(p.getBonusManaTimer() > 0) {
+		    p.setBonusManaTimer(p.getBonusManaTimer() - 1);
+	    } else if (p.getBonusManaTimer() < 0) {
+		    p.setBonusManaTimer(0);
+		    p.setBonusMana(0);
+	    } else {
+		    p.setBonusMana(0);
+	    }
+
+	    updatePlayerActionBar(p);
+
+
+	}
+
+
+	public static void updatePlayerActionBar(PlayerStats p) {
+
 
 		Player player = p.getPlayer();
 		String[] classStats = getPlayerClassStats(p);
@@ -64,64 +122,59 @@ public enum PlayerStatCalc {
 
 
 		final double BaseHealth = 100;
-        final double BaseDamage = 50;
-        final double BaseMana = 100;
-        final double BaseDefence = 25;
-        final double BaseStrength = 10;
-        final double BaseSpeed = 100;
-        final double BaseCritDamage = 0;
-        final double BaseCritChance = 0;
-        final double BaseStealth = 0;
+		final double BaseDamage = 50;
+		final double BaseMana = 100;
+		final double BaseDefence = 25;
+		final double BaseStrength = 10;
+		final double BaseSpeed = 100;
+		final double BaseCritDamage = 0;
+		final double BaseCritChance = 0;
+		final double BaseStealth = 0;
 
-        double levelPercentage = 0;
+
+		double levelPercentage = 0;
 		for (int i = 0; i < PlayerLevels.getLevel(p.getPlayer()); i++) {
 			levelPercentage++;
 		}
 
 		levelPercentage = levelPercentage * 0.01 + 1;
 
-		if (p.getCurrentHealth() < p.getHealth() && 0 < p.getHealthRegenTime()) {
-			p.setHealthRegenTime(p.getHealthRegenTime() - 1);
-		}
 
 
-		if (p.getCurrentMana() < p.getMana() && 0 < p.getManaRegenTime()) {
-			p.setManaRegenTime(p.getManaRegenTime() - 1);
-		}
-
-
-		if (0 == p.getHealthRegenTime()) {
-			if (p.getCurrentHealth() + p.getHealth() * 0.01 > p.getHealth()) {
-				p.setCurrentHealth(p.getHealth());
-			} else {
-				p.setCurrentHealth(p.getCurrentHealth() + p.getHealth() * 0.01);
-			}
-			p.setHealthRegenTime(4);
-		}
-
-		if (0 == p.getManaRegenTime()) {
-			if (p.getCurrentMana() + p.getMana() * 0.01 > p.getMana()) {
-				p.setCurrentMana(p.getMana());
-			} else {
-				p.setCurrentMana(p.getCurrentMana() + p.getMana() * 0.01);
-			}
-			p.setManaRegenTime(4);
-		}
-
-
-		if (p.getHealth() == p.getCurrentHealth()) {
+		if (p.getHealth() <= p.getCurrentHealth() - p.getBonusHealth()) {
 			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth);
-			p.setCurrentHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth);
+			p.setCurrentHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth + p.getBonusHealth());
 		} else {
 			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth);
 		}
-		if (p.getMana() == p.getCurrentMana()) {
+		if (p.getMana() <= p.getCurrentMana() - p.getBonusMana()) {
 			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana);
-			p.setCurrentMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana);
+			p.setCurrentMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana + p.getBonusMana());
 		} else {
 			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana);
 		}
-		p.setDamage((BaseDamage + classDamage) * levelPercentage + itemDamage + armorDamage + reforgeDamage);
+
+		if(p.getStunDuration() > 0) {
+			p.setStunDuration(p.getStunDuration() - 1);
+			p.setDamage(0);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000, 255, true, false));
+		} else if (p.getStunDuration() < 0) {
+			p.setStunDuration(0);
+			player.removePotionEffect(PotionEffectType.SLOW);
+		} else {
+			p.setDamage((BaseDamage + classDamage) * levelPercentage + itemDamage + armorDamage + reforgeDamage);
+			player.removePotionEffect(PotionEffectType.SLOW);
+		}
+
+		if(p.getCurrentHealth() - p.getBonusHealth() > p.getHealth()) {
+			p.setCurrentHealth(p.getHealth() + p.getBonusHealth());
+		}
+
+		if(p.getCurrentMana() - p.getBonusMana() > p.getMana()) {
+			p.setCurrentMana(p.getMana() + p.getBonusMana());
+		}
+
+
 		p.setDefence((BaseDefence + classDefence) * levelPercentage + itemDefence + armorDefence + reforgeDefence);
 		p.setSpeed(BaseSpeed + classSpeed + itemSpeed + armorSpeed + reforgeSpeed);
 		p.getPlayer().setWalkSpeed((float) (p.getSpeed() + itemSpeed + armorSpeed + reforgeSpeed) / 500);
@@ -130,39 +183,67 @@ public enum PlayerStatCalc {
 		p.setCritChance(BaseCritChance + classCritChance + itemCritChance + armorCritChance + (levelPercentage - 1) + reforgeCritChance);
 		p.setStealth(BaseStealth + classStealth + itemStealth + armorStealth + reforgeStealth);
 
-
-		if (0 != p.getManaSpent() || 0 != p.getManaTimer()) {
-			double OldManaCost = p.getManaSpent();
-
-
-			if (6 <= p.getManaTimer()) {
-				p.setCurrentMana(p.getCurrentMana() - p.getManaSpent());
-			}
-//                    CurrentMana.setScore(CurrentHealth.getScore() - OldManaCost);
-			player.spigot().sendMessage(
-					ChatMessageType.ACTION_BAR,
-					new TextComponent(ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + ChatColor.GRAY + "/" + ChatColor.RED + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + "-" + (int) OldManaCost + " " + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
-			if (0 < p.getManaTimer())
-				p.setManaTimer(p.getManaTimer() - 1);
-			if (0 >= p.getManaTimer())
-				p.setManaSpent(0);
+		double healthPercent = p.getCurrentHealth() / p.getHealth();
+		int amountOfHealth = (int) (healthPercent/0.05);
+		if(amountOfHealth > 20) {
+			player.setHealth(20);
+		} else if (amountOfHealth < 0) {
+			player.setHealth(0);
 		} else {
-			player.spigot().sendMessage(
-					ChatMessageType.ACTION_BAR,
-					new TextComponent(ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + ChatColor.GRAY + "/" + ChatColor.RED + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+			player.setHealth(amountOfHealth);
 		}
 
-	}
 
-	//    double Health;
-//    double Damage;
-//    double Defence;
-//    double Strength;
-//    double Speed;
-//    double Mana;
-//    double CritDamage;
-//    double CritChance;
-//    double Stealth;
+
+
+		if(p.getBonusHealth() != 0) {
+			if(0 < p.getManaSpent() || 0 < p.getManaTimer()) {
+				double OldManaCost = p.getManaSpent();
+				player.spigot().sendMessage(
+						ChatMessageType.ACTION_BAR,
+						new TextComponent(ChatColor.GOLD + "❤ " + (int) p.getCurrentHealth() + ChatColor.GOLD + "/" + ChatColor.GOLD + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "-" + (int) OldManaCost + " " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+				if (0 < p.getManaTimer())
+					p.setManaTimer(p.getManaTimer() - 1);
+				if (0 >= p.getManaTimer())
+					p.setManaSpent(0);
+			} else if(0 > p.getManaTimer()) {
+				player.spigot().sendMessage(
+						ChatMessageType.ACTION_BAR,
+						new TextComponent(ChatColor.GOLD + "❤ " + (int) p.getCurrentHealth() + ChatColor.GOLD + "/" + ChatColor.GOLD + (int) p.getHealth() + "   " + ChatColor.RED + "NOT ENOUGH MANA  " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+				if(0 > p.getManaTimer()) {
+					p.setManaTimer(p.getManaTimer() + 1);
+				}
+			} else {
+				player.spigot().sendMessage(
+						ChatMessageType.ACTION_BAR,
+						new TextComponent(ChatColor.GOLD + "❤ " + (int) p.getCurrentHealth() + ChatColor.GOLD + "/" + ChatColor.GOLD + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+			}
+		} else {
+			if(0 > p.getManaTimer()) {
+			player.spigot().sendMessage(
+					ChatMessageType.ACTION_BAR,
+					new TextComponent(ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + ChatColor.GRAY + "/" + ChatColor.RED + (int) p.getHealth() + "  " + ChatColor.RED + "NOT ENOUGH MANA  " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+				if(0 > p.getManaTimer()) {
+					p.setManaTimer(p.getManaTimer() + 1);
+				}
+			} else if (0 < p.getManaSpent() || 0 < p.getManaTimer()) {
+				double OldManaCost = p.getManaSpent();
+
+//                        CurrentMana.setScore(CurrentHealth.getScore() - OldManaCost);
+				player.spigot().sendMessage(
+						ChatMessageType.ACTION_BAR,
+						new TextComponent(ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + ChatColor.GRAY + "/" + ChatColor.RED + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "-" + (int) OldManaCost + " " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+				if (0 < p.getManaTimer())
+					p.setManaTimer(p.getManaTimer() - 1);
+				if (0 >= p.getManaTimer())
+					p.setManaSpent(0);
+			} else {
+				player.spigot().sendMessage(
+						ChatMessageType.ACTION_BAR,
+						new TextComponent(ChatColor.RED + "❤ " + (int) p.getCurrentHealth() + ChatColor.GRAY + "/" + ChatColor.RED + (int) p.getHealth() + "   " + ChatColor.GREEN + "🛡 " + (int) p.getDefence() + "   " + ChatColor.DARK_AQUA + "✎ " + ChatColor.AQUA + (int) p.getCurrentMana() + ChatColor.GRAY + "/" + ChatColor.AQUA + (int) p.getMana()));
+			}
+		}
+	}
 	public static String[] getPlayerClassStats(PlayerStats p) {
 		String[] classStats = new String[9];
 		String className = p.getPlayerClass().replace("\"", "");

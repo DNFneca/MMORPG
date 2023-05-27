@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,9 +33,9 @@ public class RightClickListener implements Listener {
 	public void onAbilityTry(PlayerInteractEvent e) {
 		Action action = e.getAction();
 		Player p = e.getPlayer();
-		if (Action.RIGHT_CLICK_AIR == action || Action.RIGHT_CLICK_BLOCK == action) {
+		if ((Action.RIGHT_CLICK_AIR == action || Action.RIGHT_CLICK_BLOCK == action) && EquipmentSlot.HAND == e.getHand()) {
 			e.getPlayer().getInventory().getItemInMainHand();
-			if (null != p.getInventory().getItemInMainHand().getItemMeta() && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Menu")) {
+			if (null != p.getInventory().getItemInMainHand() && null != p.getInventory().getItemInMainHand().getItemMeta() && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Menu")) {
 				e.setCancelled(true);
 
 				MainMenu(p);
@@ -43,11 +44,13 @@ public class RightClickListener implements Listener {
 			if (null != e.getClickedBlock() && Material.ANVIL == e.getClickedBlock().getType()) {
 				p.sendMessage("Clicked on anvil");
 			}
-			for (PlayerStats player : Players) {
-				if (p.getUniqueId().equals(player.getUUID())) {
-					for (Item item : CustomItems) {
-						if (ChatColor.stripColor(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName()).contains(item.getName())) {
-							AbilitiesManager.getAbility(item.getAbility(), player);
+			if (null != p.getInventory().getItemInMainHand() && null != p.getInventory().getItemInMainHand().getItemMeta()) {
+				for (PlayerStats player : Players) {
+					if (p.getUniqueId().equals(player.getUUID())) {
+						for (Item item : CustomItems) {
+							if (ChatColor.stripColor(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName()).contains(item.getName())) {
+								AbilitiesManager.getAbility(item.getAbility().split(" "), player);
+							}
 						}
 					}
 				}

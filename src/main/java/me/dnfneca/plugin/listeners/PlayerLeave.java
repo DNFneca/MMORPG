@@ -20,7 +20,6 @@ import static me.dnfneca.plugin.Plugin.Players;
 public class PlayerLeave implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
-		System.out.println(CustomMobs.get(0).getUUID());
 		for (PlayerStats p : Players) {
 			if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
 				try {

@@ -16,7 +16,9 @@ import java.util.UUID;
 
 import static me.dnfneca.plugin.Plugin.CustomReforges;
 
-public class initReforges {
+public enum initReforges {
+	;
+
 	public static void init() {
 
 
@@ -28,7 +30,7 @@ public class initReforges {
 		URL urlObject = null;
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a"); // The URL to the skin, for example: https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
 		textures.setSkin(urlObject);
@@ -60,7 +62,7 @@ public class initReforges {
 		urlObject = null;
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a"); // The URL to the skin, for example: https://textures.minecraft.net/texture/4c79ed60d8bce167417b8768d593c88076b0f2f9be8f14f5c8eda58bb0c9db18
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
 		textures.setSkin(urlObject);
@@ -92,7 +94,7 @@ public class initReforges {
 		urlObject = null;
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a");
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
 		textures.setSkin(urlObject);
@@ -124,7 +126,7 @@ public class initReforges {
 		urlObject = null;
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a");
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
 		textures.setSkin(urlObject);
@@ -156,7 +158,7 @@ public class initReforges {
 		urlObject = null;
 		try {
 			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a");
-		} catch (final MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
 		textures.setSkin(urlObject);
@@ -180,7 +182,7 @@ public class initReforges {
 				0));
 
 		reforgeItemStack = new ItemStack(Material.FEATHER);
-		final ItemMeta reforgeItemMetaNonHead = reforgeItemStack.getItemMeta();
+		ItemMeta reforgeItemMetaNonHead = reforgeItemStack.getItemMeta();
 		reforgeItemMetaNonHead.setDisplayName("Corax's Feather");
 		reforgeItemStack.setItemMeta(reforgeItemMetaNonHead);
 		CustomReforges.add(new Reforge("Corax's Feather",

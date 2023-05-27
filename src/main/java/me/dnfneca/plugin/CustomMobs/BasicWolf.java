@@ -33,9 +33,9 @@ public class BasicWolf implements Listener {
 	}
 
 	public static void createWolf(Location location) {
-		final long[] AB1CD = {0};
-		final long[] AB2CD = {0};
-		final String[] entities = new String[0];
+		long[] AB1CD = {0};
+		long[] AB2CD = {0};
+		String[] entities = new String[0];
 
 		Wolf spider = location.getWorld().spawn(location, Wolf.class);
 

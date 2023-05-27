@@ -86,7 +86,7 @@ public enum PlayerLevels {
 	public static void setLevel(Player p, int level) {
 
 		for (int i = 0; i < level; i++) {
-			PlayerLevels.add(p, getLeftXp(p));
+			add(p, getLeftXp(p));
 		}
 	}
 

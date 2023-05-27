@@ -18,15 +18,15 @@ import java.util.List;
 
 public class CraftingTableListener implements Listener {
 	@EventHandler
-	public void onPlaceItemInCraftingTable(final InventoryClickEvent e) {
-		final List<ItemStack> list = new ArrayList<ItemStack>();
+	public void onPlaceItemInCraftingTable(InventoryClickEvent e) {
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		if (e.getView().getTitle().contains("Crafting Table")) {
 			if (24 == e.getSlot() && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Your recipe will appear here")) {
 				Recipes.ItemTakeOut(e.getCurrentItem().getItemMeta().getDisplayName(), e.getInventory());
 			}
 			for (int i = 0; i <= e.getInventory().getSize(); ++i) {
 				if (10 == i || 11 == i || 12 == i || 19 == i || 20 == i || 21 == i || 28 == i || 29 == i || 30 == i) {
-					final int finalI = i;
+					int finalI = i;
 					new BukkitRunnable() {
 						public void run() {
 							if (null != e.getView().getTopInventory().getItem(finalI)) {
@@ -46,8 +46,8 @@ public class CraftingTableListener implements Listener {
 	}
 
 	@EventHandler
-	public void onCraftingTableClose(final InventoryCloseEvent e) {
-		final List<ItemStack> Items = new ArrayList<ItemStack>();
+	public void onCraftingTableClose(InventoryCloseEvent e) {
+		List<ItemStack> Items = new ArrayList<ItemStack>();
 		if (e.getView().getTitle().contains("Crafting Table")) {
 			for (int i = 0; i <= e.getInventory().getSize(); ++i) {
 				if (10 == i || 11 == i || 12 == i || 19 == i || 20 == i || 21 == i || 28 == i || 29 == i || 30 == i) {
@@ -55,7 +55,7 @@ public class CraftingTableListener implements Listener {
 						Items.add(e.getView().getTopInventory().getItem(i));
 					}
 				} else if (44 < i) {
-					for (final ItemStack item : Items) {
+					for (ItemStack item : Items) {
 						e.getPlayer().getInventory().addItem(item);
 					}
 				}

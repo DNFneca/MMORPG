@@ -14,6 +14,7 @@ public class MobStats {
 
 
 	String Name;
+	double StunDuration;
 	double Health;
 	double Damage;
 	double Defence;
@@ -38,7 +39,7 @@ public class MobStats {
 
 	int Level;
 
-	public MobStats(final UUID UUID, final String Name, final double Health, double Damage, double Defence, double Strength, double Speed, double CritDamage, double CritChance, double Stealth, final int xpDropAmount, final Class<LivingEntity> entityType, final int Level) {
+	public MobStats(UUID UUID, String Name, double Health, double Damage, double Defence, double Strength, double Speed, double CritDamage, double CritChance, double Stealth, int xpDropAmount, Class<LivingEntity> entityType, int Level) {
 		this.Name = Name;
 		this.UUID = UUID;
 		this.Health = Health;
@@ -60,6 +61,7 @@ public class MobStats {
 		this.BaseCritDamage = CritDamage;
 		this.BaseCritChance = CritChance;
 		this.Level = Level;
+		this.StunDuration = 0;
 		this.main();
 	}
 
@@ -93,7 +95,14 @@ public class MobStats {
 		HealthRegenTime = healthRegenTime;
 	}
 
-
+	public boolean setStunDuration(double stunDuration) {
+		if(this.StunDuration > stunDuration) {
+			return false;
+		} else {
+			this.StunDuration = stunDuration;
+			return true;
+		}
+	}
 
 	public void setCurrentHealth(double currentHealth) {
 		CurrentHealth = currentHealth;
@@ -134,6 +143,10 @@ public class MobStats {
 	// Get
 
 
+	public double getStunDuration() {
+		return this.StunDuration;
+	}
+
 	public double getBaseCritChance() {
 		return BaseCritChance;
 	}
@@ -162,8 +175,8 @@ public class MobStats {
 		return BaseStrength;
 	}
 
-	public static MobStats getMob(final UUID mobUUID) {
-		for (final MobStats mob : CustomMobs) {
+	public static MobStats getMob(UUID mobUUID) {
+		for (MobStats mob : CustomMobs) {
 			if(mob.UUID.equals(mobUUID)) {
 				return mob;
 			}
@@ -171,11 +184,11 @@ public class MobStats {
 
 		return null;
 	}
-	public static LivingEntity getEntity(final UUID UUID) {
+	public static LivingEntity getEntity(UUID UUID) {
 		return (LivingEntity) Bukkit.getEntity(UUID);
 	}
 	public MobStats getMobStats() {
-		return MobStats.getMob(this.UUID);
+		return getMob(this.UUID);
 	}
 	public int getHealthRegenTime() {
 		return HealthRegenTime;
@@ -235,8 +248,8 @@ public class MobStats {
 	public Class<LivingEntity> getEntityType() {
 		return entityType;
 	}
-	public MobStats getStatsByEntity(final LivingEntity entity) {
-		for (final MobStats customMob : CustomMobs) {
+	public MobStats getStatsByEntity(LivingEntity entity) {
+		for (MobStats customMob : CustomMobs) {
 			if(customMob.entityType.equals(entity)) {
 				return customMob;
 			}

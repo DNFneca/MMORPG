@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.CustomReforges;
-import static me.dnfneca.plugin.utilities.managers.Item.DetermineItemAbility.getItemAbilityLore;
+import static me.dnfneca.plugin.utilities.managers.Item.ItemAbilityLore.getItemAbilityLore;
 
 public enum Items {
     ;
@@ -55,9 +55,9 @@ public enum Items {
 
 	public static boolean isItemReforged(String ItemName) {
 		ItemName = ChatColor.stripColor(ItemName);
-		for (final Item customItem : CustomItems) {
+		for (Item customItem : CustomItems) {
 			if(ItemName.contains(customItem.getName())) {
-				final String reforgeName = ItemName.replace(customItem.getName(), "").replace(" ", "");
+				String reforgeName = ItemName.replace(customItem.getName(), "").replace(" ", "");
 				if(null == reforgeName) return false;
 				for (Reforge reforge : CustomReforges) {
 					if (reforge.getReforgeName().equals(reforgeName)) {
@@ -71,9 +71,9 @@ public enum Items {
 
 	public static String getItemReforge(String ItemName) {
 		ItemName = ChatColor.stripColor(ItemName);
-		for (final Item customItem : CustomItems) {
+		for (Item customItem : CustomItems) {
 			if(ItemName.contains(customItem.getName())) {
-				final String reforgeName = ItemName.replace(customItem.getName(), "").replace(" ", "");
+				String reforgeName = ItemName.replace(customItem.getName(), "").replace(" ", "");
 				if(null == reforgeName) return null;
 				for (Reforge reforge : CustomReforges) {
 					if (reforge.getReforgeName().equals(reforgeName)) {
@@ -86,7 +86,7 @@ public enum Items {
 	}
 
 	public static void setItemLore(Inventory inventory, ItemMeta itemMeta, int itemSlot) {
-		final ItemMeta originalMeta = itemMeta.clone();
+		ItemMeta originalMeta = itemMeta.clone();
 		String itemName = ChatColor.stripColor(itemMeta.getDisplayName());
 		if (itemName.contains("Menu")) {
 			return;
@@ -96,9 +96,9 @@ public enum Items {
 
 		ChatColor color;
 		if (null == item) {
-			for (final Reforge customReforge : CustomReforges) {
+			for (Reforge customReforge : CustomReforges) {
 				if(customReforge.getName().contains(itemName) && !itemMeta.hasLore()) {
-					final List<String> Lore = new ArrayList<>();
+					List<String> Lore = new ArrayList<>();
 					switch (customReforge.getRarity()) {
 						case "Rare":
 							color = ChatColor.BLUE;
@@ -191,9 +191,9 @@ public enum Items {
 		Reforge reforge = getCustomReforgeByName(reforgeName.replace(" ", ""));
 
 
-		if (null != itemInQ && itemInQ.getItemMeta().hasLore() && null == reforge) {
-			return;
-		}
+//		if (null != itemInQ && itemInQ.getItemMeta().hasLore() && null == reforge) {
+//			return;
+//		}
 //
 //
 //
@@ -487,25 +487,25 @@ public enum Items {
 
 		if (!"none".equals(item.getAbility())) {
 			getItemAbilityLore(Lore, item);
+			if(1 < item.getAbility().split(" ").length) {
+				Lore.add(ChatColor.GRAY + "Mana Cost: " + ChatColor.AQUA + item.getAbility().split(" ")[1]);
+			} else {
+				Lore.add(ChatColor.GRAY + "Mana Cost: " + ChatColor.AQUA + "0");
+			}
+		}
+		Lore.add("");
+		Lore.add(color + item.Rarity);
+		itemMeta.setLore(Lore);
+		if(originalMeta.getDisplayName().equals(itemMeta.getDisplayName()) && originalMeta.getLore().equals(Lore)) {
+			return;
 		}
 
-		if(item.getAttackSpeed() != 0) {
+		if(0 != item.getAttackSpeed()) {
 			itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "attack_speed", (item.getAttackSpeed() * 1), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-
 		}
 //        itemMeta.setAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED = 0);
 
 
-		Lore.add("");
-		Lore.add(color + item.Rarity);
-		itemMeta.setLore(Lore);
-		if(originalMeta.getDisplayName().equals(itemMeta.getDisplayName())) {
-			return;
-		}
-		if(originalMeta.hasLore())
-			if(originalMeta.getLore().equals(Lore)) {
-				return;
-			}
 		itemMeta.setUnbreakable(true);
 		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -514,7 +514,7 @@ public enum Items {
 		itemInQ.setItemMeta(itemMeta);
 	}
 	public static void setItemLore(ItemStack itemInQ, ItemMeta itemMeta) {
-		final ItemMeta originalMeta = itemMeta.clone();
+		ItemMeta originalMeta = itemMeta.clone();
 		String itemName = ChatColor.stripColor(itemMeta.getDisplayName());
 		if (itemName.contains("Menu")) {
 			return;
@@ -523,9 +523,9 @@ public enum Items {
 
 		ChatColor color;
 		if (null == item) {
-			for (final Reforge customReforge : CustomReforges) {
+			for (Reforge customReforge : CustomReforges) {
 				if(customReforge.getName().contains(itemName) && !itemMeta.hasLore()) {
-					final List<String> Lore = new ArrayList<>();
+					List<String> Lore = new ArrayList<>();
 					switch (customReforge.getRarity()) {
 						case "Rare":
 							color = ChatColor.BLUE;
@@ -916,7 +916,7 @@ public enum Items {
 			getItemAbilityLore(Lore, item);
 		}
 
-		if(item.getAttackSpeed() != 0) {
+		if(0 != item.getAttackSpeed()) {
 			itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "attack_speed", (item.getAttackSpeed() * 1), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
 
 		}

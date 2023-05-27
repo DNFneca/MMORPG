@@ -10,8 +10,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 public enum Wave {
 	;
 
-	public static void Wave(PlayerStats p) {
-		p.setManaSpent(25);
+	public static boolean Wave(PlayerStats p, float cost) {
+		p.removeMana(cost);
+		p.setManaSpent(cost);
 		p.setManaTimer(6);
 
 		new BukkitRunnable() {
@@ -36,5 +37,6 @@ public enum Wave {
 				}
 			}
 		}.runTaskTimer(Plugin.getInstance(), 0, 1);
+		return true;
 	}
 }

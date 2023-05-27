@@ -49,7 +49,6 @@ public final class Plugin extends JavaPlugin {
 			System.out.println("Directory cannot be created");
 		}
 
-
 		// TODO crafting
 		// TODO fix bugs
 
@@ -74,26 +73,26 @@ public final class Plugin extends JavaPlugin {
 
 		//  MOBS
 
-        getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
-        getServer().getPluginManager().registerEvents(new BasicWolf(this), this);
-        getServer().getPluginManager().registerEvents(new Dummy(this), this);
+		getServer().getPluginManager().registerEvents(new BasicSpider(this), this);
+		getServer().getPluginManager().registerEvents(new BasicWolf(this), this);
+		getServer().getPluginManager().registerEvents(new Dummy(this), this);
 
 
 		// EVENTS
 
 
-        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-        getServer().getPluginManager().registerEvents(new AttackListener(), this);
-        getServer().getPluginManager().registerEvents(new FishingListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerHealthListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
-        getServer().getPluginManager().registerEvents(new RightClickListener(), this);
-        getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
-        getServer().getPluginManager().registerEvents(new DropItemListener(), this);
-        getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
-        getServer().getPluginManager().registerEvents(new Waystone(), this);
-        getServer().getPluginManager().registerEvents(new SetOpenedInventoryItemsLore(), this);
+		getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+		getServer().getPluginManager().registerEvents(new AttackListener(), this);
+		getServer().getPluginManager().registerEvents(new FishingListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerHealthListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+		getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
+		getServer().getPluginManager().registerEvents(new RightClickListener(), this);
+		getServer().getPluginManager().registerEvents(new CraftingTableListener(), this);
+		getServer().getPluginManager().registerEvents(new DropItemListener(), this);
+		getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
+		getServer().getPluginManager().registerEvents(new Waystone(), this);
+		getServer().getPluginManager().registerEvents(new SetOpenedInventoryItemsLore(), this);
 
 //        getServer().getPluginManager().registerEvents(new (this), this);
 

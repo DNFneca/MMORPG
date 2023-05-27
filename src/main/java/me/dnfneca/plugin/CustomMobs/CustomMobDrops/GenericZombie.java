@@ -16,8 +16,9 @@ import java.util.Random;
 
 import static me.dnfneca.plugin.utilities.managers.Item.Items.setItemLore;
 
-public class GenericZombie {
-    private static final Collection<ItemStack> items = new ArrayList<ItemStack>();
+public enum GenericZombie {
+	;
+	private static final Collection<ItemStack> items = new ArrayList<ItemStack>();
 
     /**
      * @param p the Entity that got killed
@@ -93,7 +94,7 @@ public class GenericZombie {
         rotten_flesh.setItemMeta(itemMeta);
         setItemLore(rotten_flesh, rotten_flesh.getItemMeta());
 
-        items.add(rotten_flesh);
+	    items.add(rotten_flesh);
 
         return items;
     }

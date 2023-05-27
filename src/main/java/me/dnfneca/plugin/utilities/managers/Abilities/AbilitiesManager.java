@@ -5,7 +5,9 @@ import me.dnfneca.plugin.Abilities.*;
 import me.dnfneca.plugin.CustomMobs.MobStats;
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -16,95 +18,82 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 
+import static me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc.updatePlayerActionBar;
+
 public enum AbilitiesManager {
 	;
 
-	public static void getAbility(String abilityName, PlayerStats player) {
-		switch (abilityName) {
-			case "Wave", "Fireball", "TrueShield", "Helix", "LaserPointer", "Tangle":
-				if (25 > player.getCurrentMana()) {
-					NotEnoughMana(player.getPlayer());
-					break;
-				}
-				ability(abilityName, player);
-				break;
+	public static void getAbility(String[] abilityName, PlayerStats player) {
+		if(abilityName.length < 2) {
+			return;
 		}
+		if(Float.parseFloat(abilityName[1]) > player.getCurrentMana()) {
+			NotEnoughMana(player);
+			return;
+		}
+		ability(abilityName, player);
 	}
 
-	public static void NotEnoughMana(Player p) {
-		p.sendMessage(ChatColor.RED + "NOT ENOUGH MANA!");
+	public static void NotEnoughMana(PlayerStats p) {
+		p.setManaTimer(-6);
+		updatePlayerActionBar(p);
 	}
 
-	public static void ability(String AbilityName, PlayerStats p) {
-		switch (AbilityName) {
+	public static void ability(String[] AbilityName, PlayerStats p) {
+		switch (AbilityName[0]) {
 			case "Wave":
-				Wave.Wave(p);
+				if (Wave.Wave(p, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
 			case "Helix":
-				Helix.Helix(p);
+				if (Helix.Helix(p, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
 			case "Fireball":
-				Fireball.Fireball(p);
+				if (Fireball.Fireball(p, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
 			case "TrueShield":
-				ShieldAbility.TrueShieldAbility(p, 1);
+				if(ShieldAbility.TrueShieldAbility(p, 1, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
 			case "LaserPointer":
-				LaserPointer.LaserPointer(p);
+				if(LaserPointer.LaserPointer(p, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
 			case "Tangle":
-				Tangle.Tangle(p);
+				if(Tangle.Tangle(p,Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 				break;
+			case "Teleport":
+			case "Reality_Warp":
+				if(Teleport.Teleport(p, Float.parseFloat(AbilityName[2]), Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
+				break;
+			case "Hook":
+				if(Hook.Hook(p, Float.parseFloat(AbilityName[1]))) {
+					updatePlayerActionBar(p);
+				}
 		}
 
 	}
-	public static boolean HitDetection(Location location, double distance, PlayerStats player) {
+	public static LivingEntity HitDetection(Location location, double distance, PlayerStats player) {
 		Collection<Entity> NearbyEntities = location.getWorld().getNearbyEntities(location, distance, distance, distance);
 		LivingEntity MobsNearby = null;
 		for (Entity e : NearbyEntities) {
-			if (e instanceof LivingEntity) {
+			if (e instanceof LivingEntity && e != player.getPlayer()) {
 				System.out.println(e);
 				MobsNearby = (LivingEntity) e;
 				break;
 			}
 		}
-		if (null == MobsNearby) {
-			return false;
-		} else {
-			player.getPlayer().sendMessage("Hit " + MobsNearby.getCustomName() + "at " + MobsNearby.getLocation());
-
-		}
-
-		return true;
-	}
-
-	public static boolean HitDetection(Location location, double distance, PlayerStats player, float stunDuration) {
-		Collection<Entity> NearbyEntities = location.getWorld().getNearbyEntities(location, distance, distance, distance);
-		LivingEntity MobsNearby = null;
-		for (Entity e : NearbyEntities) {
-			if (MobStats.getMob(e.getUniqueId()) != null) {
-				MobsNearby = (LivingEntity) e;
-				break;
-			}
-		}
-		if (null == MobsNearby) {
-			return false;
-		} else {
-			MobsNearby.setAI(false);
-			LivingEntity finalMobsNearby = MobsNearby;
-			MobsNearby.getWorld().playSound(MobsNearby, Sound.ITEM_ARMOR_EQUIP_CHAIN, 10, 1.5F);
-			new BukkitRunnable() {
-
-				@Override
-				public void run() {
-					finalMobsNearby.setAI(true);
-					finalMobsNearby.getWorld().playSound(finalMobsNearby, Sound.BLOCK_CHAIN_BREAK, 10, 2);
-				}
-			}.runTaskLater(Plugin.getInstance(), (long) (stunDuration*20));
-			player.getPlayer().sendMessage("Hit " + MobsNearby.getCustomName() + "at " + MobsNearby.getLocation());
-
-		}
-
-		return true;
+		return MobsNearby;
 	}
 }

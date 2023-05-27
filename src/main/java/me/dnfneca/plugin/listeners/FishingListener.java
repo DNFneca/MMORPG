@@ -17,25 +17,25 @@ import org.bukkit.event.player.PlayerFishEvent;
 
 public class FishingListener implements Listener {
 	@EventHandler
-	public void onRightClick(final PlayerFishEvent e) {
+	public void onRightClick(PlayerFishEvent e) {
 		e.setCancelled(true);
 		e.getPlayer().sendMessage(e.getState().toString());
-		final Player p = e.getPlayer();
-		final Location pLoc = p.getLocation();
+		Player p = e.getPlayer();
+		Location pLoc = p.getLocation();
 		if ("BITE" == e.getState().name()) {
 			e.getPlayer().playSound(pLoc, Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
 		}
 	}
 
 	@EventHandler
-	public void onBlockDestroy(final BlockBreakEvent e) {
+	public void onBlockDestroy(BlockBreakEvent e) {
 		if (GameMode.CREATIVE != e.getPlayer().getGameMode()) {
 			e.setCancelled(true);
 		}
 	}
 
 	@EventHandler
-	public void onPlayerAttackPlayer(final EntityDamageByEntityEvent e) {
+	public void onPlayerAttackPlayer(EntityDamageByEntityEvent e) {
 		if (EntityType.PLAYER == e.getDamager().getType() && EntityType.PLAYER == e.getEntity().getType()) {
 			e.setCancelled(true);
 		}

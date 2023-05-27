@@ -28,9 +28,9 @@ public class Dummy implements Listener {
 	}
 
 	public static void createDummy(Location location) {
-		final long[] AB1CD = {0};
-		final long[] AB2CD = {0};
-		final String[] entities = new String[0];
+		long[] AB1CD = {0};
+		long[] AB2CD = {0};
+		String[] entities = new String[0];
 
 		Zombie spider = location.getWorld().spawn(location, Zombie.class);
 

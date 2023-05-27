@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-public class Ghoul {
+public enum Ghoul {
+	;
 	private static final Collection<ItemStack> items = new ArrayList<ItemStack>();
 
 	/**

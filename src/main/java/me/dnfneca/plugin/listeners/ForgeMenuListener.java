@@ -87,15 +87,15 @@ public class ForgeMenuListener implements Listener {
 
 
 				if(null != e.getInventory().getItem(15) && null != e.getInventory().getItem(15).getItemMeta().getDisplayName()) {
-					final ItemStack reforged_item = reforgable_item.clone();
+					ItemStack reforged_item = reforgable_item.clone();
 					if(isItemReforged(e.getInventory().getItem(11).getItemMeta().getDisplayName())) {
-						for (final Reforge customReforge : CustomReforges) {
+						for (Reforge customReforge : CustomReforges) {
 							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
 								if(getItemReforge(e.getInventory().getItem(11).getItemMeta().getDisplayName()).equals(customReforge.getReforgeName())) {
 									e.getInventory().setItem(40, none);
 								} else {
-									final ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
-									final String[] itemName = reforgedItem.getDisplayName().split(" ");
+									ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
+									String[] itemName = reforgedItem.getDisplayName().split(" ");
 									reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName().replace(itemName[0] + " ", ""));
 									reforged_item.setItemMeta(reforgedItem);
 									e.getInventory().setItem(40, reforged_item);
@@ -105,10 +105,9 @@ public class ForgeMenuListener implements Listener {
 						}
 
 					} else {
-						System.out.println("EE");
-						for (final Reforge customReforge : CustomReforges) {
+						for (Reforge customReforge : CustomReforges) {
 							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
-								final ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
+								ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
 								reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName());
 								reforged_item.setItemMeta(reforgedItem);
 								e.getInventory().setItem(40, reforged_item);

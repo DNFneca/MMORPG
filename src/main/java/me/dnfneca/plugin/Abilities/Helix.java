@@ -10,8 +10,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 public enum Helix {
 	;
 
-	public static void Helix(PlayerStats p) {
-		p.setManaSpent(25);
+	public static boolean Helix(PlayerStats p, float cost) {
+		p.removeMana(cost);
+		p.setManaSpent(cost);
 		p.setManaTimer(6);
 
 		new BukkitRunnable() {
@@ -31,5 +32,6 @@ public enum Helix {
 				this.cancel();
 			}
 		}.runTaskTimer(Plugin.getInstance(), 0, 1);
+		return true;
 	}
 }

@@ -18,6 +18,11 @@ public class PlayerStats {
 
 
 	java.util.UUID UUID;
+
+	double BonusHealth;
+	int BonusHealthTimer;
+	int BonusManaTimer;
+	double BonusMana;
 	double Health;
 	double Damage;
 	double Defence;
@@ -36,6 +41,7 @@ public class PlayerStats {
 	double ManaSpent;
 	int HealthRegenTime;
 	int ManaRegenTime;
+	double StunDuration;
 
 	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int Xp, String Class) {
 		this.UUID = UUID;
@@ -54,25 +60,27 @@ public class PlayerStats {
 		this.ManaTimer = 0;
 		this.HealthRegenTime = 4;
 		this.ManaRegenTime = 4;
-        main();
+		this.StunDuration = 0;
+		this.BonusHealth = 0;
+		this.BonusMana = 0;
+		this.BonusManaTimer = 0;
+		this.BonusHealthTimer = 0;
+		main();
 	}
 
 	public void main() {
-        CurrentHealth = Health;
-        CurrentMana = Mana;
+		CurrentHealth = Health;
+		CurrentMana = Mana;
 		Plugin plugin = Plugin.getInstance();
 		if (!"none".equals(this.Class.replace("\"", ""))) {
-            ChoiceCD = 1;
+			ChoiceCD = 1;
 		}
 		//
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				if (0 > PlayerStats.this.ChoiceCD) {
-                    ChoiceCD = 0;
-				}
-				if (0 > PlayerStats.this.ManaTimer) {
-                    ManaTimer--;
+					ChoiceCD = 0;
 				}
 			}
 		}.runTaskTimer(plugin, 0L, 20L);
@@ -88,8 +96,20 @@ public class PlayerStats {
 				}
 
 				PlayerStatCalc.Calculate(getPlayerStats(UUID));
-				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255, false, false));
-				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1019, 255, false, false));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255, true, false));
+				getPlayer().setFoodLevel(20);
+				getPlayer().setSaturatedRegenRate(1000);
+				getPlayer().setUnsaturatedRegenRate(1000);
+			}
+		}.runTaskTimer(plugin, 0L, 5L);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (null == PlayerStats.this.getPlayer()) {
+					this.cancel();
+					return;
+				}
 
 				int Slots = getPlayer().getInventory().getSize();
 				for (int i = 0; i < Slots; i++) {
@@ -99,8 +119,7 @@ public class PlayerStats {
 					}
 				}
 			}
-		}.runTaskTimer(plugin, 0L, 5L);
-
+		}.runTaskTimer(plugin, 0L, 200L);
 
 	}
 
@@ -108,20 +127,42 @@ public class PlayerStats {
 	// Set
 
 
+	public void setBonusHealth(double bonusHealth) {
+		this.BonusHealth = bonusHealth;
+		this.CurrentHealth = CurrentHealth + bonusHealth;
+	}
+
+	public void setBonusHealthTimer(int bonusHealthTimer) {
+		this.BonusHealthTimer = bonusHealthTimer;
+	}
+
+	public void setBonusMana(double bonusMana) {
+		this.BonusMana = bonusMana;
+		this.CurrentMana = CurrentMana + bonusMana;
+	}
+
+	public void setBonusManaTimer(int bonusManaTimer) {
+		this.BonusManaTimer = bonusManaTimer;
+	}
+
+	public void setStunDuration(double stunDuration) {
+		this.StunDuration = stunDuration;
+	}
+
 	public void setHealthRegenTime(int healthRegenTime) {
-        HealthRegenTime = healthRegenTime;
+		HealthRegenTime = healthRegenTime;
 	}
 
 	public void setManaRegenTime(int manaRegenTime) {
-        ManaRegenTime = manaRegenTime;
+		ManaRegenTime = manaRegenTime;
 	}
 
 	public void setCurrentHealth(double currentHealth) {
-        CurrentHealth = currentHealth;
+		CurrentHealth = currentHealth;
 	}
 
 	public void setCurrentMana(double currentMana) {
-        CurrentMana = currentMana;
+		CurrentMana = currentMana;
 	}
 
 	public void setChoiceCD(int ChoiceCD) {
@@ -137,54 +178,74 @@ public class PlayerStats {
 	}
 
 	public void setHealth(double health) {
-        Health = health;
+		Health = health;
 	}
 
 	public void setDamage(double damage) {
-        Damage = damage;
+		Damage = damage;
 	}
 
 	public void setDefence(double defence) {
-        Defence = defence;
+		Defence = defence;
 	}
 
 	public void setStrength(double strength) {
-        Strength = strength;
+		Strength = strength;
 	}
 
 	public void setSpeed(double speed) {
-        Speed = speed;
+		Speed = speed;
 	}
 
 	public void setMana(double mana) {
-        Mana = mana;
+		Mana = mana;
 	}
 
 	public void setCritDamage(double critDamage) {
-        CritDamage = critDamage;
+		CritDamage = critDamage;
 	}
 
 	public void setCritChance(double critChance) {
-        CritChance = critChance;
+		CritChance = critChance;
 	}
 
 	public void setStealth(double stealth) {
-        Stealth = stealth;
+		Stealth = stealth;
 	}
 
 	public void setXp(int xp) {
-        Xp = xp;
+		Xp = xp;
 	}
 
 	public void setClass(String aClass) {
-        Class = aClass;
+		Class = aClass;
 	}
 
 	public void setManaSpent(double manaSpent) {
-        ManaSpent = manaSpent;
+		ManaSpent = manaSpent;
 	}
 	// Get
 
+
+	public double getStunDuration() {
+		return this.StunDuration;
+	}
+
+	public double getBonusHealth() {
+		return this.BonusHealth;
+	}
+
+	public double getBonusMana() {
+		return this.BonusMana;
+	}
+
+	public int getBonusHealthTimer() {
+		return this.BonusHealthTimer;
+	}
+
+	public int getBonusManaTimer() {
+		return this.BonusManaTimer;
+	}
 
 	public int getHealthRegenTime() {
 		return HealthRegenTime;
@@ -277,6 +338,15 @@ public class PlayerStats {
 
 	public String getPlayerClass() {
 		return Class;
+	}
+
+	public void removeMana(float amount) {
+		if(BonusMana - amount < 0) {
+			BonusMana = 0;
+			CurrentMana = CurrentMana + BonusMana - amount;
+		} else {
+			BonusMana = BonusMana - amount;
+		}
 	}
 
 }

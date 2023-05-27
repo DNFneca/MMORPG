@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 
 public class summonmob implements CommandExecutor {
-	public boolean onCommand(@Nonnull final CommandSender sender, @Nonnull final Command command, @Nonnull final String label, @Nonnull final String[] args) {
-		if (sender instanceof final Player player) {
+	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+		if (sender instanceof Player player) {
 			if (player.isOp()) {
 				if ("summonmob".equalsIgnoreCase(command.getName())) {
 					SpawnMob.spawnMob(args[0], player.getLocation());
