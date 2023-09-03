@@ -69,7 +69,8 @@ public final class Plugin extends JavaPlugin {
 		this.getCommand("test").setExecutor(new test());
 		this.getCommand("setLevel").setExecutor(new setLevel());
 		this.getCommand("enchantitem").setExecutor(new enchantitem());
-
+		this.getCommand("textchoice").setExecutor(new textChoice());
+		this.getCommand("runconversation").setExecutor(new runConversation());
 
 		//  MOBS
 

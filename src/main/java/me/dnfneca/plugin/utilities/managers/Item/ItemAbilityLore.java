@@ -16,7 +16,7 @@ public enum ItemAbilityLore {
 		} else {
 			Lore.add(ChatColor.GOLD + "RIGHT CLICK: " + item.getAbility().split(" ")[0].replace("_", " "));
 
-			switch (item.getAbility().split(" ")[0]) {
+			switch (item.getAbilityName()) {
 				case "Reality_Warp":
 					Lore.add(ChatColor.LIGHT_PURPLE + "Teleport" + ChatColor.GRAY + " yourself 10 blocks in");
 					Lore.add(ChatColor.GRAY + "the direction you're looking in");

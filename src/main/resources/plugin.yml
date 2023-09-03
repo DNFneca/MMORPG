@@ -37,3 +37,9 @@ commands:
   enchantitem:
     description: enchant the item you're holding
     usage: /enchantitem <enchantment>
+  textChoice:
+    description: test
+    usage: /textchoice
+  runConversation:
+      description: test
+      usage: /textchoice

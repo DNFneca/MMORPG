@@ -70,10 +70,10 @@ public enum MobStatsCalc {
 
 
 		if (0 == p.getHealthRegenTime()) {
-			if (p.getCurrentHealth() + p.getHealth() * 0.01 > p.getHealth()) {
+			if (p.getCurrentHealth() + p.getHealth() * 0.001 > p.getHealth()) {
 				p.setCurrentHealth(p.getHealth());
 			} else {
-				p.setCurrentHealth(p.getCurrentHealth() + p.getHealth() * 0.01);
+				p.setCurrentHealth(p.getCurrentHealth() + p.getHealth() * 0.001);
 			}
 			p.setHealthRegenTime(4);
 		}

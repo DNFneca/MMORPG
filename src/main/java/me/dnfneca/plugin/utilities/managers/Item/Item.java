@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
+
 import static me.dnfneca.plugin.Plugin.CustomItems;
 
 public class Item {
@@ -123,6 +125,25 @@ public class Item {
 
 	public String getAbility() {
 		return Ability;
+	}
+
+	public String getAbilityName() {
+		String[] Split = Ability.split(" ");
+		String Result = new String();
+		for(int i = 0; i < Split.length - 2; i++) {
+			Result.concat(Split[i]);
+			if(i != Split.length - 3)
+				Result.concat("_");
+		}
+		return Result;
+	}
+
+	public int getAbilityCost() {
+		String[] Split = Ability.replace(" ", "_").split("_");
+		if(Split.length == 0 || Split[0].contains("none")) {
+			return 0;
+		}
+		return Integer.parseInt(Split[Split.length - 1]);
 	}
 
 	public String getFullSetBonus() {

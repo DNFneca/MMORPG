@@ -36,7 +36,7 @@ public class MobStats {
 	double BaseCritDamage;
 	double BaseCritChance;
 	UUID UUID;
-
+	String Element;
 	int Level;
 
 	public MobStats(UUID UUID, String Name, double Health, double Damage, double Defence, double Strength, double Speed, double CritDamage, double CritChance, double Stealth, int xpDropAmount, Class<LivingEntity> entityType, int Level) {
@@ -62,6 +62,7 @@ public class MobStats {
 		this.BaseCritChance = CritChance;
 		this.Level = Level;
 		this.StunDuration = 0;
+		this.Element = "None";
 		this.main();
 	}
 
@@ -75,9 +76,11 @@ public class MobStats {
 			@Override
 			public void run() {
 				for (MobStats customMob : CustomMobs) {
-					if(customMob.getUUID().equals(UUID)) {
-						MobStatsCalc.Calculate(MobStats.this.getMobStats());
-						break;
+					if(customMob != null) {
+						if (customMob.getUUID().equals(UUID)) {
+							MobStatsCalc.Calculate(MobStats.this.getMobStats());
+							break;
+						}
 					}
 					cancel();
 				}

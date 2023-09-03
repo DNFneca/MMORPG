@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 
+import java.util.List;
+
 import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.CustomReforges;
 
@@ -23,7 +25,6 @@ public class giveitem implements CommandExecutor {
 	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 
 		if (sender instanceof Player player) {
-			player.sendMessage(args[0]);
 			if (player.isOp()) {
 				if ("giveitem".equalsIgnoreCase(command.getName())) {
 					ItemMeta meta;
@@ -47,6 +48,22 @@ public class giveitem implements CommandExecutor {
 							givenItem.setItemMeta(givenItemMeta);
 							player.getInventory().addItem(givenItem);
 							return true;
+						}
+					}
+					List<String> searchResult = itemTabComplete.SearchItems(args);
+					if(searchResult.size() == 1) {
+						String itemCodeName = searchResult.get(0);
+						for (Item item : CustomItems) {
+							if (itemCodeName.equals(item.getCodeName())) {
+								ItemStack givenItem = new ItemStack(item.getItemMaterial());
+								ItemMeta givenItemMeta = givenItem.getItemMeta();
+								givenItemMeta.setDisplayName(item.getName());
+								givenItemMeta.setCustomModelData(item.getCustomLookCode());
+								givenItem.setItemMeta(givenItemMeta);
+								Items.setItemLore(givenItem, givenItemMeta);
+								player.getInventory().addItem(givenItem);
+								return true;
+							}
 						}
 					}
 				}

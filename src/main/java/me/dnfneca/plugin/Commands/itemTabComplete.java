@@ -16,20 +16,29 @@ public class itemTabComplete implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (1 == args.length) {
-			List<String> p = new ArrayList<>();
-			for (Item s : CustomItems) {
-				if (null != s.getCodeName() && s.getCodeName().contains(args[0])) {
-					p.add(s.getCodeName());
-				}
-			}
-			for (Reforge customReforge : CustomReforges) {
-				if(null != customReforge.getName() && customReforge.getName().toUpperCase().replace(" ", "_").contains(args[0])) {
-					p.add(customReforge.getName().toUpperCase().replace(" ", "_"));
-				}
-			}
-
-			return p;
+			return SearchItems(args);
 		}
 		return null;
+	}
+
+	public static List<String> SearchItems(String[] args) {
+		List<String> p = new ArrayList<>();
+		for (Item s : CustomItems) {
+			if (null != s.getCodeName() && s.getCodeName().contains(args[0])) {
+				p.add(s.getCodeName());
+			}
+			if (s.getAbilityName().toUpperCase().contains(args[0].toUpperCase())) {
+				p.add(s.getCodeName());
+			}
+			if (s.getAbilityCost() != 0 && args[0] != "" && String.valueOf(s.getAbilityCost()).equals(args[0])) {
+				p.add(s.getCodeName());
+			}
+		}
+		for (Reforge customReforge : CustomReforges) {
+			if(null != customReforge.getName() && customReforge.getName().toUpperCase().replace(" ", "_").contains(args[0])) {
+				p.add(customReforge.getName().toUpperCase().replace(" ", "_"));
+			}
+		}
+		return p;
 	}
 }
