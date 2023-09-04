@@ -1,8 +1,6 @@
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.Conversations.ExecuteActions;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import me.dnfneca.plugin.utilities.managers.Social.ExecuteActions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,11 +13,10 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static me.dnfneca.plugin.utilities.managers.Conversations.NextConversation.nextConversation;
+import static me.dnfneca.plugin.utilities.managers.Social.NextConversation.nextConversation;
 
 public class runConversation implements CommandExecutor {
 	@Override
@@ -40,10 +37,7 @@ public class runConversation implements CommandExecutor {
 					if(data.get("action") != null){
 						String[] arrayList = data.get("action").toString().replace("[", "").replace("]", "").replace("\"", "").replace(" ", "").split(",");
 						ExecuteActions.Action(arrayList,data.get("directed_to").toString(),sender);
-						String arrayListString = Arrays.toString(arrayList);
 					}
-
-
 
 					p.sendMessage(ChatColor.GREEN + args[0] + ChatColor.GOLD + ": " + ChatColor.WHITE + data.get("answer").toString());
 

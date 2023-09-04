@@ -34,7 +34,7 @@ public final class Plugin extends JavaPlugin {
 
 	public static List<MobStats> CustomMobsAvailable = new ArrayList<>();
 
-
+	public static List<String> NPCs = new ArrayList<>();
 	public static List<PlayerStats> Players = new ArrayList<>();
 
 
@@ -108,6 +108,7 @@ public final class Plugin extends JavaPlugin {
 
 		initMobs.init();
 
+		initNPC.init();
 
 
 

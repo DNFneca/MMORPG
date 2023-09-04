@@ -33,7 +33,7 @@ public class PlayerStats {
 	double CritDamage;
 	double CritChance;
 	double Stealth;
-	int Xp;
+	int EnchantingXp;
 	String Class;
 	int ChoiceCD;
 	int ManaTimer;
@@ -44,7 +44,7 @@ public class PlayerStats {
 	int ManaRegenTime;
 	double StunDuration;
 
-	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int Xp, String Class) {
+	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, String Class) {
 		this.UUID = UUID;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -55,7 +55,7 @@ public class PlayerStats {
 		this.CritDamage = CritDamage;
 		this.CritChance = CritChance;
 		this.Stealth = Stealth;
-		this.Xp = Xp;
+		this.EnchantingXp = EnchantingXp;
 		this.Class = Class;
 		this.ChoiceCD = 0;
 		this.ManaTimer = 0;
@@ -215,8 +215,8 @@ public class PlayerStats {
 		Stealth = stealth;
 	}
 
-	public void setXp(int xp) {
-		Xp = xp;
+	public void setEnchantingXp(int enchantingXp) {
+		EnchantingXp = enchantingXp;
 	}
 
 	public void setClass(String aClass) {
@@ -335,12 +335,20 @@ public class PlayerStats {
 		return Stealth;
 	}
 
-	public int getXp() {
-		return Xp;
+	public int getEnchantingXp() {
+		return EnchantingXp;
 	}
 
 	public String getPlayerClass() {
 		return Class;
+	}
+
+	public int getLevel() {
+		return PlayerLevels.getLevel(getPlayer());
+	}
+
+	public int getXp() {
+		return PlayerLevels.getXP(getPlayer());
 	}
 
 	public void removeMana(float amount) {
