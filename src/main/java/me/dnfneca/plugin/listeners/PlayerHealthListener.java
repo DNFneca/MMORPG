@@ -29,7 +29,6 @@ public class PlayerHealthListener implements Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
-		System.out.println(e.getEntity());
 		if(e.getEntity() instanceof Player) {
 			PlayerHealth.PlayerHitHealth(e);
 		} else {

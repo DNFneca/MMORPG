@@ -14,7 +14,6 @@ public class SetOpenedInventoryItemsLore implements Listener {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				System.out.println(e.getViewers());
 				if (e.getViewers().isEmpty()) {
 					this.cancel();
 				}

@@ -14,57 +14,27 @@ public enum PlayerLevels {
 	;
 
 	public static void add(Player p, int amountOfXP) {
-		try {
-			JSONParser parser = new JSONParser();
-			JSONObject data = (JSONObject) parser.parse(
-					new FileReader("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8));//path to the JSON file.
-			int newAmountOfXP = getXP(p) + amountOfXP;
-			Object xe = data.get(p.getUniqueId().toString());
-			if (null == xe) {
-				JSONObject jsonObject = data;
-				jsonObject.put(p.getUniqueId(), amountOfXP);
-				FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
-				file.write(jsonObject.toString());
-				file.close();
-			} else {
-				Object Value = data.get(p.getUniqueId().toString());
-				JSONObject jsonObject = data;
-				JSONObject newJSONObject = data;
-				newJSONObject.put(p.getUniqueId().toString(), newAmountOfXP);
-				FileWriter file = new FileWriter("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8);
-				jsonObject.replace(p.getUniqueId(), jsonObject, newJSONObject);
-				file.write(jsonObject.toString());
-				file.close();
-			}
-		} catch (IOException | ParseException exception) {
-			exception.printStackTrace();
-		}
+		String xpAmount = PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "level")[0];
+		amountOfXP = Integer.parseInt(xpAmount) + amountOfXP;
+		PlayerFiles.ReplaceExistingPlayerDataToFile(p.getUniqueId().toString(), String.valueOf(amountOfXP), "xpAmount");
+	}
+
+	public static void setXp(Player p, int amountOfXP) {
+		PlayerFiles.ReplaceExistingPlayerDataToFile(p.getUniqueId().toString(), String.valueOf(amountOfXP), "xpAmount");
 	}
 
 	public static int getXP(Player p) {
-		try {
 
-			JSONParser parser = new JSONParser();
-			JSONObject data = (JSONObject) parser.parse(
-					new FileReader("./plugins/MMORPGData/Level.json", StandardCharsets.UTF_8));//path to the JSON file.
-			int xpAmount = 1;
-
-
-			if (null != data.get(p.getUniqueId().toString())) {
-				xpAmount = Integer.parseInt(String.valueOf(data.get(p.getUniqueId().toString())));
-			}
-
-			if (985037 < xpAmount) {
-				xpAmount = 985037;
-			}
-
-			return xpAmount;
-
-		} catch (IOException | ParseException e) {
-			throw new RuntimeException(e);
+		int xpAmount = 1;
+		if(PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "xpAmount") != null) {
+			xpAmount = Integer.parseInt(PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "xpAmount")[0]);
 		}
 
+		if (985037 < xpAmount) {
+			xpAmount = 985037;
+		}
 
+			return xpAmount;
 	}
 
 	public static int getLevel(Player p) {
@@ -84,10 +54,9 @@ public enum PlayerLevels {
 	}
 
 	public static void setLevel(Player p, int level) {
-
-		for (int i = 0; i < level; i++) {
-			add(p, getLeftXp(p));
-		}
+		level--;
+		int xpAmount = (int) Math.round(Math.pow(Math.sqrt((10 * (level * 10))), 3));
+		setXp(p, xpAmount);
 	}
 
 	public static int getLeftXp(Player p) {

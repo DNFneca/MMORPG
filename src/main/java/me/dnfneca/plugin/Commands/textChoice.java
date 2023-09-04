@@ -30,7 +30,6 @@ public class textChoice  implements CommandExecutor {
 						JSONObject data = (JSONObject) parser.parse(
 								new FileReader("./plugins/MMORPGData/Convo/Conversations/" + args[0] + "/" + args[1] + ".json", StandardCharsets.UTF_8));//path to the JSON file.
 						Collection values = data.values();
-						System.out.println(values);
 						String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
 						String[] array = edit1.split(",");
 

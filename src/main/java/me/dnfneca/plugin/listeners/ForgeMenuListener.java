@@ -43,7 +43,6 @@ public class ForgeMenuListener implements Listener {
 		try {
 			ClickedItem = e.getCurrentItem();
 		} catch (Error error) {
-			System.out.println(error);
 		}
 		if (null == ClickedItem) {
 			return;

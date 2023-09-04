@@ -224,9 +224,6 @@ public enum PlayerHealth {
 				} else {
 					double shotPlayerEffectiveHealth = (shotPlayerHealth + shotPlayerBonusHealth ) * (shotPlayerDefence * 0.01 + 1);
 					double damageToDealToPlayer = shooterDamage * (shooterStrength * 0.01 + 1);
-					System.out.println(shotPlayer.getBonusHealth() + " A");
-					System.out.println(shotPlayerBonusHealth + " B");
-					System.out.println(damageToDealToPlayer + " C");
 					if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > (shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - (shotPlayerEffectiveHealth - damageToDealToPlayer)))) {
 						if(shooter.getEquipment().getItemInMainHand() == null || shooter.getEquipment().getItemInMainHand().getItemMeta() == null) {
 							killPlayer(shotPlayer, " was killed by " + playerShooter.getName());

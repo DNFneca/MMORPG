@@ -197,8 +197,6 @@ public class Waystone implements Listener {
 				temp++;
 			}
 			return waypoints;
-
-//            System.out.println(Arrays.deepToString(waypoints));
 		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}
@@ -222,18 +220,7 @@ public class Waystone implements Listener {
 					i++;
 				}
 			}
-//            System.out.println(Arrays.deepToString(waypoints));
-//            for (String[] s:waypoints) {
-//                for (String ss: s) {
-//                    if (ss != null) {
-//                        ss = ss.strip();
-//                        System.out.println(ss);
-//                    }
-//                }
-//            }
 			return waystones;
-
-//            System.out.println(Arrays.deepToString(waypoints));
 		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}

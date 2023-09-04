@@ -1,7 +1,9 @@
 package me.dnfneca.plugin.Commands;
 
+import me.dnfneca.plugin.utilities.managers.Conversations.ExecuteActions;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +15,11 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+
+import static me.dnfneca.plugin.utilities.managers.Conversations.NextConversation.nextConversation;
 
 public class runConversation implements CommandExecutor {
 	@Override
@@ -25,16 +31,25 @@ public class runConversation implements CommandExecutor {
 					JSONObject data = (JSONObject) parser.parse(
 							new FileReader("./plugins/MMORPGData/Convo/Results/" + args[0] + "/" + args[1] + ".json", StandardCharsets.UTF_8));//path to the JSON file.
 					Collection values = data.values();
-					System.out.println(values);
 					String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
 					String[] array = edit1.split(",");
 					for(int i = 0; i < 100; i++) {
 						sender.sendMessage("");
 					}
+
+					if(data.get("action") != null){
+						String[] arrayList = data.get("action").toString().replace("[", "").replace("]", "").replace("\"", "").replace(" ", "").split(",");
+						ExecuteActions.Action(arrayList,data.get("directed_to").toString(),sender);
+						String arrayListString = Arrays.toString(arrayList);
+					}
+
+
+
+					p.sendMessage(ChatColor.GREEN + args[0] + ChatColor.GOLD + ": " + ChatColor.WHITE + data.get("answer").toString());
+
 					if(data.get("question").toString().equals("Leave")) {
 						return true;
 					}
-					p.sendMessage(data.get("answer").toString());
 
 					args[1] = data.get("question").toString();
 
@@ -48,31 +63,5 @@ public class runConversation implements CommandExecutor {
 		return true;
 	}
 
-	public static void nextConversation(String[] args, CommandSender sender) {
-		try {
-			JSONParser parser = new JSONParser();
-			JSONObject data = (JSONObject) parser.parse(
-					new FileReader("./plugins/MMORPGData/Convo/Conversations/" + args[0] + "/" + args[1] + ".json", StandardCharsets.UTF_8));//path to the JSON file.
-			Collection values = data.values();
-			System.out.println(values);
-			String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
-			String[] array = edit1.split(",");
-			String originalString = args[1];
-			for(int i = 1; i <= array.length; i++) {
-				TextComponent message = new TextComponent(String.valueOf(data.get(String.valueOf(i))));
 
-
-				args[1] = originalString.concat("-" + i);
-
-				message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/runconversation " + args[0] + " " + args[1]));
-
-				sender.spigot().sendMessage(message);
-
-			}
-
-
-		} catch (IOException | ParseException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }

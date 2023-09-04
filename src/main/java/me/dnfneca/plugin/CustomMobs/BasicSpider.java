@@ -74,10 +74,6 @@ public class BasicSpider implements Listener {
 							}
 						}
 					}
-//                    if (e.) {
-//                        System.out.println(e);
-//
-//                    }
 				}
 			}
 		}.runTaskTimer(plugin, 0L, 1L);

@@ -89,7 +89,6 @@ public enum AbilitiesManager {
 		LivingEntity MobsNearby = null;
 		for (Entity e : NearbyEntities) {
 			if (e instanceof LivingEntity && e != player.getPlayer()) {
-				System.out.println(e);
 				MobsNearby = (LivingEntity) e;
 				break;
 			}

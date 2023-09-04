@@ -128,7 +128,6 @@ public class RightClickListener implements Listener {
 //            JSONObject object = (JSONObject) obj;
 //
 //            String name = (String) jsonObject.get(e.getPlayer());
-//            System.out.println(name);
 //
 
 		}

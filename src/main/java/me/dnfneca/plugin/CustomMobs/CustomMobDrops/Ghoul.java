@@ -39,7 +39,6 @@ public enum Ghoul {
 		location.setY(location.getY() - 0.4);
 
 		for (int a = 0; a < items.size(); a++) {
-			System.out.println(items.get(a));
 			if(0 < items.get(a).getAmount()) {
 				p.getLocation().getWorld().dropItemNaturally(location, items.get(a));
 			}
@@ -75,7 +74,6 @@ public enum Ghoul {
 		int leather_count;
 		int flesh_count;
 
-		System.out.println(item_count);
 
 		if (2 < item_count) {
 			leather_count = random.nextInt(item_count / 3);

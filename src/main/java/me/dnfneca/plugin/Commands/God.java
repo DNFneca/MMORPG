@@ -23,7 +23,6 @@ public class God implements CommandExecutor {
 				p.setInvulnerable(true);
 			}
 			PlayerLevels.add(p, 100);
-			System.out.println(PlayerLevels.getLevel(p));
 		}
 		return true;
 	}

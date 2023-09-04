@@ -9,6 +9,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import static me.dnfneca.plugin.Plugin.Players;
@@ -71,6 +72,7 @@ public class PlayerStats {
 	public void main() {
 		CurrentHealth = Health;
 		CurrentMana = Mana;
+		Players.add(this);
 		Plugin plugin = Plugin.getInstance();
 		if (!"none".equals(this.Class.replace("\"", ""))) {
 			ChoiceCD = 1;
@@ -219,6 +221,7 @@ public class PlayerStats {
 
 	public void setClass(String aClass) {
 		Class = aClass;
+		PlayerFiles.ReplaceExistingPlayerDataToFile(String.valueOf(UUID), aClass, "class");
 	}
 
 	public void setManaSpent(double manaSpent) {

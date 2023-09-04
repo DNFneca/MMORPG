@@ -87,7 +87,6 @@ public class InventoryListener implements Listener {
 		try {
 			ClickedItem = e.getCurrentItem();
 		} catch (Error error) {
-			System.out.println(error);
 		}
 		if (null == ClickedItem) {
 			return;
@@ -96,7 +95,6 @@ public class InventoryListener implements Listener {
 
 		if (null != ClickedItem) {
 			if (null != ClickedItem.getItemMeta()) {
-//                System.out.println(ClickedItem);
 
 
 				if (ClickedItem.getItemMeta().getDisplayName().contains(":")
@@ -182,7 +180,6 @@ public class InventoryListener implements Listener {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian")) {
 						e.setCancelled(true);
 
-						System.out.println("Barbarian");
 						p.sendMessage("Barbarian");
 						setClass(p, "Barbarian");
 						MenuChoice(p);
@@ -351,10 +348,6 @@ public class InventoryListener implements Listener {
 
 
 				}
-//            System.out.println(lore);
-//            System.out.println(ClickedItem.getItemMeta().getLore());
-//                p.sendMessage(ClickedItem.getItemMeta().getLore().toString().toLowerCase());
-//            System.out.println(ClickedItem.getItemMeta().getLore().toString().toLowerCase());
 
 			}
 		}
