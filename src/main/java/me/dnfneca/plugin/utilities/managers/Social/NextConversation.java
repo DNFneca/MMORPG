@@ -41,25 +41,32 @@ public class NextConversation {
 
 				if(split[0].equals("requirements")){
 
-					System.out.println(split[1]);
 
 					if(!ExecuteActions.Requirements(split[1], sender)) {
-						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + data.get(String.valueOf(i)));
+						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + split[split.length - 1]);
 						message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("You don't have the requirements").create()));
 						sender.spigot().sendMessage(message);
 					} else {
-						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + data.get(String.valueOf(i)));
+						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + split[split.length - 1]);
 						message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/runconversation " + args[0] + " " + args[1]));
 						sender.spigot().sendMessage(message);
 
 					}
 
 				} else {
-					TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + data.get(String.valueOf(i)));
 
-					message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/runconversation " + args[0] + " " + args[1]));
+					if(split.length != 0) {
+						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + data.get(String.valueOf(i)));
 
-					sender.spigot().sendMessage(message);
+						message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/runconversation " + args[0] + " " + args[1]));
+
+						sender.spigot().sendMessage(message);
+
+					} else {
+						TextComponent message = new TextComponent(ChatColor.GOLD + "[" + i + "] " + ChatColor.GRAY + split[split.length - 1]);
+						message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/runconversation " + args[0] + " " + args[1]));
+						sender.spigot().sendMessage(message);
+					}
 
 				}
 

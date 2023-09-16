@@ -2,6 +2,7 @@ package me.dnfneca.plugin.utilities.managers.Statistics;
 
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
+import me.dnfneca.plugin.utilities.managers.Social.PlayerFiles;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -9,10 +10,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.UUID;
 
 import static me.dnfneca.plugin.Plugin.Players;
+import static me.dnfneca.plugin.Plugin.connection;
 
 
 public class PlayerStats {
@@ -34,6 +37,8 @@ public class PlayerStats {
 	double CritChance;
 	double Stealth;
 	int EnchantingXp;
+
+	int xp;
 	String Class;
 	int ChoiceCD;
 	int ManaTimer;
@@ -44,7 +49,7 @@ public class PlayerStats {
 	int ManaRegenTime;
 	double StunDuration;
 
-	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, String Class) {
+	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, int xp, String Class) {
 		this.UUID = UUID;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -57,6 +62,7 @@ public class PlayerStats {
 		this.Stealth = Stealth;
 		this.EnchantingXp = EnchantingXp;
 		this.Class = Class;
+		this.xp = xp;
 		this.ChoiceCD = 0;
 		this.ManaTimer = 0;
 		this.HealthRegenTime = 4;
@@ -132,6 +138,16 @@ public class PlayerStats {
 	public void setBonusHealth(double bonusHealth) {
 		this.BonusHealth = bonusHealth;
 		this.CurrentHealth = CurrentHealth + bonusHealth;
+	}
+
+	public void setXp(int xp) {
+		this.xp = xp;
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute("UPDATE `userdata` SET `xpAmount` = '" + xp + "' WHERE `userdata`.`UUID` = '" + UUID + "'");
+		} catch (SQLException err) {
+			throw new RuntimeException(err);
+		}
 	}
 
 	public void setBonusHealthTimer(int bonusHealthTimer) {
@@ -221,7 +237,15 @@ public class PlayerStats {
 
 	public void setClass(String aClass) {
 		Class = aClass;
-		PlayerFiles.ReplaceExistingPlayerDataToFile(String.valueOf(UUID), aClass, "class");
+		try {
+			if(connection != null) {
+				Statement statement = connection.createStatement();;
+				statement.execute("UPDATE `userdata` SET `class` = '" + aClass +"' WHERE `UUID` = '" + UUID + "'");
+				statement.close();
+			}
+		} catch (SQLException e) {
+			System.out.println(new RuntimeException(e));
+		}
 	}
 
 	public void setManaSpent(double manaSpent) {
@@ -273,6 +297,7 @@ public class PlayerStats {
 	public Player getPlayer(UUID UUID) {
 		return Bukkit.getPlayer(UUID);
 	}
+
 
 	public Player getPlayer() {
 		return Bukkit.getPlayer(this.UUID);
@@ -348,7 +373,7 @@ public class PlayerStats {
 	}
 
 	public int getXp() {
-		return PlayerLevels.getXP(getPlayer());
+		return xp;
 	}
 
 	public void removeMana(float amount) {

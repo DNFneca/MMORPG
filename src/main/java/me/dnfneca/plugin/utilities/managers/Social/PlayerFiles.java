@@ -1,4 +1,4 @@
-package me.dnfneca.plugin.utilities.managers.Statistics;
+package me.dnfneca.plugin.utilities.managers.Social;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

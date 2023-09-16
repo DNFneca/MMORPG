@@ -1,14 +1,13 @@
 package me.dnfneca.plugin.utilities.managers.Statistics;
 
+import me.dnfneca.plugin.utilities.managers.Social.PlayerFiles;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import static me.dnfneca.plugin.Plugin.connection;
 
 public enum PlayerLevels {
 	;
@@ -16,30 +15,12 @@ public enum PlayerLevels {
 	public static void add(Player p, int amountOfXP) {
 		String xpAmount = PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "level")[0];
 		amountOfXP = Integer.parseInt(xpAmount) + amountOfXP;
-		PlayerFiles.ReplaceExistingPlayerDataToFile(p.getUniqueId().toString(), String.valueOf(amountOfXP), "xpAmount");
-	}
-
-	public static void setXp(Player p, int amountOfXP) {
-		PlayerFiles.ReplaceExistingPlayerDataToFile(p.getUniqueId().toString(), String.valueOf(amountOfXP), "xpAmount");
-	}
-
-	public static int getXP(Player p) {
-
-		int xpAmount = 1;
-		if(PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "xpAmount") != null) {
-			xpAmount = Integer.parseInt(PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "xpAmount")[0]);
-		}
-
-		if (985037 < xpAmount) {
-			xpAmount = 985037;
-		}
-
-			return xpAmount;
+		PlayerStats.getPlayerStats(p.getUniqueId()).setXp(amountOfXP);
 	}
 
 	public static int getLevel(Player p) {
 
-		int xpAmount = getXP(p) + 1;
+		int xpAmount = PlayerStats.getPlayerStats(p.getUniqueId()).getXp() + 1;
 		int PlayerLevel = 0;
 
 		for (int i = 0; 101 > i; i++) {
@@ -56,12 +37,12 @@ public enum PlayerLevels {
 	public static void setLevel(Player p, int level) {
 		level--;
 		int xpAmount = (int) Math.round(Math.pow(Math.sqrt((10 * (level * 10))), 3));
-		setXp(p, xpAmount);
+		PlayerStats.getPlayerStats(p.getUniqueId()).setXp(xpAmount);
 	}
 
 	public static int getLeftXp(Player p) {
 
-		int xpAmount = getXP(p);
+		int xpAmount = PlayerStats.getPlayerStats(p.getUniqueId()).getXp();
 		int xpLeft = 0;
 
 		int i = getLevel(p);

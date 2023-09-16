@@ -19,9 +19,14 @@ import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,9 +42,13 @@ public final class Plugin extends JavaPlugin {
 	public static List<String> NPCs = new ArrayList<>();
 	public static List<PlayerStats> Players = new ArrayList<>();
 
+	public static Connection connection = null;
+
 
 	@Override
 	public void onEnable() {
+
+		ConnectToServer();
 
 		File f = new File("./plugins/MMORPGData");
 
@@ -122,10 +131,27 @@ public final class Plugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		// Plugin shutdown logic
+		try {
+			if(connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static Plugin getInstance() {
 		return (Plugin) Bukkit.getServer().getPluginManager().getPlugin("MMORPGCustom");
+	}
+
+	public static void ConnectToServer() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/mmorpg",
+					"dbuser", "pass");
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println(new RuntimeException(e));
+		}
 	}
 }

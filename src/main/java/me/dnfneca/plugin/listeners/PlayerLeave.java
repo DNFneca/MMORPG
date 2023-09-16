@@ -20,9 +20,12 @@ import static me.dnfneca.plugin.Plugin.Players;
 public class PlayerLeave implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
-		for (PlayerStats p : Players) {
-			if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
-				Players.remove(p);
+		if(!Players.isEmpty()) {
+			for (PlayerStats p : Players) {
+				if (p.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
+					Players.remove(p);
+					return;
+				}
 			}
 		}
 	}

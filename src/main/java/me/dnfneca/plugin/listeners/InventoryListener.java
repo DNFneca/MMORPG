@@ -180,7 +180,6 @@ public class InventoryListener implements Listener {
 					if (ClickedItem.getItemMeta().getDisplayName().contains("Barbarian")) {
 						e.setCancelled(true);
 
-						p.sendMessage("Barbarian");
 						setClass(p, "Barbarian");
 						MenuChoice(p);
 
@@ -357,6 +356,7 @@ public class InventoryListener implements Listener {
 		for (PlayerStats player : Players) {
 			if (player.getUUID().toString().equals(p.getUniqueId().toString())) {
 				player.setClass(Class);
+
 			}
 		}
 

@@ -211,6 +211,7 @@ public enum GUI {
 		ItemStack mage = new ItemStack(Material.POTION, 1);
 		ItemStack warrior = new ItemStack(Material.IRON_SWORD, 1);
 		ItemStack ranger = new ItemStack(Material.BOW, 1);
+		ArrayList<String> Lore = new ArrayList<>();
 
 
 		ItemMeta meta1 = red_glass.getItemMeta();
@@ -226,19 +227,36 @@ public enum GUI {
 		green_glass.setItemMeta(meta3);
 
 		PotionMeta magemeta = (PotionMeta) mage.getItemMeta();
+
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Mana");
+		Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Health");
+		magemeta.setLore(Lore);
+		Lore.clear();
 		magemeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
 		magemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 		magemeta.setDisplayName(ChatColor.AQUA + "Mage");
 		mage.setItemMeta(magemeta);
 
 		ItemMeta warriormeta = warrior.getItemMeta();
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health");
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage");
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence");
+		warriormeta.setLore(Lore);
+		Lore.clear();
 		warriormeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 		warriormeta.setDisplayName(ChatColor.RED + "Warrior");
 		warrior.setItemMeta(warriormeta);
 
+
+
 		ItemMeta rangermeta = ranger.getItemMeta();
 		rangermeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 		rangermeta.setDisplayName(ChatColor.DARK_GREEN + "Ranger");
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage");
+		Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Stealth");
+		Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Defence");
+		rangermeta.setLore(Lore);
+		Lore.clear();
 		ranger.setItemMeta(rangermeta);
 
 		MenuChoice(p);
@@ -339,6 +357,8 @@ public enum GUI {
 		meta2.setDisplayName("   ");
 		blue_glass.setItemMeta(meta2);
 
+		ArrayList<String> Lore = new ArrayList<>();
+
 
 		switch (SubclassNumber) {
 			case 1:
@@ -351,23 +371,49 @@ public enum GUI {
 				ItemMeta battle_magemeta = battle_mage.getItemMeta();
 				battle_magemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 				battle_magemeta.setDisplayName(ChatColor.GREEN + "Battle Mage");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Health: " + ChatColor.RED + "-15%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Damage: " + ChatColor.RED + "-10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Mana: " + ChatColor.GREEN + "+25%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+20%");
+				battle_magemeta.setLore(Lore);
+				Lore.clear();
 				battle_mage.setItemMeta(battle_magemeta);
 
 				PotionMeta wizardmeta = (PotionMeta) wizard.getItemMeta();
 				wizardmeta.setBasePotionData(new PotionData(PotionType.SPEED));
 				wizardmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 				wizardmeta.setDisplayName(ChatColor.GOLD + "Wizard");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Mana: " + ChatColor.GREEN + "+50%");
+				wizardmeta.setLore(Lore);
+				Lore.clear();
 				wizard.setItemMeta(wizardmeta);
 
 				PotionMeta healermeta = (PotionMeta) healer.getItemMeta();
 				healermeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL));
 				healermeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 				healermeta.setDisplayName(ChatColor.RED + "Healer");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Damage: " + ChatColor.RED + "-10%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Defence: " + ChatColor.RED + "-15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Mana: " + ChatColor.GREEN + "+50%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "-30%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "-10%");
+				healermeta.setLore(Lore);
+				Lore.clear();
 				healer.setItemMeta(healermeta);
 
 				ItemMeta necromancermeta = necromancer.getItemMeta();
 				necromancermeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 				necromancermeta.setDisplayName(ChatColor.DARK_RED + "Necromancer");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Mana: " + ChatColor.GREEN + "+60%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+10%");
+				necromancermeta.setLore(Lore);
+				Lore.clear();
 				necromancer.setItemMeta(necromancermeta);
 
 				inv = Bukkit.createInventory(null, 27, "Choose a Mage Subclass");
@@ -398,21 +444,53 @@ public enum GUI {
 				ItemMeta barbarianmeta = barbarian.getItemMeta();
 				barbarianmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 				barbarianmeta.setDisplayName(ChatColor.RED + "Barbarian");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage: " + ChatColor.GREEN + "+20%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Speed: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+25%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+10%");
+				barbarianmeta.setLore(Lore);
+				Lore.clear();
 				barbarian.setItemMeta(barbarianmeta);
 
 				ItemMeta samuraimeta = samurai.getItemMeta();
 				samuraimeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 				samuraimeta.setDisplayName(ChatColor.GREEN + "Samurai");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Speed: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+15%");
+				samuraimeta.setLore(Lore);
+				Lore.clear();
 				samurai.setItemMeta(samuraimeta);
 
 				ItemMeta paladinmeta = paladin.getItemMeta();
 				paladinmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
 				paladinmeta.setDisplayName(ChatColor.GOLD + "Paladin");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+20%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+10%");
+				paladinmeta.setLore(Lore);
+				Lore.clear();
 				paladin.setItemMeta(paladinmeta);
 
 				ItemMeta vikingmeta = viking.getItemMeta();
 				vikingmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 				vikingmeta.setDisplayName(ChatColor.DARK_RED + "Viking");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Health: " + ChatColor.GREEN + "+10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Strenght: " + ChatColor.GREEN + "+20%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Speed: " + ChatColor.GREEN + "+20%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+20%");
+				vikingmeta.setLore(Lore);
+				Lore.clear();
 				viking.setItemMeta(vikingmeta);
 
 				inv = Bukkit.createInventory(null, 27, "Choose a Warrior Subclass");
@@ -444,6 +522,15 @@ public enum GUI {
 				ItemMeta snipermeta = sniper.getItemMeta();
 				snipermeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 				snipermeta.setDisplayName(ChatColor.DARK_GRAY + "Sniper");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Health: " + ChatColor.RED + "-10%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Damage: " + ChatColor.RED + "+20%");
+				Lore.add(ChatColor.RED + "⬇" + ChatColor.GRAY + " Defence: " + ChatColor.GREEN + "-5%");
+				Lore.add(ChatColor.GREEN + "⬆" + ChatColor.GRAY + " Speed: " + ChatColor.GREEN + "+15%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Damage: " + ChatColor.GREEN + "+5%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Critical Chance: " + ChatColor.GREEN + "+25%");
+				Lore.add(ChatColor.RED + "⬆" + ChatColor.GRAY + " Stealth: " + ChatColor.GREEN + "+10%");
+				snipermeta.setLore(Lore);
+				Lore.clear();
 				sniper.setItemMeta(snipermeta);
 
 				ItemMeta huntermeta = hunter.getItemMeta();

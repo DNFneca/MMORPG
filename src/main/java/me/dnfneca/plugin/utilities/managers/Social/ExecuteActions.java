@@ -1,6 +1,5 @@
 package me.dnfneca.plugin.utilities.managers.Social;
 
-import me.dnfneca.plugin.utilities.managers.Statistics.PlayerFiles;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,20 +13,21 @@ public class ExecuteActions {
 		Player player = (Player) sender;
 		if(args[0].equals("reputation")) {
 			PlayerFiles.AddDataToPlayerFile(String.valueOf(player.getUniqueId()), args[0], directed_to + " " + args[1]);
-			return;
 		}
 	}
+
+//	public static int getPlayerReputation() {
+//		INSERT INTO `6a025aa7-802d-37b4-9a9e-d2a5296257fa` (`xpAmount`, `class`, `DNFneca`) VALUES ('2', 'none', '0');
+//		UPDATE `6a025aa7-802d-37b4-9a9e-d2a5296257fa` SET `xpAmount`='0',`class`='Asssasin',`DNFneca`='-25' WHERE 1
+//	}
 
 	public static boolean Requirements(String argummentsString, CommandSender sender) {
 		Player player = (Player) sender;
 		PlayerStats playerStats = PlayerStats.getPlayerStats(((Player) sender).getUniqueId());
 		String[] individualRequirements = argummentsString.split(",");
 		for(int i = 0; i < individualRequirements.length; i++) {
-			System.out.println(individualRequirements[i]);
 			String[] args = individualRequirements[i].split(" ");
-			System.out.println(Arrays.toString(args));
 			if(args[0].equals("Level")) {
-				System.out.println(playerStats.getXp());
 				if(args[1].equals("<")) {
 					if(playerStats.getXp() > Integer.parseInt(args[2])) {
 						return false;
