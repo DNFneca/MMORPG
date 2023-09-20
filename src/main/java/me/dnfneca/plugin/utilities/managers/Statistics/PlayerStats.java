@@ -14,8 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
-import static me.dnfneca.plugin.Plugin.Players;
-import static me.dnfneca.plugin.Plugin.connection;
+import static me.dnfneca.plugin.Plugin.*;
 
 
 public class PlayerStats {
@@ -75,10 +74,9 @@ public class PlayerStats {
 		main();
 	}
 
-	public void main() {
+	private void main() {
 		CurrentHealth = Health;
 		CurrentMana = Mana;
-		Players.add(this);
 		Plugin plugin = Plugin.getInstance();
 		if (!"none".equals(this.Class.replace("\"", ""))) {
 			ChoiceCD = 1;
@@ -87,7 +85,7 @@ public class PlayerStats {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (0 > PlayerStats.this.ChoiceCD) {
+				if (ChoiceCD < 0) {
 					ChoiceCD = 0;
 				}
 			}
@@ -143,10 +141,14 @@ public class PlayerStats {
 	public void setXp(int xp) {
 		this.xp = xp;
 		try {
+			if(connection == null) {
+				ConnectToServer();
+				return;
+			}
 			Statement statement = connection.createStatement();
 			statement.execute("UPDATE `userdata` SET `xpAmount` = '" + xp + "' WHERE `userdata`.`UUID` = '" + UUID + "'");
 		} catch (SQLException err) {
-			throw new RuntimeException(err);
+			System.out.println(err);
 		}
 	}
 

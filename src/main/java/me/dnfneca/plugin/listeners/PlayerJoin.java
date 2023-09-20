@@ -2,6 +2,7 @@ package me.dnfneca.plugin.listeners;
 
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,11 +14,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 
 import static me.dnfneca.plugin.Plugin.*;
 import static me.dnfneca.plugin.utilities.GUI.GUI.ChooseClassesMenu;
+import static me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc.updatePlayerActionBar;
+import static me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats.getPlayerStats;
 
 
 public class PlayerJoin implements Listener {
@@ -34,12 +40,7 @@ public class PlayerJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent e) {
 
 
-		System.out.println(connection == null);
 
-		if(connection == null) {
-			System.out.println("asdasasasdasdadaxsdasdadaxdasdasdASDASDASD");
-			e.getPlayer().sendMessage("The servers are currently down, countinuing to play like this may couse new data to not be saved.");
-		}
 
 		try {
 			// below two lines are used for connectivity.
@@ -51,7 +52,6 @@ public class PlayerJoin implements Listener {
 			if(connection != null) {
 				statement = connection.createStatement();
 				statement.execute("INSERT IGNORE INTO `userdata` (`xpAmount`, `UUID`, `class`) VALUES ('0', '" + e.getPlayer().getUniqueId() + "', 'none');");
-				statement.close();
 			}
 //
 //			if(statement.execute("SELECT `xpAmount` FROM `userdata` WHERE `UUID` = '6a025aa7-802d-37b4-9a9e-d2a5296257fa'")) {
@@ -71,7 +71,7 @@ public class PlayerJoin implements Listener {
 //			}
 
 		} catch (SQLException err) {
-			System.out.println(new RuntimeException(err));
+			System.out.println(err);
 		} catch (RuntimeException exception) {
 			System.out.println(exception);
 		}
@@ -82,6 +82,7 @@ public class PlayerJoin implements Listener {
 		int xpAmount = 0;
 
 		try {
+			System.out.println(connection);
 			if(connection != null) {
 				statement = connection.createStatement();
 				ResultSet results = null;
@@ -102,11 +103,43 @@ public class PlayerJoin implements Listener {
 				statement.close();
 			}
 		} catch (SQLException err) {
-			System.out.println(new RuntimeException(err));
+			System.out.println(err);
 		}
-		
 
-		Players.add(new PlayerStats(e.getPlayer().getUniqueId(), 100, 50, 25, 10, 100, 100, 0, 0, 0, 0, xpAmount, Class));
+		boolean foundPlayer = false;
+
+		System.out.println(Class);
+		System.out.println(Players);
+
+		for (PlayerStats p:Players) {
+			if(p.getPlayer().getUniqueId().equals(e.getPlayer().getUniqueId())) {
+				System.out.println("Found player");
+				foundPlayer = true;
+				p.setChoiceCD(1);
+			}
+
+		}
+		if(!foundPlayer){
+			Players.add(new PlayerStats(e.getPlayer().getUniqueId(), 100, 50, 25, 10, 100, 100, 0, 0, 0, 0, xpAmount, Class));
+		} else {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					if(e.getPlayer().isOnline()) {
+						PlayerStatCalc.Calculate(getPlayerStats(e.getPlayer().getUniqueId()));
+						e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1019, 255, true, false));
+						e.getPlayer().setFoodLevel(20);
+						e.getPlayer().setSaturatedRegenRate(1000);
+						e.getPlayer().setUnsaturatedRegenRate(1000);
+
+					} else {
+						this.cancel();
+					}
+				}
+			}.runTaskTimer(getInstance(), 0L, 20L);
+		}
+
+
 
 
 		ItemStack MainMenu = new ItemStack(Material.NETHER_STAR, 1);
@@ -116,7 +149,7 @@ public class PlayerJoin implements Listener {
 		MainMenu.setItemMeta(MenuMeta);
 		player.getInventory().setItem(8, MainMenu);
 		for (PlayerStats playerStats : Players) {
-			if (playerStats.getUUID().toString().equals(e.getPlayer().getUniqueId().toString())) {
+			if (playerStats.getUUID().toString().equals(e.getPlayer().getUniqueId().toString()) && !foundPlayer) {
 				Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), new Runnable() {
 				@Override
 				public void run() {
@@ -124,10 +157,8 @@ public class PlayerJoin implements Listener {
 						ChooseClassesMenu(player);
 					}
 				}
-			}, 20L);
-
+				}, 20L);
+			}
 		}
-	}
-
 	}
 }

@@ -5,18 +5,21 @@ import me.dnfneca.plugin.CustomMobs.*;
 import me.dnfneca.plugin.listeners.*;
 import me.dnfneca.plugin.utilities.GUI.Waystone;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
+import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import me.dnfneca.plugin.utilities.managers.Item.SetOpenedInventoryItemsLore;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.swing.*;
@@ -44,11 +47,31 @@ public final class Plugin extends JavaPlugin {
 
 	public static Connection connection = null;
 
+	public static boolean firstConnection = false;
 
 	@Override
 	public void onEnable() {
-
-		ConnectToServer();
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (connection == null) {
+					if(!firstConnection) {
+						Bukkit.broadcastMessage("The servers are currently down, countinuing to play like this may couse new data to not be saved.");
+						firstConnection = true;
+					}
+					ConnectToServer();
+				} else {    
+					if(firstConnection) {
+						Bukkit.broadcastMessage("The server connection has been restored");
+						Bukkit.broadcastMessage("New data will be stored shortly");
+						Bukkit.broadcastMessage("If any data has been lost contact the server developers");
+						firstConnection = false;
+					} else {
+						ConnectToServer();
+					}
+				}
+			}
+		}.runTaskTimer(getInstance(), 0L, 20L);
 
 		File f = new File("./plugins/MMORPGData");
 
@@ -146,10 +169,47 @@ public final class Plugin extends JavaPlugin {
 
 	public static void ConnectToServer() {
 		try {
+			if(connection != null && connection.isValid(1)) {
+				return;
+			}
 			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = null;
 			connection = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/mmorpg",
 					"dbuser", "pass");
+			System.out.println(connection);
+			if(connection != null){
+				int lastPlayerXp = 0;
+				if(Players.size() > 0) {
+					for (PlayerStats p : Players) {
+						Statement statement = connection.createStatement();
+						if (statement.execute("SELECT `xpAmount` FROM `userdata` WHERE `UUID` = '" + p.getUUID() + "'")) {
+							ResultSet results = statement.getResultSet();
+							int classIndex = results.findColumn("xpAmount");
+							while (results.next()) {
+								lastPlayerXp = results.getInt(classIndex);
+							}
+							if(lastPlayerXp > p.getXp()) {
+								p.setXp(p.getXp());
+							} else {
+								p.setXp(p.getXp() + lastPlayerXp);
+							}
+						}
+						if (statement.execute("SELECT `class` FROM `userdata` WHERE `UUID` = '" + p.getUUID() + "'")) {
+							ResultSet results = statement.getResultSet();
+							int classIndex = results.findColumn("class");
+							while (results.next()) {
+								p.setClass(results.getString(classIndex));
+							}
+						}
+						if (lastPlayerXp > p.getXp()) {
+							p.setXp(lastPlayerXp + p.getXp());
+						}
+
+					}
+				}
+			}
+
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println(new RuntimeException(e));
 		}

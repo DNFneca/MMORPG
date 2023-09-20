@@ -351,7 +351,7 @@ public enum initItems {
 				+10,
 				+25,
 				+0,
-				"Rapid Fire 0",
+				"Rapid_Fire 0",
 				"none",
 				"Common",
 				Material.BOW,

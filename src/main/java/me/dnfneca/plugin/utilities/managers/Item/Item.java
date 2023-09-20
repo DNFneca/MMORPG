@@ -128,12 +128,13 @@ public class Item {
 	}
 
 	public String getAbilityName() {
-		String[] Split = Ability.split(" ");
+		String[] Split = Ability.split(" ")[0].split("_");
 		String Result = new String();
-		for(int i = 0; i < Split.length - 2; i++) {
-			Result.concat(Split[i]);
-			if(i != Split.length - 3)
-				Result.concat("_");
+		if (Split[0].equals("none")) {
+			return "none";
+		}
+		for(String s : Split) {
+			Result = Result.concat(s.toUpperCase());
 		}
 		return Result;
 	}

@@ -13,8 +13,6 @@ public enum PlayerLevels {
 	;
 
 	public static void add(Player p, int amountOfXP) {
-		String xpAmount = PlayerFiles.GetPlayerFileField(p.getUniqueId().toString(), "level")[0];
-		amountOfXP = Integer.parseInt(xpAmount) + amountOfXP;
 		PlayerStats.getPlayerStats(p.getUniqueId()).setXp(amountOfXP);
 	}
 
@@ -36,6 +34,9 @@ public enum PlayerLevels {
 
 	public static void setLevel(Player p, int level) {
 		level--;
+		if(level > 99){
+			level = 99;
+		}
 		int xpAmount = (int) Math.round(Math.pow(Math.sqrt((10 * (level * 10))), 3));
 		PlayerStats.getPlayerStats(p.getUniqueId()).setXp(xpAmount);
 	}

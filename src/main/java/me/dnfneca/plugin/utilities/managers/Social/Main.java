@@ -19,8 +19,7 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.UUID;
 
-import static me.dnfneca.plugin.Plugin.Players;
-import static me.dnfneca.plugin.Plugin.connection;
+import static me.dnfneca.plugin.Plugin.*;
 
 public class Main {
 	public static void initConvo(UUID playerUUID, String[] NPCName) {
@@ -52,7 +51,7 @@ public class Main {
 			}
 
 		} catch (SQLException | IOException | ParseException e) {
-			throw new RuntimeException(e);
+			System.out.println(e);
 		}
 
 

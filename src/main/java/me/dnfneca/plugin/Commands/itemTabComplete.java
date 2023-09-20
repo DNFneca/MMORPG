@@ -24,7 +24,8 @@ public class itemTabComplete implements TabCompleter {
 	public static List<String> SearchItems(String[] args) {
 		List<String> p = new ArrayList<>();
 		for (Item s : CustomItems) {
-			if (null != s.getCodeName() && s.getCodeName().contains(args[0])) {
+			System.out.println(s.getAbilityName().toUpperCase());
+			if (null != s.getCodeName() && s.getCodeName().toUpperCase().contains(args[0].toUpperCase())) {
 				p.add(s.getCodeName());
 			}
 			if (s.getAbilityName().toUpperCase().contains(args[0].toUpperCase())) {

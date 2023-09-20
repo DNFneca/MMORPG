@@ -73,7 +73,7 @@ public enum AbilitiesManager {
 				break;
 			case "Teleport":
 			case "Reality_Warp":
-				if(Teleport.Teleport(p, Float.parseFloat(AbilityName[2]), Float.parseFloat(AbilityName[1]))) {
+				if(Teleport.Teleport(p, Float.parseFloat(AbilityName[1]), Float.parseFloat(AbilityName[1]))) {
 					updatePlayerActionBar(p);
 				}
 				break;
