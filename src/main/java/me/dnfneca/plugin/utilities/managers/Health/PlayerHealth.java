@@ -152,6 +152,9 @@ public enum PlayerHealth {
 			if(shooter instanceof Player) {
 				PlayerStats playerShooter = PlayerStats.getPlayerStats(shooter.getUniqueId());
 
+				if(playerShooter == null) {
+					return;
+				}
 
 				double shotPlayerHealth = shotPlayer.getHealth();
 				double shotPlayerDefence = shotPlayer.getDefence();
@@ -159,9 +162,9 @@ public enum PlayerHealth {
 
 				double shooterStrength = playerShooter.getStrength();
 				double shooterDamage = playerShooter.getDamage();
-
 				double shooterCritChance = playerShooter.getCritChance();
 				double shooterCritDamage = playerShooter.getCritDamage();
+
 
 				if(Utilities.getCritRoll(shooterCritChance)) {
 					double shotPlayerEffectiveHealth = (shotPlayerHealth + shotPlayerBonusHealth ) * (shotPlayerDefence * 0.01 + 1);
@@ -179,8 +182,11 @@ public enum PlayerHealth {
 					double shotPlayerEffectiveHealth = (shotPlayerHealth + shotPlayerBonusHealth ) * (shotPlayerDefence * 0.01 + 1);
 					double damageToDealToPlayer = shooterDamage + shooterDamage * (shooterStrength * 0.01 + 1);
 					if(damageToDealToPlayer > shotPlayerEffectiveHealth || 0.00 > shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer)) {
-						killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
-
+						if(shooter.getEquipment().getItemInMainHand().getItemMeta() == null) {
+							killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " by Hand ");
+						} else {
+							killPlayer(shotPlayer, " was killed by " + ((Player) shooter).getDisplayName() + " with " + shooter.getEquipment().getItemInMainHand().getItemMeta().getDisplayName());
+						}
 					} else {
 
 						shotPlayer.setCurrentHealth(shotPlayer.getCurrentHealth() - (shotPlayerEffectiveHealth - damageToDealToPlayer));
@@ -240,6 +246,34 @@ public enum PlayerHealth {
 			}
 		}
 	}
+
+	public static void DealDamageToPlayer(int damage, Player player, String name) {
+		PlayerStats shotPlayer = PlayerStats.getPlayerStats(player.getUniqueId());
+
+
+		double shotPlayerHealth = shotPlayer.getHealth();
+		double shotPlayerDefence = shotPlayer.getDefence();
+		double shotPlayerBonusHealth = shotPlayer.getBonusHealth();
+		double CurrentEffectiveHealth = (shotPlayer.getCurrentHealth() + shotPlayerBonusHealth ) * (shotPlayerDefence * 0.01 + 1);;
+		double shooterDamage = damage;
+
+		double shotPlayerEffectiveHealth = (shotPlayerHealth + shotPlayerBonusHealth ) * (shotPlayerDefence * 0.01 + 1);
+		System.out.println(CurrentEffectiveHealth - (shotPlayerEffectiveHealth - shooterDamage));
+		System.out.println(CurrentEffectiveHealth);
+		System.out.println(shotPlayerEffectiveHealth);
+		if(shooterDamage > CurrentEffectiveHealth || (CurrentEffectiveHealth - shooterDamage)/(shotPlayerDefence * 0.01 + 1) < 0.00) {
+			killPlayer(shotPlayer, " was killed by " + name);
+		} else {
+			shotPlayer.setCurrentHealth((CurrentEffectiveHealth - shooterDamage)/(shotPlayerDefence * 0.01 + 1));
+
+		}
+
+
+
+	updatePlayerActionBar(shotPlayer);
+
+	}
+
 
 	private static double getCritDamageToDealToPlayer(double shooterStrength, double shooterDamage, double shooterCritDamage) {
 		return shooterDamage * (shooterStrength * 0.01 + 1) * (shooterCritDamage * 0.01 + 1);

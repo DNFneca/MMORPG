@@ -4,11 +4,16 @@ import me.dnfneca.plugin.Commands.*;
 import me.dnfneca.plugin.CustomMobs.*;
 import me.dnfneca.plugin.listeners.*;
 import me.dnfneca.plugin.utilities.GUI.Waystone;
+import me.dnfneca.plugin.utilities.NPC.MyTrait;
+import me.dnfneca.plugin.utilities.NPC.MyTrait2;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import me.dnfneca.plugin.utilities.managers.Item.SetOpenedInventoryItemsLore;
+import me.dnfneca.plugin.utilities.managers.Mayors.Mayor;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
+import me.dnfneca.plugin.utilities.managers.Towns.Town;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,7 +48,12 @@ public final class Plugin extends JavaPlugin {
 	public static List<MobStats> CustomMobsAvailable = new ArrayList<>();
 
 	public static List<String> NPCs = new ArrayList<>();
+
+	public static List<ServerPlayer> npcs = new ArrayList<>();
 	public static List<PlayerStats> Players = new ArrayList<>();
+
+	public static List<Mayor> Mayors = new ArrayList<>();
+	public static List<Town> Towns = new ArrayList<>();
 
 	public static Connection connection = null;
 
@@ -51,6 +61,10 @@ public final class Plugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+
+		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(MyTrait.class));
+		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(MyTrait2.class));
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -71,7 +85,8 @@ public final class Plugin extends JavaPlugin {
 					}
 				}
 			}
-		}.runTaskTimer(getInstance(), 0L, 20L);
+		}.runTaskTimer(getInstance(), 0L, 200L);
+
 
 		File f = new File("./plugins/MMORPGData");
 
@@ -126,6 +141,7 @@ public final class Plugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ForgeMenuListener(), this);
 		getServer().getPluginManager().registerEvents(new Waystone(), this);
 		getServer().getPluginManager().registerEvents(new SetOpenedInventoryItemsLore(), this);
+		getServer().getPluginManager().registerEvents(new PlayerMove(), this);
 
 //        getServer().getPluginManager().registerEvents(new (this), this);
 
@@ -141,6 +157,16 @@ public final class Plugin extends JavaPlugin {
 		initMobs.init();
 
 		initNPC.init();
+
+		initMayors.init();
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				initTowns.init();
+			}
+		}.runTaskLater(getInstance(), 200L);
+
 
 
 

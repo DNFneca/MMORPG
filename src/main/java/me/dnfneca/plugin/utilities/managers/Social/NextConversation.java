@@ -1,5 +1,10 @@
 package me.dnfneca.plugin.utilities.managers.Social;
 
+import me.dnfneca.plugin.utilities.NPC.MyTrait;
+import me.dnfneca.plugin.utilities.NPC.util;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.util.DataKey;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -25,6 +30,7 @@ public class NextConversation {
 			String edit1 = values.toString().replace("[", "").replace("]", "").replace("\"", "");
 			String[] array = edit1.split(",");
 			String originalString = args[1];
+			NPC npc = util.getNPCbyName(args[0]);
 			for(int i = 1; i <= array.length; i++) {
 
 				Object original = data.get(String.valueOf(i));

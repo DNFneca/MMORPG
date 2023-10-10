@@ -1,38 +1,82 @@
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.GUI.EnchantingMenu;
-import me.dnfneca.plugin.utilities.managers.Social.Main;
-import me.dnfneca.plugin.utilities.managers.Statistics.PlayerLevels;
-import net.md_5.bungee.api.ChatColor;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.NPC.MyTrait;
+import me.dnfneca.plugin.utilities.managers.Mayors.Mayor;
+import me.dnfneca.plugin.utilities.managers.Towns.Town;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
+import org.bukkit.craftbukkit.v1_20_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftOcelot;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.LootContext;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
+import java.util.Objects;
+import java.util.UUID;
 
-import static me.dnfneca.plugin.Plugin.connection;
+import static me.dnfneca.plugin.Plugin.*;
+import static org.bukkit.entity.EntityType.PLAYER;
 
 public class test implements CommandExecutor {
+
+//	PacketPlayOutNamedEntitySpawn
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(sender instanceof Player player) {
 
-		Main.initConvo(((Player) sender).getUniqueId(), args);
+			Towns.add(new Town(args[0], player.getLocation(), Integer.valueOf(args[1])));
 
+			for (Town town : Towns) {
+				player.sendMessage(town.getTownName());
+			}
 
+			Statement statement;
+			if(connection != null) {
+				try {
+					statement = connection.createStatement();
+					statement.execute("INSERT INTO `towns` SET `Name` = '" + args[0] + "', `x`= '" + (int) player.getLocation().getX() + "', `y`= '" + (int) player.getLocation().getY() + "', `z`= '" + (int) player.getLocation().getZ() + "', `Distance` = " + args[1]);
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			Mayors.forEach((Mayor mayor) -> {
+				player.sendMessage(mayor.getMayorName());
+				player.sendMessage(mayor.getBuff());
+				player.sendMessage(mayor.getRegion().toString());
+			});
+
+//			NPC newnpc = CitizensAPI.getNPCRegistry().createNPC(PLAYER, player.getName());
+//			newnpc.spawn(player.getLocation());
+//			new BukkitRunnable() {
+//				@Override
+//				public void run() {
+//					newnpc.getNavigator().setTarget(player.getLocation());
+//				}
+//			}.runTaskLater(getInstance(), 40L);
+//			newnpc.addTrait(new MyTrait());
+
+		}
 		return true;
 	}
 }

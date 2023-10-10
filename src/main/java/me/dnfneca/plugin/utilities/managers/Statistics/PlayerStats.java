@@ -48,6 +48,8 @@ public class PlayerStats {
 	int ManaRegenTime;
 	double StunDuration;
 
+	String Town;
+
 	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, int xp, String Class) {
 		this.UUID = UUID;
 		this.Health = Health;
@@ -71,6 +73,7 @@ public class PlayerStats {
 		this.BonusMana = 0;
 		this.BonusManaTimer = 0;
 		this.BonusHealthTimer = 0;
+		this.Town = "None";
 		main();
 	}
 
@@ -136,6 +139,10 @@ public class PlayerStats {
 	public void setBonusHealth(double bonusHealth) {
 		this.BonusHealth = bonusHealth;
 		this.CurrentHealth = CurrentHealth + bonusHealth;
+	}
+
+	public void setTown(String town) {
+		this.Town = town;
 	}
 
 	public void setXp(int xp) {
@@ -274,6 +281,10 @@ public class PlayerStats {
 
 	public int getBonusManaTimer() {
 		return this.BonusManaTimer;
+	}
+
+	public String getTown() {
+		return this.Town;
 	}
 
 	public int getHealthRegenTime() {

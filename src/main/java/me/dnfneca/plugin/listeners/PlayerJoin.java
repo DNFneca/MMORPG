@@ -120,7 +120,19 @@ public class PlayerJoin implements Listener {
 
 		}
 		if(!foundPlayer){
-			Players.add(new PlayerStats(e.getPlayer().getUniqueId(), 100, 50, 25, 10, 100, 100, 0, 0, 0, 0, xpAmount, Class));
+			Players.add(new PlayerStats(e.getPlayer().getUniqueId(),
+					100,
+					50,
+					25,
+					10,
+					100,
+					100,
+					0,
+					0,
+					0,
+					0,
+					xpAmount,
+					Class));
 		} else {
 			new BukkitRunnable() {
 				@Override
