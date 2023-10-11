@@ -11,6 +11,7 @@ import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import me.dnfneca.plugin.utilities.managers.Item.SetOpenedInventoryItemsLore;
 import me.dnfneca.plugin.utilities.managers.Mayors.Mayor;
+import me.dnfneca.plugin.utilities.managers.Mayors.MayorEvent;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import me.dnfneca.plugin.utilities.managers.Towns.Town;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,6 +54,7 @@ public final class Plugin extends JavaPlugin {
 	public static List<PlayerStats> Players = new ArrayList<>();
 
 	public static List<Mayor> Mayors = new ArrayList<>();
+	public static List<MayorEvent> MayorEvents = new ArrayList<>();
 	public static List<Town> Towns = new ArrayList<>();
 
 	public static Connection connection = null;
@@ -157,6 +159,8 @@ public final class Plugin extends JavaPlugin {
 		initMobs.init();
 
 		initNPC.init();
+
+		initMayorEvents.init();
 
 		initMayors.init();
 

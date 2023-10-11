@@ -32,6 +32,7 @@ public enum initTowns {
 						double x = results.getDouble(3);
 						double y = results.getDouble(4);
 						double z = results.getDouble(5);
+						String Mayor = results.getString(6);
 
 						System.out.println(results.getString("Name"));
 
@@ -39,7 +40,7 @@ public enum initTowns {
 
 						Location loc = new Location(w, x, y, z);
 
-						new Town(results.getString("Name"), loc, results.getInt(2));
+						new Town(results.getString("Name"), loc, results.getInt(2), Mayor);
 
 
 						if(Towns.size() > 1) {

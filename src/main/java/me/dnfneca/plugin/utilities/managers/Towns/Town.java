@@ -1,6 +1,7 @@
 package me.dnfneca.plugin.utilities.managers.Towns;
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.managers.Mayors.Mayor;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import net.citizensnpcs.api.npc.NPC;
@@ -19,13 +20,22 @@ import static me.dnfneca.plugin.Plugin.Towns;
 public class Town {
 	public String TownName;
 	public Location coords;
-
+	public String cityMayor;
 	public int Distance;
-	public Town(String TownName, Location coords, int Distance) {
+	public Town(String TownName, Location coords, int Distance, String cityMayor) {
 		this.TownName = TownName;
 		this.coords = coords;
 		this.Distance = Distance;
+		this.cityMayor = cityMayor;
 		main();
+	}
+
+	public Mayor getCityMayor() {
+		return Mayor.getMayorByName(cityMayor);
+	}
+
+	public void setCityMayor(String cityMayor) {
+		this.TownName = cityMayor;
 	}
 
 	public Location getCoords() {

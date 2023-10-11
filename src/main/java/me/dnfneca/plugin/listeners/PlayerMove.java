@@ -15,14 +15,14 @@ public class PlayerMove implements Listener {
 		for (Town town : Towns) {
 			if (e.getPlayer().getLocation().distance(town.getCoords()) > town.getDistance()) {
 				PlayerStats p = PlayerStats.getPlayerStats(e.getPlayer().getUniqueId());
-				if (p.getTown().equals(town.getTownName())) {
-					p.setTown("None");
+				if (p.getTown() == town) {
+					p.setTown(null);
 					p.getPlayer().sendMessage("Left " + town.getTownName());
 				}
 			} else {
 				PlayerStats p = PlayerStats.getPlayerStats(e.getPlayer().getUniqueId());
-				if (p.getTown().equals("None")) {
-					p.setTown(town.getTownName());
+				if (p.getTown() == null) {
+					p.setTown(town);
 					p.getPlayer().sendMessage("Entered " + town.getTownName());
 				}
 			}

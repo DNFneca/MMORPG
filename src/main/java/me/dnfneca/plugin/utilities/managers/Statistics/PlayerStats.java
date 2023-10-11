@@ -2,7 +2,9 @@ package me.dnfneca.plugin.utilities.managers.Statistics;
 
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
+import me.dnfneca.plugin.utilities.managers.Mayors.MayorBuff;
 import me.dnfneca.plugin.utilities.managers.Social.PlayerFiles;
+import me.dnfneca.plugin.utilities.managers.Towns.Town;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -48,7 +50,7 @@ public class PlayerStats {
 	int ManaRegenTime;
 	double StunDuration;
 
-	String Town;
+	Town Town;
 
 	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, int xp, String Class) {
 		this.UUID = UUID;
@@ -73,7 +75,6 @@ public class PlayerStats {
 		this.BonusMana = 0;
 		this.BonusManaTimer = 0;
 		this.BonusHealthTimer = 0;
-		this.Town = "None";
 		main();
 	}
 
@@ -109,6 +110,9 @@ public class PlayerStats {
 				getPlayer().setFoodLevel(20);
 				getPlayer().setSaturatedRegenRate(1000);
 				getPlayer().setUnsaturatedRegenRate(1000);
+				if(getTown() != null) {
+					MayorBuff.applyMayorBuff(getTown().getCityMayor(), getPlayer());
+				}
 			}
 		}.runTaskTimer(plugin, 0L, 5L);
 
@@ -141,7 +145,7 @@ public class PlayerStats {
 		this.CurrentHealth = CurrentHealth + bonusHealth;
 	}
 
-	public void setTown(String town) {
+	public void setTown(Town town) {
 		this.Town = town;
 	}
 
@@ -283,7 +287,7 @@ public class PlayerStats {
 		return this.BonusManaTimer;
 	}
 
-	public String getTown() {
+	public Town getTown() {
 		return this.Town;
 	}
 

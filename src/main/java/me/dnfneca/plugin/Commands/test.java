@@ -5,6 +5,8 @@ import com.mojang.authlib.properties.Property;
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.NPC.MyTrait;
 import me.dnfneca.plugin.utilities.managers.Mayors.Mayor;
+import me.dnfneca.plugin.utilities.managers.Mayors.util.RunMayorEventRunEvent;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import me.dnfneca.plugin.utilities.managers.Towns.Town;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -44,7 +46,7 @@ public class test implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(sender instanceof Player player) {
 
-			Towns.add(new Town(args[0], player.getLocation(), Integer.valueOf(args[1])));
+			new Town(args[0], player.getLocation(), Integer.valueOf(args[1]), args[2]);
 
 			for (Town town : Towns) {
 				player.sendMessage(town.getTownName());
@@ -54,27 +56,13 @@ public class test implements CommandExecutor {
 			if(connection != null) {
 				try {
 					statement = connection.createStatement();
-					statement.execute("INSERT INTO `towns` SET `Name` = '" + args[0] + "', `x`= '" + (int) player.getLocation().getX() + "', `y`= '" + (int) player.getLocation().getY() + "', `z`= '" + (int) player.getLocation().getZ() + "', `Distance` = " + args[1]);
+					statement.execute("INSERT INTO `towns` SET `Name` = '" + args[0] + "', `x`= '" + (int) player.getLocation().getX() + "', `y`= '" + (int) player.getLocation().getY() + "', `z`= '" + (int) player.getLocation().getZ() + "', `Distance` = " + args[1] + ", `Mayor` = '" + args[2] + "'");
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
 			}
 
-			Mayors.forEach((Mayor mayor) -> {
-				player.sendMessage(mayor.getMayorName());
-				player.sendMessage(mayor.getBuff());
-				player.sendMessage(mayor.getRegion().toString());
-			});
 
-//			NPC newnpc = CitizensAPI.getNPCRegistry().createNPC(PLAYER, player.getName());
-//			newnpc.spawn(player.getLocation());
-//			new BukkitRunnable() {
-//				@Override
-//				public void run() {
-//					newnpc.getNavigator().setTarget(player.getLocation());
-//				}
-//			}.runTaskLater(getInstance(), 40L);
-//			newnpc.addTrait(new MyTrait());
 
 		}
 		return true;

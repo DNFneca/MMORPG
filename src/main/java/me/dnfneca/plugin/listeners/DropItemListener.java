@@ -5,6 +5,8 @@
 package me.dnfneca.plugin.listeners;
 
 import me.dnfneca.plugin.utilities.GUI.GUI;
+import me.dnfneca.plugin.utilities.managers.Mayors.util.RunMayorEventRunEvent;
+import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -12,6 +14,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 public class DropItemListener implements Listener {
 	@EventHandler
 	public void onDropItem(PlayerDropItemEvent e) {
+		RunMayorEventRunEvent.runSingleEvent(PlayerStats.getPlayerStats(e.getPlayer().getUniqueId()).getTown().getCityMayor().getMayorEvent(), e.getPlayer());
 		if (null != e.getItemDrop().getItemStack().getItemMeta() && e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Menu")) {
 			e.setCancelled(true);
 			GUI.MainMenu(e.getPlayer());
