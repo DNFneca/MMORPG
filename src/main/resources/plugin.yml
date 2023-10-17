@@ -43,3 +43,6 @@ commands:
   runConversation:
       description: test
       usage: /textchoice
+  createCity:
+      description: create a new city
+      usage: /createCity <city name> <city radius> <city mayor>

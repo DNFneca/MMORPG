@@ -21,10 +21,10 @@ public class ExecuteActions {
 //		UPDATE `6a025aa7-802d-37b4-9a9e-d2a5296257fa` SET `xpAmount`='0',`class`='Asssasin',`DNFneca`='-25' WHERE 1
 //	}
 
-	public static boolean Requirements(String argummentsString, CommandSender sender) {
+	public static boolean Requirements(String argumentsString, CommandSender sender) {
 		Player player = (Player) sender;
 		PlayerStats playerStats = PlayerStats.getPlayerStats(((Player) sender).getUniqueId());
-		String[] individualRequirements = argummentsString.split(",");
+		String[] individualRequirements = argumentsString.split(",");
 		for(int i = 0; i < individualRequirements.length; i++) {
 			String[] args = individualRequirements[i].split(" ");
 			if(args[0].equals("Level")) {

@@ -9,6 +9,25 @@ public enum initItems {
 	;
 
 	public static void init() {
+		CustomItems.add(new Item("Bag",
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				"none",
+				"None",
+				"Rare",
+				Material.PLAYER_HEAD,
+				"BAG",
+				0,
+				"Bag",
+				0,
+				0));
 		CustomItems.add(new Item("ARMOR",
 				100,
 				0,

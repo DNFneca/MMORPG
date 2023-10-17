@@ -9,7 +9,7 @@ public class MayorBuff {
 	public static void applyMayorBuff(Mayor mayor, Player player) {
 		switch (mayor.Buff) {
 			case "test":
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 255, true, false, false));
+//				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 255, true, false, false));
 				break;
 		}
 	}

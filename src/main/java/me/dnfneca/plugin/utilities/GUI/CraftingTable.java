@@ -12,7 +12,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CraftingTable implements Listener {
+public enum CraftingTable {
+	;
 	public static void MainCraftingInventory(Player p) {
 		List<String> lore = new ArrayList<>();
 

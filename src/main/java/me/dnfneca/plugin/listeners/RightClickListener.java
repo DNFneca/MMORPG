@@ -3,6 +3,8 @@ package me.dnfneca.plugin.listeners;
 import me.dnfneca.plugin.utilities.GUI.Waystone;
 import me.dnfneca.plugin.utilities.managers.Abilities.AbilitiesManager;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
+import me.dnfneca.plugin.utilities.managers.Mayors.Events.Dig;
+import me.dnfneca.plugin.utilities.managers.Mayors.util.RunMayorEventRunEvent;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,9 +25,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static me.dnfneca.plugin.Plugin.CustomItems;
-import static me.dnfneca.plugin.Plugin.Players;
+import static me.dnfneca.plugin.Plugin.*;
 import static me.dnfneca.plugin.utilities.GUI.GUI.MainMenu;
+import static me.dnfneca.plugin.utilities.GUI.Spellbook.OpenMenu;
 
 public class RightClickListener implements Listener {
 
@@ -34,16 +36,42 @@ public class RightClickListener implements Listener {
 		Action action = e.getAction();
 		Player p = e.getPlayer();
 		if ((Action.RIGHT_CLICK_AIR == action || Action.RIGHT_CLICK_BLOCK == action) && EquipmentSlot.HAND == e.getHand()) {
-			e.getPlayer().getInventory().getItemInMainHand();
+			PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
+			OpenMenu(p);
+			if(playerStats == null) {
+				p.kickPlayer("Your user has been bugged, contact the server owners and/or admins");
+			}
+			if(Action.RIGHT_CLICK_BLOCK == action) {
+				if(playerStats.getTown().getCityMayor().getMayorEvent() != null) {
+					for (Dig d:Digs) {
+						System.out.println(d.getPlayer());
+					}
+					RunMayorEventRunEvent.checkEvent(PlayerStats.getPlayerStats(p.getUniqueId()), e.getClickedBlock().getLocation());
+				}
+			}
+
+
+
+
 			if (null != p.getInventory().getItemInMainHand() && null != p.getInventory().getItemInMainHand().getItemMeta() && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Menu")) {
 				e.setCancelled(true);
-
 				MainMenu(p);
 				return;
 			}
+
+
+
 			if (null != e.getClickedBlock() && Material.ANVIL == e.getClickedBlock().getType()) {
 				p.sendMessage("Clicked on anvil");
 			}
+
+
+
+
+
+			//ABILITIES
+
+
 			if (null != p.getInventory().getItemInMainHand() && null != p.getInventory().getItemInMainHand().getItemMeta()) {
 				for (PlayerStats player : Players) {
 					if (p.getUniqueId().equals(player.getUUID())) {

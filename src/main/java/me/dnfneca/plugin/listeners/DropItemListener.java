@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 public class DropItemListener implements Listener {
 	@EventHandler
 	public void onDropItem(PlayerDropItemEvent e) {
-		RunMayorEventRunEvent.runSingleEvent(PlayerStats.getPlayerStats(e.getPlayer().getUniqueId()).getTown().getCityMayor().getMayorEvent(), e.getPlayer());
 		if (null != e.getItemDrop().getItemStack().getItemMeta() && e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Menu")) {
 			e.setCancelled(true);
 			GUI.MainMenu(e.getPlayer());
