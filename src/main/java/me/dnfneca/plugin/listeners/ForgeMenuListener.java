@@ -98,7 +98,7 @@ public class ForgeMenuListener implements Listener {
 									reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName().replace(itemName[0] + " ", ""));
 									reforged_item.setItemMeta(reforgedItem);
 									e.getInventory().setItem(40, reforged_item);
-									Items.setItemLore(e.getInventory(), reforged_item.getItemMeta(), 40);
+									Items.setItemLore(reforged_item);
 								}
 							}
 						}
@@ -110,7 +110,7 @@ public class ForgeMenuListener implements Listener {
 								reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName());
 								reforged_item.setItemMeta(reforgedItem);
 								e.getInventory().setItem(40, reforged_item);
-								Items.setItemLore(e.getInventory(), reforged_item.getItemMeta(), 40);
+								Items.setItemLore(reforged_item);
 							}
 						}
 

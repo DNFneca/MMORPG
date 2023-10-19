@@ -127,8 +127,7 @@ public class PlayerStats {
 				int Slots = getPlayer().getInventory().getSize();
 				for (int i = 0; i < Slots; i++) {
 					if (null != PlayerStats.this.getPlayer().getInventory().getItem(i) && null != PlayerStats.this.getPlayer().getInventory().getItem(i).getItemMeta() && getPlayer().getInventory().getItem(i).hasItemMeta() && getPlayer().getInventory().getItem(i).getItemMeta().hasDisplayName()) {
-						ItemMeta meta = getPlayer().getInventory().getItem(i).getItemMeta();
-						Items.setItemLore(getPlayer().getInventory(), meta, i);
+						Items.setItemLore(getPlayer().getInventory().getItem(i));
 					}
 				}
 			}

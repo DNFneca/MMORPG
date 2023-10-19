@@ -88,7 +88,7 @@ public enum GenericZombie {
         ItemMeta itemMeta = rotten_flesh.getItemMeta();
         itemMeta.setDisplayName("Rotten Flesh");
         rotten_flesh.setItemMeta(itemMeta);
-        setItemLore(rotten_flesh, rotten_flesh.getItemMeta());
+        setItemLore(rotten_flesh);
 
 	    items.add(rotten_flesh);
 

@@ -27,8 +27,7 @@ public class SetOpenedInventoryItemsLore implements Listener {
 		int Slots = inventory.getSize();
 		for (int i = 0; i < Slots; i++) {
 			if (null != inventory.getItem(i) && null != inventory.getItem(i).getItemMeta() && inventory.getItem(i).hasItemMeta() && inventory.getItem(i).getItemMeta().hasDisplayName()) {
-				ItemMeta meta = inventory.getItem(i).getItemMeta();
-				Items.setItemLore(inventory, meta, i);
+				Items.setItemLore(inventory.getItem(i));
 			}
 		}
 	}

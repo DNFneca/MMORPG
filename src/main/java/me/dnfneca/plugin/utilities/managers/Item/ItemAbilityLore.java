@@ -1,22 +1,23 @@
 package me.dnfneca.plugin.utilities.managers.Item;
 
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public enum ItemAbilityLore {
 	;
 
-	public static void getItemAbilityLore(List<String> Lore, Item item) {
+	public static void getItemAbilityLore(List<String> Lore, ItemStack item) {
 		Lore.add("");
-		if ("test".equals(item.getAbility().split(" ")[0])) {
+		if ("test".equals(CustomItemStack.getItemAbility(item).split(" ")[0])) {
 			Lore.add(ChatColor.GOLD + "RIGHT CLICK: test");
 			Lore.add(ChatColor.GRAY + "Ability Description");
 			Lore.add(ChatColor.GRAY + "Mana Cost:" + ChatColor.BLUE + " 25");
 		} else {
-			Lore.add(ChatColor.GOLD + "RIGHT CLICK: " + item.getAbility().split(" ")[0].replace("_", " "));
+			Lore.add(ChatColor.GOLD + "RIGHT CLICK: " + CustomItemStack.getItemAbility(item).split(" ")[0].replace("_", " "));
 
-			switch (item.getAbilityName()) {
+			switch (CustomItemStack.getAbilityName(item)) {
 				case "Reality_Warp":
 					Lore.add(ChatColor.LIGHT_PURPLE + "Teleport" + ChatColor.GRAY + " yourself 10 blocks in");
 					Lore.add(ChatColor.GRAY + "the direction you're looking in");

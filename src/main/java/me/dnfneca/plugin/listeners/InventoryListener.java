@@ -4,6 +4,7 @@ import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.GUI.ClassMenus;
 import me.dnfneca.plugin.utilities.GUI.LevelsMenu;
 import me.dnfneca.plugin.utilities.GUI.ReforgeMenu;
+import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static me.dnfneca.plugin.Commands.test.itemMetaUUIDNamespaceKey;
+import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.Players;
 import static me.dnfneca.plugin.utilities.GUI.GUI.*;
 import static me.dnfneca.plugin.utilities.GUI.SubGUI.Menu.*;
@@ -83,6 +86,50 @@ public class InventoryListener implements Listener {
 		updatePlayerActionBar(PlayerStats.getPlayerStats(player.getUniqueId()));
 	}
 
+
+	@EventHandler
+	public void onInventoryEvent(InventoryOpenEvent e) {
+		if(e.getView().getTitle().contains("Bag")) {
+			Player player = (Player) e.getPlayer();
+			for(Item item : CustomItems) {
+				if(player.getInventory().getItemInMainHand().getItemMeta() == null) return;
+				List<String> Lore = player.getInventory().getItemInMainHand().getItemMeta().getLore();
+				for (String s : Lore) {
+					if(s.contains(item.getRarity()) && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(item.getName())) {
+						String rarity = item.getRarity().toUpperCase();
+						Inventory openedInventory = e.getInventory();
+						switch (rarity) {
+							case "COMMON":
+								for(int i = 1; i < 6; i++) {
+									if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "UNCOMMON":
+								for(int i = 1; i < 8; i++) {
+									if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "RARE":
+								for(int i = 1; i < 15 ; i++) {
+									if(i != 8 && i != 9) {
+										System.out.println(i);
+										if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+											openedInventory.setItem(i, null);
+										}
+									}
+								}
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@EventHandler
 	public void onInventoryEvent(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
@@ -105,7 +152,6 @@ public class InventoryListener implements Listener {
 
 		if(e.getView().getTitle().contains("Bag")) {
 			for (ItemStack item:e.getInventory()) {
-				System.out.println(item.getItemMeta().getDisplayName());
 				if(e.getCurrentItem().getItemMeta() == null) return;
 				if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Bag")) {
 					e.setCancelled(true);

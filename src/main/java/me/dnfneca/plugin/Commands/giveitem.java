@@ -1,5 +1,6 @@
 package me.dnfneca.plugin.Commands;
 
+import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
@@ -30,12 +31,12 @@ public class giveitem implements CommandExecutor {
 					ItemMeta meta;
 					for (Item item : CustomItems) {
 						if (args[0].equals(item.getCodeName())) {
-							ItemStack givenItem = new ItemStack(item.getItemMaterial());
+							ItemStack givenItem = CustomItemStack.NewItem(item.getCodeName());
 							ItemMeta givenItemMeta = givenItem.getItemMeta();
 							givenItemMeta.setDisplayName(item.getName());
 							givenItemMeta.setCustomModelData(item.getCustomLookCode());
 							givenItem.setItemMeta(givenItemMeta);
-							Items.setItemLore(givenItem, givenItemMeta);
+							Items.setItemLore(givenItem);
 							player.getInventory().addItem(givenItem);
 							return true;
 						}
@@ -55,12 +56,12 @@ public class giveitem implements CommandExecutor {
 						String itemCodeName = searchResult.get(0);
 						for (Item item : CustomItems) {
 							if (itemCodeName.equals(item.getCodeName())) {
-								ItemStack givenItem = new ItemStack(item.getItemMaterial());
+								ItemStack givenItem = CustomItemStack.NewItem(item.getCodeName());
 								ItemMeta givenItemMeta = givenItem.getItemMeta();
 								givenItemMeta.setDisplayName(item.getName());
 								givenItemMeta.setCustomModelData(item.getCustomLookCode());
 								givenItem.setItemMeta(givenItemMeta);
-								Items.setItemLore(givenItem, givenItemMeta);
+								Items.setItemLore(givenItem);
 								player.getInventory().addItem(givenItem);
 								return true;
 							}
