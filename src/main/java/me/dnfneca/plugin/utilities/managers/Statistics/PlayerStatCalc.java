@@ -92,38 +92,82 @@ public enum PlayerStatCalc {
 		double classStealth = Double.parseDouble(classStats[8]);
 
 
-		String[] itemStats = getPlayerWeaponStats(player);
-		double itemHealth = Double.parseDouble(itemStats[0]);
-		double itemDamage = Double.parseDouble(itemStats[1]);
-		double itemDefence = Double.parseDouble(itemStats[2]);
-		double itemStrength = Double.parseDouble(itemStats[3]);
-		double itemSpeed = Double.parseDouble(itemStats[4]);
-		double itemMana = Double.parseDouble(itemStats[5]);
-		double itemCritDamage = Double.parseDouble(itemStats[6]);
-		double itemCritChance = Double.parseDouble(itemStats[7]);
-		double itemStealth = Double.parseDouble(itemStats[8]);
+		double itemHealth = 0;
+		double itemDamage = 0;
+		double itemDefence = 0;
+		double itemStrength = 0;
+		double itemSpeed = 0;
+		double itemMana = 0;
+		double itemCritDamage = 0;
+		double itemCritChance = 0;
+		double itemStealth = 0;
 
-		String[] armorStats = getPlayerCombinedArmorStats(player);
-		double armorHealth = Double.parseDouble(armorStats[0]);
-		double armorDamage = Double.parseDouble(armorStats[1]);
-		double armorDefence = Double.parseDouble(armorStats[2]);
-		double armorStrength = Double.parseDouble(armorStats[3]);
-		double armorSpeed = Double.parseDouble(armorStats[4]);
-		double armorMana = Double.parseDouble(armorStats[5]);
-		double armorCritDamage = Double.parseDouble(armorStats[6]);
-		double armorCritChance = Double.parseDouble(armorStats[7]);
-		double armorStealth = Double.parseDouble(armorStats[8]);
 
-		String[] reforgeStats = getPlayerCombinedReforgeStats(player);
-		double reforgeHealth = Double.parseDouble(reforgeStats[0]);
-		double reforgeDamage = Double.parseDouble(reforgeStats[1]);
-		double reforgeDefence = Double.parseDouble(reforgeStats[2]);
-		double reforgeStrength = Double.parseDouble(reforgeStats[3]);
-		double reforgeSpeed = Double.parseDouble(reforgeStats[4]);
-		double reforgeMana = Double.parseDouble(reforgeStats[5]);
-		double reforgeCritDamage = Double.parseDouble(reforgeStats[6]);
-		double reforgeCritChance = Double.parseDouble(reforgeStats[7]);
-		double reforgeStealth = Double.parseDouble(reforgeStats[8]);
+		ItemStack itemInMainHand = p.getPlayer().getInventory().getItemInMainHand();
+
+		if(itemInMainHand != null && CustomItemStack.isItemCustomItem(itemInMainHand)) {
+			if(CustomItemStack.isItemReforged(itemInMainHand)) {
+				itemHealth = CustomItemStack.getItemHealth(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getHealth();
+				itemDamage = CustomItemStack.getItemDamage(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getDamage();
+				itemDefence = CustomItemStack.getItemDefence(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getDefence();
+				itemStrength = CustomItemStack.getItemStrength(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getStrength();
+				itemSpeed = CustomItemStack.getItemSpeed(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getSpeed();
+				itemMana = CustomItemStack.getItemMana(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getMana();
+				itemCritDamage = CustomItemStack.getItemCritDamage(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getCritDamage();
+				itemCritChance = CustomItemStack.getItemCritChance(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getCritChance();
+				itemStealth = CustomItemStack.getItemStealth(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getStealth();
+			} else {
+				itemHealth = CustomItemStack.getItemHealth(itemInMainHand);
+				itemDamage = CustomItemStack.getItemDamage(itemInMainHand);
+				itemDefence = CustomItemStack.getItemDefence(itemInMainHand);
+				itemStrength = CustomItemStack.getItemStrength(itemInMainHand);
+				itemSpeed = CustomItemStack.getItemSpeed(itemInMainHand);
+				itemMana = CustomItemStack.getItemMana(itemInMainHand);
+				itemCritDamage = CustomItemStack.getItemCritDamage(itemInMainHand);
+				itemCritChance = CustomItemStack.getItemCritChance(itemInMainHand);
+				itemStealth = CustomItemStack.getItemStealth(itemInMainHand);
+			}
+
+		}
+
+		double armorHealth = 0;
+		double armorDamage = 0;
+		double armorDefence = 0;
+		double armorStrength = 0;
+		double armorSpeed = 0;
+		double armorMana = 0;
+		double armorCritDamage = 0;
+		double armorCritChance = 0;
+		double armorStealth = 0;
+
+		for (int i = 36; 39 >= i; i++) {
+			ItemStack itemOnPlayer = player.getInventory().getItem(i);
+			if (itemOnPlayer != null && CustomItemStack.isItemCustomItem(itemOnPlayer)) {
+				if (PlayerStats.getPlayerStats(player.getUniqueId()).getLevel() > CustomItemStack.getItemMinimalLevelForUsage(itemOnPlayer)) {
+					if(CustomItemStack.isItemReforged(itemOnPlayer)) {
+						armorHealth = CustomItemStack.getItemHealth(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getHealth();
+						armorDamage = CustomItemStack.getItemDamage(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getDamage();
+						armorDefence = CustomItemStack.getItemDefence(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getDefence();
+						armorStrength = CustomItemStack.getItemStrength(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getStrength();
+						armorSpeed = CustomItemStack.getItemSpeed(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getSpeed();
+						armorMana = CustomItemStack.getItemMana(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getMana();
+						armorCritDamage = CustomItemStack.getItemCritDamage(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getCritDamage();
+						armorCritChance = CustomItemStack.getItemCritChance(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getCritChance();
+						armorStealth = CustomItemStack.getItemStealth(itemOnPlayer) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemOnPlayer)).getStealth();
+					} else {
+						armorHealth = CustomItemStack.getItemHealth(itemOnPlayer);
+						armorDamage = CustomItemStack.getItemDamage(itemOnPlayer);
+						armorDefence = CustomItemStack.getItemDefence(itemOnPlayer);
+						armorStrength = CustomItemStack.getItemStrength(itemOnPlayer);
+						armorSpeed = CustomItemStack.getItemSpeed(itemOnPlayer);
+						armorMana = CustomItemStack.getItemMana(itemOnPlayer);
+						armorCritDamage = CustomItemStack.getItemCritDamage(itemOnPlayer);
+						armorCritChance = CustomItemStack.getItemCritChance(itemOnPlayer);
+						armorStealth = CustomItemStack.getItemStealth(itemOnPlayer);
+					}
+				}
+			}
+		}
 
 
 		final double BaseHealth = 100;
@@ -147,16 +191,16 @@ public enum PlayerStatCalc {
 
 
 		if (p.getHealth() <= p.getCurrentHealth() - p.getBonusHealth()) {
-			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth);
-			p.setCurrentHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth + p.getBonusHealth());
+			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth);
+			p.setCurrentHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth +p.getBonusHealth());
 		} else {
-			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth + reforgeHealth);
+			p.setHealth((BaseHealth + classHealth) * levelPercentage + itemHealth + armorHealth);
 		}
 		if (p.getMana() <= p.getCurrentMana() - p.getBonusMana()) {
-			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana);
-			p.setCurrentMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana + p.getBonusMana());
+			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana);
+			p.setCurrentMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + p.getBonusMana());
 		} else {
-			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana + reforgeMana);
+			p.setMana((BaseMana + classMana) * levelPercentage + itemMana + armorMana);
 		}
 
 		if(p.getStunDuration() > 0) {
@@ -167,7 +211,7 @@ public enum PlayerStatCalc {
 			p.setStunDuration(0);
 			player.removePotionEffect(PotionEffectType.SLOW);
 		} else {
-			p.setDamage((BaseDamage + classDamage) * levelPercentage + itemDamage + armorDamage + reforgeDamage);
+			p.setDamage((BaseDamage + classDamage) * levelPercentage + itemDamage + armorDamage);
 			player.removePotionEffect(PotionEffectType.SLOW);
 		}
 
@@ -180,13 +224,13 @@ public enum PlayerStatCalc {
 		}
 
 
-		p.setDefence((BaseDefence + classDefence) * levelPercentage + itemDefence + armorDefence + reforgeDefence);
-		p.setSpeed(BaseSpeed + classSpeed + itemSpeed + armorSpeed + reforgeSpeed);
-		p.getPlayer().setWalkSpeed((float) (p.getSpeed() + itemSpeed + armorSpeed + reforgeSpeed) / 500);
-		p.setStrength(BaseStrength + classStrength + itemStrength + armorStrength + reforgeStrength);
-		p.setCritDamage(BaseCritDamage + classCritDamage + itemCritDamage + armorCritDamage + (levelPercentage - 1) + reforgeCritDamage);
-		p.setCritChance(BaseCritChance + classCritChance + itemCritChance + armorCritChance + (levelPercentage - 1) + reforgeCritChance);
-		p.setStealth(BaseStealth + classStealth + itemStealth + armorStealth + reforgeStealth);
+		p.setDefence((BaseDefence + classDefence) * levelPercentage + itemDefence + armorDefence);
+		p.setSpeed(BaseSpeed + classSpeed + itemSpeed + armorSpeed);
+		p.getPlayer().setWalkSpeed((float) (p.getSpeed() + itemSpeed + armorSpeed) / 500);
+		p.setStrength(BaseStrength + classStrength + itemStrength + armorStrength);
+		p.setCritDamage(BaseCritDamage + classCritDamage + itemCritDamage + armorCritDamage + (levelPercentage - 1));
+		p.setCritChance(BaseCritChance + classCritChance + itemCritChance + armorCritChance + (levelPercentage - 1));
+		p.setStealth(BaseStealth + classStealth + itemStealth + armorStealth);
 
 		double healthPercent = p.getCurrentHealth() / p.getHealth();
 		int amountOfHealth = (int) (healthPercent/0.05);

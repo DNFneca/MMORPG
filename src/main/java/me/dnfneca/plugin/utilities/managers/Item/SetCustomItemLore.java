@@ -19,17 +19,6 @@ public class SetCustomItemLore {
 	public static void SetLore(ItemStack itemStack, PlayerStats playerStats) {
 		ChatColor color;
 		ItemMeta itemMeta = itemStack.getItemMeta();
-		String itemName = itemMeta.getDisplayName();
-
-
-
-//		if (null != itemInQ && itemInQ.getItemMeta().hasLore() && null == reforge) {
-//			return;
-//		}
-//
-//
-//
-
 
 		switch (CustomItemStack.getItemRarity(itemStack)) {
 			case "Rare":
@@ -66,9 +55,8 @@ public class SetCustomItemLore {
 		}
 		Lore.add("");
 
-		String reforge = CustomItemStack.getItemReforgeName(itemStack);
-
-		if (reforge == null) {
+		String reforge = CustomItemStack.getItemReforge(itemStack);
+		if (reforge.equals("none")) {
 			if (0 < CustomItemStack.getItemHealth(itemStack)) {
 				Lore.add(ChatColor.GRAY + "Health:" + ChatColor.GREEN + " +" + ChatColor.GRAY + (int) CustomItemStack.getItemHealth(itemStack));
 			} else if (0 > CustomItemStack.getItemHealth(itemStack)) {

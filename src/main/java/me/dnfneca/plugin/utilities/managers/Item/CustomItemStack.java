@@ -59,12 +59,12 @@ public class CustomItemStack {
 				newItemMeta.getPersistentDataContainer().set(customItemCodeNameNamespaceKey, PersistentDataType.STRING, item.getCodeName());
 				newItemMeta.getPersistentDataContainer().set(customItemCustomLookCodeNamespaceKey, PersistentDataType.INTEGER, item.getCustomLookCode());
 				newItemMeta.getPersistentDataContainer().set(customItemTypeNamespaceKey, PersistentDataType.STRING, item.getType());
-				newItemMeta.getPersistentDataContainer().set(customItemReforgeTypeNamespaceKey, PersistentDataType.STRING, "None");
+				newItemMeta.getPersistentDataContainer().set(customItemReforgeTypeNamespaceKey, PersistentDataType.STRING, "none");
 				newItemMeta.getPersistentDataContainer().set(customItemMinimalLevelForUsageNamespaceKey, PersistentDataType.INTEGER, item.getMinimalLevelForUsage());
 				newItemMeta.getPersistentDataContainer().set(customItemManaNamespaceKey, PersistentDataType.DOUBLE, item.getMana());
 				newItemMeta.getPersistentDataContainer().set(customItemAttackSpeedNamespaceKey, PersistentDataType.DOUBLE, item.getAttackSpeed());
 				newItemMeta.getPersistentDataContainer().set(customItemRarityUpgradedNamespaceKey, PersistentDataType.BOOLEAN, false);
-				newItemMeta.getPersistentDataContainer().set(customItemReforgeNamespaceKey, PersistentDataType.STRING, "None");
+				newItemMeta.getPersistentDataContainer().set(customItemReforgeNamespaceKey, PersistentDataType.STRING, "none");
 				newItemMeta.getPersistentDataContainer().set(customItemNameNamespaceKey, PersistentDataType.STRING, item.getName());
 				newItemMeta.getPersistentDataContainer().set(customItemReforgedNamespaceKey, PersistentDataType.BOOLEAN, false);
 				newItem.setItemMeta(newItemMeta);
@@ -106,7 +106,7 @@ public class CustomItemStack {
 		if(!isItemCustomItem(itemStack)) {
 			return null;
 		}
-		return itemStack.getItemMeta().getPersistentDataContainer().get(customItemReforgeNameNamespaceKey, PersistentDataType.STRING);
+		return itemStack.getItemMeta().getPersistentDataContainer().get(customItemReforgeTypeNamespaceKey, PersistentDataType.STRING);
 	}
 
 	public static boolean isItemCustomReforge(ItemStack itemStack) {
@@ -271,6 +271,40 @@ public class CustomItemStack {
 			return false;
 		}
 		return itemStack.getItemMeta().getPersistentDataContainer().get(customItemReforgedNamespaceKey, PersistentDataType.BOOLEAN);
+	}
+
+
+	public static boolean copyToNewItem(ItemStack oldItemStack, ItemStack newItemStack) {
+		if(!isItemCustomItem(oldItemStack) || isItemCustomReforge(oldItemStack)) {
+			return false;
+		}
+		ItemMeta newItemMeta = oldItemStack.getItemMeta();
+		newItemMeta.getPersistentDataContainer().set(customItemNamespaceKey, PersistentDataType.BOOLEAN, isItemCustomItem(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customReforgeNamespaceKey, PersistentDataType.BOOLEAN, isItemCustomReforge(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemHealthNamespaceKey, PersistentDataType.DOUBLE, getItemHealth(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemDamageNamespaceKey, PersistentDataType.DOUBLE, getItemDamage(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemDefenceNamespaceKey, PersistentDataType.DOUBLE, getItemDefence(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemStrengthNamespaceKey, PersistentDataType.DOUBLE, getItemStrength(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemSpeedNamespaceKey, PersistentDataType.DOUBLE, getItemSpeed(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemCritDamageNamespaceKey, PersistentDataType.DOUBLE, getItemCritDamage(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemCritChanceNamespaceKey, PersistentDataType.DOUBLE, getItemCritChance(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemStealthNamespaceKey, PersistentDataType.DOUBLE, getItemStealth(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemAbilityNamespaceKey, PersistentDataType.STRING, getItemAbility(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemFullSetBonusNamespaceKey, PersistentDataType.STRING, getItemFullSetBonus(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemRarityNamespaceKey, PersistentDataType.STRING, getItemRarity(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemCodeNameNamespaceKey, PersistentDataType.STRING, getItemCodeName(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemCustomLookCodeNamespaceKey, PersistentDataType.INTEGER, getItemCustomLookCode(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemTypeNamespaceKey, PersistentDataType.STRING, getItemType(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemReforgeTypeNamespaceKey, PersistentDataType.STRING, getItemReforgeType(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemMinimalLevelForUsageNamespaceKey, PersistentDataType.INTEGER, getItemMinimalLevelForUsage(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemManaNamespaceKey, PersistentDataType.DOUBLE, getItemMana(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemAttackSpeedNamespaceKey, PersistentDataType.DOUBLE, getItemAttackSpeed(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemRarityUpgradedNamespaceKey, PersistentDataType.BOOLEAN, getItemRarityUpgraded(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemReforgeNamespaceKey, PersistentDataType.STRING, getItemReforge(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemNameNamespaceKey, PersistentDataType.STRING, getItemName(oldItemStack));
+		newItemMeta.getPersistentDataContainer().set(customItemReforgedNamespaceKey, PersistentDataType.BOOLEAN, isItemReforged(oldItemStack));
+		newItemStack.setItemMeta(newItemMeta);
+		return true;
 	}
 
 
