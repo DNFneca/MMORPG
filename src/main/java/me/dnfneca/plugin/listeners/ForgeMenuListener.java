@@ -1,5 +1,7 @@
 package me.dnfneca.plugin.listeners;
 
+import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Items;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
@@ -14,6 +16,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -49,108 +52,80 @@ public class ForgeMenuListener implements Listener {
 		}
 
 
+		ItemStack none = new ItemStack(Material.BARRIER, 1);
+		ItemMeta none_meta = none.getItemMeta();
+		none_meta.setDisplayName("Can't reforge this");
+		none.setItemMeta(none_meta);
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				final boolean isRegistered = false;
-
-				ItemStack none = new ItemStack(Material.BARRIER, 1);
-				ItemMeta none_meta = none.getItemMeta();
-				none_meta.setDisplayName("Can't reforge this");
-				none.setItemMeta(none_meta);
-
-				if (!(InventoryName.contains("Forge Menu"))) {
-					return;
+				ItemStack itemToReforge = e.getInventory().getItem(11);
+				ItemStack reforgeStone = e.getInventory().getItem(15);
+				if (itemToReforge == null) {
+					e.getInventory().setItem(40, none);
 				}
-				if (e.getViewers().isEmpty()) {
-					return;
-				}
-				ItemStack reforgable_item = e.getInventory().getItem(11);
-				if (null == reforgable_item) e.getInventory().setItem(40, none);
-
-//                for (String s : RegisteredItems) {
-//                    if (s != null) {
-//                        if (reforgable_item.getItemMeta().getDisplayName().contains(s)) {
-//                            isRegistered = true;
-//                            break;
-//                        }
-//
-//                    } else e.getInventory().setItem(40, none);
-//                }
-				if (!isRegistered) e.getInventory().setItem(40, none);
-
-
-				if (null == e.getInventory().getItem(15)) {
+				if (reforgeStone == null) {
 					e.getInventory().setItem(40, none);
 				}
 
+				if(!CustomItemStack.isItemCustomItem(itemToReforge) || CustomItemStack.isItemCustomReforge(itemToReforge)) {
+					e.getInventory().setItem(40, none);
+				}
+				if(!CustomItemStack.isItemCustomItem(reforgeStone) || CustomItemStack.isItemCustomReforge(reforgeStone)) {
+					e.getInventory().setItem(40, none);
+				}
 
-				if(null != e.getInventory().getItem(15) && null != e.getInventory().getItem(15).getItemMeta().getDisplayName()) {
-					ItemStack reforged_item = reforgable_item.clone();
-					if(isItemReforged(e.getInventory().getItem(11).getItemMeta().getDisplayName())) {
-						for (Reforge customReforge : CustomReforges) {
-							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
-								if(getItemReforge(e.getInventory().getItem(11).getItemMeta().getDisplayName()).equals(customReforge.getReforgeName())) {
-									e.getInventory().setItem(40, none);
-								} else {
-									ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
-									String[] itemName = reforgedItem.getDisplayName().split(" ");
-									reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName().replace(itemName[0] + " ", ""));
-									reforged_item.setItemMeta(reforgedItem);
-									e.getInventory().setItem(40, reforged_item);
-									Items.setItemLore(reforged_item);
-								}
-							}
-						}
-
-					} else {
-						for (Reforge customReforge : CustomReforges) {
-							if(customReforge.getName().equals(ChatColor.stripColor(e.getInventory().getItem(15).getItemMeta().getDisplayName()))) {
-								ItemMeta reforgedItem = e.getInventory().getItem(11).getItemMeta().clone();
-								reforgedItem.setDisplayName(customReforge.getReforgeName() + " " + reforgedItem.getDisplayName());
-								reforged_item.setItemMeta(reforgedItem);
-								e.getInventory().setItem(40, reforged_item);
-								Items.setItemLore(reforged_item);
-							}
-						}
-
-					}
-//					SetItemStatsLoreInMenu(40, p);
-                }
+				ItemStack reforgedItem = itemToReforge.clone();
 
 
-//				for (final String[] s : RegisteredReforges) {
-//					if (e.getInventory().getItem(15).getItemMeta().getDisplayName().contains(s[0])) {
-//						final String[] check = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
-//						final ItemStack reforged_item = reforgable_item.clone();
-//						final String[] item_name = reforged_item.getItemMeta().getDisplayName().split(" ");
-//						System.out.println(item_name[0] + " " + s[1] + " " + item_name[0].contains(s[1]));
-//						if (item_name[0].contains(s[1])) {
-//							e.getInventory().setItem(40, none);
-//							break;
-//						}
-//						final ItemMeta reforged_item_data = reforged_item.getItemMeta();
-//						reforged_item_data.setDisplayName(s[1] + " " + reforged_item.getItemMeta().getDisplayName());
-//						reforged_item.setItemMeta(reforged_item_data);
-//						e.getInventory().setItem(40, reforged_item);
-//						if (Arrays.equals(ForgeMenuListener.GetInventoryReforge(p, 40), check)) {
-//							e.getInventory().setItem(40, none);
-//						}
-//                        ForgeMenuListener.SetItemStatsLoreInMenu(40, p);
+				if(!CustomItemStack.isItemReforged(itemToReforge)) {
+					String reforgeName = CustomItemStack.getItemReforgeName(reforgeStone);
+					System.out.println(reforgeName);
+					ItemMeta reforgedItemMeta = itemToReforge.getItemMeta();
+					String[] itemName = reforgedItemMeta.getDisplayName().split(" ");
+					reforgedItemMeta.setDisplayName(reforgeName + " " + reforgedItemMeta.getDisplayName().replace(itemName[0] + " ", ""));
+					reforgedItemMeta.getPersistentDataContainer().set(CustomItemStack.customItemReforgeNameNamespaceKey, PersistentDataType.STRING, reforgeName);
+					reforgedItemMeta.getPersistentDataContainer().set(CustomItemStack.customItemReforgedNamespaceKey, PersistentDataType.BOOLEAN, true);
+					reforgedItem.setItemMeta(reforgedItemMeta);
+					e.getInventory().setItem(40, reforgedItem);
+					Items.setItemLore(reforgedItem, p);
+				} else {
+					e.getInventory().setItem(40, none);
+				}
+//				SetItemStatsLoreInMenu(40, p);
+//			for (final String[] s : RegisteredReforges) {
+//				if (e.getInventory().getItem(15).getItemMeta().getDisplayName().contains(s[0])) {
+//					final String[] check = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+//					final ItemStack reforged_item = reforgable_item.clone();
+//					final String[] item_name = reforged_item.getItemMeta().getDisplayName().split(" ");
+//					System.out.println(item_name[0] + " " + s[1] + " " + item_name[0].contains(s[1]));
+//					if (item_name[0].contains(s[1])) {
+//						e.getInventory().setItem(40, none);
+//						break;
 //					}
+//					final ItemMeta reforged_item_data = reforged_item.getItemMeta();
+//					reforged_item_data.setDisplayName(s[1] + " " + reforged_item.getItemMeta().getDisplayName());
+//					reforged_item.setItemMeta(reforged_item_data);
+//					e.getInventory().setItem(40, reforged_item);
+//					if (Arrays.equals(ForgeMenuListener.GetInventoryReforge(p, 40), check)) {
+//						e.getInventory().setItem(40, none);
+//					}
+//                       ForgeMenuListener.SetItemStatsLoreInMenu(40, p);
 //				}
+//			}
 
 
+				if (e.getSlot() == 40 && e.getCurrentItem().getType() != Material.BARRIER) {
+					e.getInventory().setItem(11, new ItemStack(Material.AIR, 1));
+					e.getInventory().setItem(15, new ItemStack(Material.AIR, 1));
+				}
 			}
-		}.runTaskTimer(plugin, 0L, 20L);
-
-		if (40 == e.getSlot() && Material.BARRIER != e.getCurrentItem().getType()) {
-			e.getInventory().setItem(11, new ItemStack(Material.AIR, 1));
-			e.getInventory().setItem(15, new ItemStack(Material.AIR, 1));
-		}
+		}.runTaskLater(Plugin.getInstance(), 2);
 
 
 	}
+
 
 	@EventHandler
 	public void onForgeMenuClose(InventoryCloseEvent e) {

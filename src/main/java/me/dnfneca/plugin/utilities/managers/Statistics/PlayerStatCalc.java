@@ -1,11 +1,13 @@
 package me.dnfneca.plugin.utilities.managers.Statistics;
 
+import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Item.Reforge;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -401,26 +403,34 @@ public enum PlayerStatCalc {
 	public static String[] getPlayerWeaponStats(Player player) {
 		String[] itemStats = {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
+
 		if (null == player.getInventory().getItemInMainHand().getItemMeta()) {
 			return itemStats;
 		}
-		Item item = getCustomItemByName(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
-		if (null == item) {
+
+
+		if(!CustomItemStack.isItemCustomItem(player.getInventory().getItemInMainHand())){
 			return itemStats;
 		}
-		if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) < getCustomItemByName(ChatColor.stripColor(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName())).getMinimalLevelForUsage()) {
+		if(CustomItemStack.isItemCustomReforge(player.getInventory().getItemInMainHand())){
 			return itemStats;
 		}
-		if ("Melee".equals(item.getType()) || "Bow".equals(item.getType()) || "Staff".equals(item.getType())) {
-			itemStats[0] = String.valueOf(item.getHealth());
-			itemStats[1] = String.valueOf(item.getDamage());
-			itemStats[2] = String.valueOf(item.getDefence());
-			itemStats[3] = String.valueOf(item.getStrength());
-			itemStats[4] = String.valueOf(item.getSpeed());
-			itemStats[5] = String.valueOf(item.getMana());
-			itemStats[6] = String.valueOf(item.getCritDamage());
-			itemStats[7] = String.valueOf(item.getCritChance());
-			itemStats[8] = String.valueOf(item.getStealth());
+
+		if (PlayerLevels.getLevel(PlayerStats.getPlayerStats(player.getUniqueId()).getPlayer()) < CustomItemStack.getItemMinimalLevelForUsage(player.getInventory().getItemInMainHand())) {
+			return itemStats;
+		}
+
+		ItemStack itemInUse = player.getInventory().getItemInMainHand();
+		if ("Melee".equals(CustomItemStack.getItemType(itemInUse)) || "Bow".equals(CustomItemStack.getItemType(itemInUse)) || "Staff".equals(CustomItemStack.getItemType(itemInUse))) {
+			itemStats[0] = String.valueOf(CustomItemStack.getItemHealth(itemInUse));
+			itemStats[1] = String.valueOf(CustomItemStack.getItemDamage(itemInUse));
+			itemStats[2] = String.valueOf(CustomItemStack.getItemDefence(itemInUse));
+			itemStats[3] = String.valueOf(CustomItemStack.getItemStrength(itemInUse));
+			itemStats[4] = String.valueOf(CustomItemStack.getItemSpeed(itemInUse));
+			itemStats[5] = String.valueOf(CustomItemStack.getItemMana(itemInUse));
+			itemStats[6] = String.valueOf(CustomItemStack.getItemCritDamage(itemInUse));
+			itemStats[7] = String.valueOf(CustomItemStack.getItemCritChance(itemInUse));
+			itemStats[8] = String.valueOf(CustomItemStack.getItemStealth(itemInUse));
 			return itemStats;
 		} else {
 			return itemStats;

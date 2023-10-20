@@ -17,27 +17,8 @@ import static me.dnfneca.plugin.Plugin.CustomItems;
 
 public class Item {
 
-	public static NamespacedKey customItemNamespaceKey = new NamespacedKey(Plugin.getInstance(), "isCustomItem");
-	public static NamespacedKey customItemHealthNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemHealth");
-	public static NamespacedKey customItemDamageNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemDamage");
-	public static NamespacedKey customItemDefenceNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemDefence");
-	public static NamespacedKey customItemStrengthNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemStrength");
-	public static NamespacedKey customItemSpeedNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemSpeed");
-	public static NamespacedKey customItemManaNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemMana");
-	public static NamespacedKey customItemCritDamageNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemCritDamage");
-	public static NamespacedKey customItemCritChanceNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemCritChance");
-	public static NamespacedKey customItemStealthNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemStealth");
-	public static NamespacedKey customItemAbilityNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemAbility");
-	public static NamespacedKey customItemFullSetBonusNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemFullSetBonus");
-	public static NamespacedKey customItemNameNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemName");
-	public static NamespacedKey customItemRarityNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemRarity");
-	public static NamespacedKey customItemCodeNameNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemCodeName");
-	public static NamespacedKey customItemCustomLookCodeNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemCustomLookCode");
-	public static NamespacedKey customItemTypeNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemType");
-	public static NamespacedKey customItemMinimalLevelForUsageNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemMinimalLevelForUsage");
-	public static NamespacedKey customItemAttackSpeedNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemAttackSpeed");
-	public static NamespacedKey customItemRarityUpgradedNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemRarityUpgraded");
-	public static NamespacedKey customItemReforgeNamespaceKey = new NamespacedKey(Plugin.getInstance(), "customItemReforge");
+
+
 
 	double Health;
 	double Damage;

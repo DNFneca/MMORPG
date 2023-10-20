@@ -17,12 +17,13 @@ public class Reforge {
 	int CustomLookCode;
 	String Name;
 	String Rarity;
+	String CodeName;
 	ItemStack ReforgeItemStack;
 	String ReforgeName;
 	int MinimalLevelForUsage;
 	String Type;
 
-	public Reforge(String Name, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, String Rarity, ItemStack ReforgeItemStack, String ReforgeName, int CustomLookCode, String Type, int MinimalLevelForUsage) {
+	public Reforge(String Name, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, String Rarity, ItemStack ReforgeItemStack, String ReforgeName, int CustomLookCode, String CodeName , String Type, int MinimalLevelForUsage) {
 		this.Name = Name;
 		this.Health = Health;
 		this.Damage = Damage;
@@ -39,6 +40,7 @@ public class Reforge {
 		this.MinimalLevelForUsage = MinimalLevelForUsage;
 		this.CustomLookCode = CustomLookCode;
 		this.Type = Type;
+		this.CodeName = CodeName;
 	}
 	// Get
 
@@ -46,6 +48,11 @@ public class Reforge {
 	public String getType() {
 		return Type;
 	}
+
+	public String getCodeName() {
+		return this.CodeName;
+	}
+
 	public int getMinimalLevelForUsage() {
 		return MinimalLevelForUsage;
 	}

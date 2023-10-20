@@ -1,9 +1,6 @@
 package me.dnfneca.plugin.Commands;
 
-import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
-import me.dnfneca.plugin.utilities.managers.Item.Item;
-import me.dnfneca.plugin.utilities.managers.Item.Items;
-import me.dnfneca.plugin.utilities.managers.Item.Reforge;
+import me.dnfneca.plugin.utilities.managers.Item.*;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +15,7 @@ import java.util.List;
 
 import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.CustomReforges;
+import static me.dnfneca.plugin.utilities.managers.Item.Items.setItemLore;
 
 public class giveitem implements CommandExecutor {
 
@@ -36,17 +34,18 @@ public class giveitem implements CommandExecutor {
 							givenItemMeta.setDisplayName(item.getName());
 							givenItemMeta.setCustomModelData(item.getCustomLookCode());
 							givenItem.setItemMeta(givenItemMeta);
-							Items.setItemLore(givenItem);
+							setItemLore(givenItem, player);
 							player.getInventory().addItem(givenItem);
 							return true;
 						}
 					}
 					for (Reforge customReforge : CustomReforges) {
-						if (args[0].equals(customReforge.getName().toUpperCase().replace(" ", "_"))) {
-							ItemStack givenItem = new ItemStack(customReforge.getReforgeItemStack());
+						if (args[0].equals(customReforge.getCodeName())) {
+							ItemStack givenItem = CustomItemStack.NewItem(customReforge.getCodeName());
 							ItemMeta givenItemMeta = givenItem.getItemMeta();
 							givenItemMeta.setCustomModelData(customReforge.getCustomLookCode());
 							givenItem.setItemMeta(givenItemMeta);
+							setItemLore(givenItem, player);
 							player.getInventory().addItem(givenItem);
 							return true;
 						}
@@ -61,7 +60,7 @@ public class giveitem implements CommandExecutor {
 								givenItemMeta.setDisplayName(item.getName());
 								givenItemMeta.setCustomModelData(item.getCustomLookCode());
 								givenItem.setItemMeta(givenItemMeta);
-								Items.setItemLore(givenItem);
+								setItemLore(givenItem, player);
 								player.getInventory().addItem(givenItem);
 								return true;
 							}

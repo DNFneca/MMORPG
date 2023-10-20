@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import static me.dnfneca.plugin.utilities.managers.Item.Items.setItemLore;
 
 public enum GenericZombie {
 	;
@@ -88,7 +87,6 @@ public enum GenericZombie {
         ItemMeta itemMeta = rotten_flesh.getItemMeta();
         itemMeta.setDisplayName("Rotten Flesh");
         rotten_flesh.setItemMeta(itemMeta);
-        setItemLore(rotten_flesh);
 
 	    items.add(rotten_flesh);
 

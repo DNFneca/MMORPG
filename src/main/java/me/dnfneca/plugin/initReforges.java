@@ -49,7 +49,9 @@ public enum initReforges {
 				"Rare",
 				reforgeItemStack,
 				"Strong",
+
 				0,
+				"STRENGTH_ARTIFACT",
 				"Any",
 				0));
 
@@ -82,6 +84,7 @@ public enum initReforges {
 				reforgeItemStack,
 				"Enthusiastic",
 				0,
+				"ARNIDS_STOAT",
 				"Any",
 				0));
 
@@ -114,70 +117,7 @@ public enum initReforges {
 				reforgeItemStack,
 				"Ravenous",
 				0,
-				"Any",
-				0));
-
-
-		reforgeItemStack = new ItemStack(Material.PLAYER_HEAD);
-		reforgeItemMeta = (SkullMeta) reforgeItemStack.getItemMeta();
-		reforgeItemMeta.setDisplayName(ChatColor.GOLD + "Rainbow's Donkey");
-		profile = Bukkit.createPlayerProfile(UUID.randomUUID());
-		textures = profile.getTextures();
-		urlObject = null;
-		try {
-			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a");
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
-		textures.setSkin(urlObject);
-		reforgeItemMeta.setOwnerProfile(profile);
-		reforgeItemStack.setItemMeta(reforgeItemMeta);
-		CustomReforges.add(new Reforge("Rainbow's Donkey",
-				0,
-				100,
-				0,
-				-20,
-				-20,
-				0,
-				0,
-				0,
-				0,
-				"Legendary",
-				reforgeItemStack,
-				"Assed",
-				0,
-				"Any",
-				0));
-
-
-		reforgeItemStack = new ItemStack(Material.PLAYER_HEAD);
-		reforgeItemMeta = (SkullMeta) reforgeItemStack.getItemMeta();
-		reforgeItemMeta.setDisplayName(ChatColor.GOLD + "PJ's Finch");
-		profile = Bukkit.createPlayerProfile(UUID.randomUUID());
-		textures = profile.getTextures();
-		urlObject = null;
-		try {
-			urlObject = new URL("https://textures.minecraft.net/texture/d8188345dc6a1bf08663385b99f2bd1551a49292a93b84e0a97b917b565bf41a");
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
-		textures.setSkin(urlObject);
-		reforgeItemMeta.setOwnerProfile(profile);
-		reforgeItemStack.setItemMeta(reforgeItemMeta);
-		CustomReforges.add(new Reforge("PJ's Finch",
-				-10,
-				-10,
-				0,
-				0,
-				+30,
-				+5,
-				+5,
-				0,
-				0,
-				"Legendary",
-				reforgeItemStack,
-				"Savannan",
-				0,
+				"RAVENS_RAVEN",
 				"Any",
 				0));
 
@@ -199,6 +139,7 @@ public enum initReforges {
 				reforgeItemStack,
 				"Deadly",
 				1,
+				"CORAXS_FEATHER",
 				"Melee",
 				0));
 

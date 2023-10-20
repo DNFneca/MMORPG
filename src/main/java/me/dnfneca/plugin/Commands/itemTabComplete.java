@@ -35,8 +35,8 @@ public class itemTabComplete implements TabCompleter {
 			}
 		}
 		for (Reforge customReforge : CustomReforges) {
-			if(null != customReforge.getName() && customReforge.getName().toUpperCase().replace(" ", "_").contains(args[0])) {
-				p.add(customReforge.getName().toUpperCase().replace(" ", "_"));
+			if(null != customReforge.getName() && customReforge.getCodeName().contains(args[0])) {
+				p.add(customReforge.getCodeName());
 			}
 		}
 		return p;

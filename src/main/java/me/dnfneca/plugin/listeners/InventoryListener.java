@@ -78,6 +78,8 @@ public class InventoryListener implements Listener {
 	public void onInventoryEvent(EntityPickupItemEvent e) {
 		Player player = (Player) e.getEntity();
 
+
+
 	}
 
 	@EventHandler
