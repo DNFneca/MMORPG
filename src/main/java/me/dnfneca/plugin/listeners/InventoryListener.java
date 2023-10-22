@@ -4,21 +4,21 @@ import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.GUI.ClassMenus;
 import me.dnfneca.plugin.utilities.GUI.LevelsMenu;
 import me.dnfneca.plugin.utilities.GUI.ReforgeMenu;
-import me.dnfneca.plugin.utilities.managers.Item.Item;
-import me.dnfneca.plugin.utilities.managers.Item.Items;
+import me.dnfneca.plugin.utilities.InventoryConverter;
+import me.dnfneca.plugin.utilities.managers.Item.*;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -26,12 +26,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import static me.dnfneca.plugin.Commands.test.itemMetaUUIDNamespaceKey;
-import static me.dnfneca.plugin.Plugin.CustomItems;
-import static me.dnfneca.plugin.Plugin.Players;
+import static me.dnfneca.plugin.Plugin.*;
 import static me.dnfneca.plugin.utilities.GUI.GUI.*;
 import static me.dnfneca.plugin.utilities.GUI.SubGUI.Menu.*;
 import static me.dnfneca.plugin.utilities.InventoryConverter.toBase64;
@@ -46,6 +49,13 @@ public class InventoryListener implements Listener {
 		String title = p.getOpenInventory().getTitle();
 
 		if(title.contains("Bag")) {
+			ItemMeta itemMeta = p.getInventory().getItemInMainHand().getItemMeta();
+			if(itemMeta.getPersistentDataContainer() != null) {
+				itemMeta.getPersistentDataContainer().set(itemMetaUUIDNamespaceKey, PersistentDataType.STRING, toBase64(e.getInventory()));
+				p.getInventory().getItemInMainHand().setItemMeta(itemMeta);
+			}
+		}
+		if(title.contains("Wand")) {
 			ItemMeta itemMeta = p.getInventory().getItemInMainHand().getItemMeta();
 			if(itemMeta.getPersistentDataContainer() != null) {
 				itemMeta.getPersistentDataContainer().set(itemMetaUUIDNamespaceKey, PersistentDataType.STRING, toBase64(e.getInventory()));
@@ -82,11 +92,6 @@ public class InventoryListener implements Listener {
 
 	}
 
-	@EventHandler
-	public void onInventoryEvent(PlayerItemHeldEvent e) {
-		Player player = e.getPlayer();
-		updatePlayerActionBar(PlayerStats.getPlayerStats(player.getUniqueId()));
-	}
 
 
 	@EventHandler
@@ -102,26 +107,101 @@ public class InventoryListener implements Listener {
 						Inventory openedInventory = e.getInventory();
 						switch (rarity) {
 							case "COMMON":
-								for(int i = 1; i < 6; i++) {
-									if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+								for(int i = 1; i < 27; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 1 && i != 7 && i != 8 && i != 9 && i != 10 && i != 16 && i != 17 && i != 18 && i != 19 && i != 25 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
 										openedInventory.setItem(i, null);
 									}
 								}
 								break;
 							case "UNCOMMON":
-								for(int i = 1; i < 8; i++) {
-									if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+								for(int i = 1; i < 27; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 8 && i != 9 && i != 17 && i != 18 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
 										openedInventory.setItem(i, null);
 									}
 								}
 								break;
 							case "RARE":
-								for(int i = 1; i < 15 ; i++) {
-									if(i != 8 && i != 9) {
-										System.out.println(i);
-										if(openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-											openedInventory.setItem(i, null);
-										}
+								for(int i = 0; i < 27 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "EPIC":
+								for(int i = 0; i < 36 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "LEGENDARY":
+								for(int i = 0; i < 45 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "MYTHIC":
+								for(int i = 0; i < 54 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+						}
+					}
+				}
+			}
+		}
+		if(e.getView().getTitle().contains("Wand")) {
+			Player player = (Player) e.getPlayer();
+			for(Item item : CustomItems) {
+				if(player.getInventory().getItemInMainHand().getItemMeta() == null) return;
+				List<String> Lore = player.getInventory().getItemInMainHand().getItemMeta().getLore();
+				for (String s : Lore) {
+					if(s.contains(item.getRarity()) && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(item.getName())) {
+						String rarity = item.getRarity().toUpperCase();
+						Inventory openedInventory = e.getInventory();
+						switch (rarity) {
+							case "EXOTIC":
+								for(int i = 1; i < 27; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 1 && i != 7 && i != 8 && i != 9 && i != 10 && i != 16 && i != 17 && i != 18 && i != 19 && i != 25 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "UNCOMMON":
+								for(int i = 1; i < 27; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 8 && i != 9 && i != 17 && i != 18 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "RARE":
+								for(int i = 0; i < 27 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "EPIC":
+								for(int i = 0; i < 36 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "LEGENDARY":
+								for(int i = 0; i < 45 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
+									}
+								}
+								break;
+							case "MYTHIC":
+								for(int i = 0; i < 54 ; i++) {
+									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
+										openedInventory.setItem(i, null);
 									}
 								}
 								break;
@@ -133,10 +213,81 @@ public class InventoryListener implements Listener {
 	}
 
 	@EventHandler
+	public void onInventoryEvent(PlayerSwapHandItemsEvent e) {
+		Player p = e.getPlayer();
+		updatePlayerActionBar(PlayerStats.getPlayerStats(p.getUniqueId()));
+
+		if(p.getInventory().getItemInOffHand().getItemMeta() == null && p.getInventory().getItemInMainHand().getItemMeta() == null) {
+			return;
+		}
+
+		if(CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.isItemCustomItem(p.getInventory().getItemInMainHand())) {
+			if(!CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand") && !CustomItemStack.getItemType(p.getInventory().getItemInMainHand()).equals("Wand")) {
+				return;
+			}
+		}
+
+		List<String> lore = new ArrayList<>();
+		Inventory inv = p.getInventory();
+
+		ItemStack i = e.getMainHandItem();
+		e.setMainHandItem(e.getOffHandItem());
+		e.setOffHandItem(i);
+		ItemStack offHand = e.getOffHandItem();
+
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+
+
+				if (PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+					if (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand")) {
+						PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
+						ShowPlayerHotbar.ShowHotbar(p);
+						if(p.getInventory().getItemInMainHand() == null) {
+							p.getInventory().setItemInMainHand(offHand);
+						} else {
+							p.getInventory().addItem(offHand);
+						}
+						SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
+					}
+				} else {
+					if (!CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) || (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && !CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand"))) {
+						PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(true);
+						SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
+						p.getInventory().setItemInOffHand(p.getInventory().getItemInMainHand());
+						ShowPlayerSpells.ShowSpells(p, 0);
+					}
+				}
+			}
+		}.runTaskLater(Plugin.getInstance(), 1);
+	}
+
+	@EventHandler
 	public void onInventoryEvent(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
 		List<String> lore = new ArrayList<>();
 		Inventory inv = e.getInventory();
+
+		ItemStack offhand = p.getInventory().getItemInOffHand();
+
+		ItemStack itemInCursor = e.getCurrentItem();
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (CustomItemStack.isItemCustomItem(offhand) && CustomItemStack.getItemType(offhand).equals("Wand") && PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+					PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
+					ShowPlayerHotbar.ShowHotbar(p, itemInCursor);
+//					SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
+				} else if (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand") && !PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+					SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
+					ShowPlayerSpells.ShowSpells(p, 0);
+					PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(true);
+				}
+			}
+		}.runTaskLater(Plugin.getInstance(), 1);
+
 
 		ItemStack ClickedItem = null;
 
@@ -153,11 +304,19 @@ public class InventoryListener implements Listener {
 
 
 		if(e.getView().getTitle().contains("Bag")) {
-			for (ItemStack item:e.getInventory()) {
-				if(e.getCurrentItem().getItemMeta() == null) return;
-				if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Bag")) {
-					e.setCancelled(true);
-				}
+			if(e.getCurrentItem().getItemMeta() == null) return;
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Bag")) {
+				e.setCancelled(true);
+			}
+		}
+
+		if(e.getView().getTitle().contains("Wand")) {
+			if(e.getCurrentItem().getItemMeta() == null) return;
+			if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Wand")) {
+				e.setCancelled(true);
+			}
+			if(!CustomItemStack.isItemCustomItem(e.getCurrentItem()) || !(CustomItemStack.isItemCustomItem(e.getCurrentItem()) && CustomItemStack.getItemType(e.getCurrentItem()).equals("Spell"))) {
+				e.setCancelled(true);
 			}
 		}
 

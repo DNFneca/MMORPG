@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,7 +120,7 @@ public class SetCustomItemLore {
 		if(playerStats.getLevel() < CustomItemStack.getItemMinimalLevelForUsage(itemStack)) {
 			Lore.add("");
 			Lore.add(ChatColor.RED + "THIS ITEM REQUIRES LEVEL " + CustomItemStack.getItemMinimalLevelForUsage(itemStack));
-			Lore.add(ChatColor.RED + "YOU ARE LEVEL " + playerStats.getLevel() + ".");
+//			Lore.add(ChatColor.RED + "YOU ARE LEVEL " + playerStats.getLevel() + ".");
 		}
 
 		Lore.add("");
@@ -138,7 +139,6 @@ public class SetCustomItemLore {
 			}
 		}
 //        itemMeta.setAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED = 0);
-
 
 		itemMeta.setUnbreakable(true);
 		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);

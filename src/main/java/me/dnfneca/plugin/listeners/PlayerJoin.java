@@ -2,6 +2,7 @@ package me.dnfneca.plugin.listeners;
 
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStatCalc;
 import me.dnfneca.plugin.utilities.managers.Statistics.PlayerStats;
 import org.bukkit.Bukkit;
@@ -38,6 +39,7 @@ public class PlayerJoin implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
+
 
 
 
@@ -108,9 +110,6 @@ public class PlayerJoin implements Listener {
 
 		boolean foundPlayer = false;
 
-		System.out.println(Class);
-		System.out.println(Players);
-
 		for (PlayerStats p:Players) {
 			if(p.getPlayer().getUniqueId().equals(e.getPlayer().getUniqueId())) {
 				System.out.println("Found player");
@@ -160,6 +159,9 @@ public class PlayerJoin implements Listener {
 		MenuMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		MainMenu.setItemMeta(MenuMeta);
 		player.getInventory().setItem(8, MainMenu);
+		if(CustomItemStack.isItemCustomItem(player.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(player.getInventory().getItemInOffHand()).equals("Wand")) {
+			PlayerStats.getPlayerStats(e.getPlayer().getUniqueId()).setSpellsActive(true);
+		}
 		for (PlayerStats playerStats : Players) {
 			if (playerStats.getUUID().toString().equals(e.getPlayer().getUniqueId().toString()) && !foundPlayer) {
 				Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), new Runnable() {

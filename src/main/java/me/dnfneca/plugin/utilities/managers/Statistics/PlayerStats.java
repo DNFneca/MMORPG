@@ -7,6 +7,7 @@ import me.dnfneca.plugin.utilities.managers.Social.PlayerFiles;
 import me.dnfneca.plugin.utilities.managers.Towns.Town;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -50,6 +51,8 @@ public class PlayerStats {
 	int ManaRegenTime;
 	double StunDuration;
 
+	boolean SpellsActive;
+
 	Town Town;
 
 	public PlayerStats(UUID UUID, double Health, double Damage, double Defence, double Strength, double Speed, double Mana, double CritDamage, double CritChance, double Stealth, int EnchantingXp, int xp, String Class) {
@@ -75,6 +78,7 @@ public class PlayerStats {
 		this.BonusMana = 0;
 		this.BonusManaTimer = 0;
 		this.BonusHealthTimer = 0;
+		SpellsActive = false;
 		main();
 	}
 
@@ -146,6 +150,10 @@ public class PlayerStats {
 
 	public void setTown(Town town) {
 		this.Town = town;
+	}
+
+	public void setSpellsActive(boolean spellsActive) {
+		this.SpellsActive = spellsActive;
 	}
 
 	public void setXp(int xp) {
@@ -296,6 +304,10 @@ public class PlayerStats {
 
 	public int getManaRegenTime() {
 		return ManaRegenTime;
+	}
+
+	public boolean isSpellsActive() {
+		return this.SpellsActive;
 	}
 
 	public double getManaSpent() {

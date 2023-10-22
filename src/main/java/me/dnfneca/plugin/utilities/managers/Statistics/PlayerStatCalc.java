@@ -105,7 +105,7 @@ public enum PlayerStatCalc {
 
 		ItemStack itemInMainHand = p.getPlayer().getInventory().getItemInMainHand();
 
-		if(itemInMainHand != null && CustomItemStack.isItemCustomItem(itemInMainHand)) {
+		if(itemInMainHand != null && CustomItemStack.isItemCustomItem(itemInMainHand) && !CustomItemStack.isItemCustomReforge(itemInMainHand) && !CustomItemStack.getItemType(itemInMainHand).equals("Armor")) {
 			if(CustomItemStack.isItemReforged(itemInMainHand)) {
 				itemHealth = CustomItemStack.getItemHealth(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getHealth();
 				itemDamage = CustomItemStack.getItemDamage(itemInMainHand) + getCustomReforgeByName(CustomItemStack.getItemReforge(itemInMainHand)).getDamage();

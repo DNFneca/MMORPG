@@ -56,6 +56,7 @@ public enum initReforges {
 				0));
 
 
+
 		reforgeItemStack = new ItemStack(Material.PLAYER_HEAD);
 		reforgeItemMeta = (SkullMeta) reforgeItemStack.getItemMeta();
 		reforgeItemMeta.setDisplayName(ChatColor.GOLD + "Arnid's Stoat");
@@ -120,6 +121,8 @@ public enum initReforges {
 				"RAVENS_RAVEN",
 				"Any",
 				0));
+
+
 
 		reforgeItemStack = new ItemStack(Material.FEATHER);
 		ItemMeta reforgeItemMetaNonHead = reforgeItemStack.getItemMeta();

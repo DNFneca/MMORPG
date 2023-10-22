@@ -1,7 +1,9 @@
 package me.dnfneca.plugin.listeners;
 
+import me.dnfneca.plugin.utilities.GUI.Wand;
 import me.dnfneca.plugin.utilities.GUI.Waystone;
 import me.dnfneca.plugin.utilities.managers.Abilities.AbilitiesManager;
+import me.dnfneca.plugin.utilities.managers.Item.CustomItemStack;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import me.dnfneca.plugin.utilities.managers.Mayors.Events.Dig;
 import me.dnfneca.plugin.utilities.managers.Mayors.util.RunMayorEventRunEvent;
@@ -37,12 +39,21 @@ public class RightClickListener implements Listener {
 		Player p = e.getPlayer();
 		if ((Action.RIGHT_CLICK_AIR == action || Action.RIGHT_CLICK_BLOCK == action) && EquipmentSlot.HAND == e.getHand()) {
 			PlayerStats playerStats = PlayerStats.getPlayerStats(p.getUniqueId());
-			OpenMenu(p);
+			if(CustomItemStack.isItemCustomItem(p.getInventory().getItemInMainHand()) && CustomItemStack.getItemType(p.getInventory().getItemInMainHand()).equals("Bag")) {
+				OpenMenu(p);
+				e.setCancelled(true);
+			}
+			if(p.isSneaking() && CustomItemStack.isItemCustomItem(p.getInventory().getItemInMainHand())) {
+				if(CustomItemStack.getItemType(p.getInventory().getItemInMainHand()).equals("Wand")) {
+					Wand.OpenMenu(p);
+					e.setCancelled(true);
+				}
+			}
 			if(playerStats == null) {
 				p.kickPlayer("Your user has been bugged, contact the server owners and/or admins");
 			}
 			if(Action.RIGHT_CLICK_BLOCK == action) {
-				if(playerStats.getTown().getCityMayor().getMayorEvent() != null) {
+				if(playerStats.getTown() != null && playerStats.getTown().getCityMayor() != null && playerStats.getTown().getCityMayor().getMayorEvent() != null) {
 					for (Dig d:Digs) {
 						System.out.println(d.getPlayer());
 					}

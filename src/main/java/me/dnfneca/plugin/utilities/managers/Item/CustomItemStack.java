@@ -1,11 +1,20 @@
 package me.dnfneca.plugin.utilities.managers.Item;
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.InventoryConverter;
+import me.dnfneca.plugin.utilities.UUIDType;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.UUID;
+
+import static me.dnfneca.plugin.Commands.test.itemMetaUUIDNamespaceKey;
+import static me.dnfneca.plugin.Commands.test.itemUUIDNamespaceKey;
 import static me.dnfneca.plugin.Plugin.CustomItems;
 import static me.dnfneca.plugin.Plugin.CustomReforges;
 import static me.dnfneca.plugin.utilities.managers.Item.Item.*;
@@ -67,6 +76,46 @@ public class CustomItemStack {
 				newItemMeta.getPersistentDataContainer().set(customItemReforgeNamespaceKey, PersistentDataType.STRING, "none");
 				newItemMeta.getPersistentDataContainer().set(customItemNameNamespaceKey, PersistentDataType.STRING, item.getName());
 				newItemMeta.getPersistentDataContainer().set(customItemReforgedNamespaceKey, PersistentDataType.BOOLEAN, false);
+
+				if(item.getCodeName().contains("_BAG")) {
+					UUID uuid = UUID.randomUUID();
+					Inventory inv = null;
+					ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+					ItemMeta itemM = blue_glass.getItemMeta();
+					itemM.setDisplayName("   ");
+					blue_glass.setItemMeta(itemM);
+					if(item.getRarity().equals("Epic") || item.getRarity().equals("Legendary") || item.getRarity().equals("Mythic")) {
+						inv = Bukkit.createInventory(null, 54, "Bag");
+						for (int i = 0; i < 54; i++) {
+							inv.setItem(i, blue_glass);
+						}
+					} else {
+						inv = Bukkit.createInventory(null, 27, "Bag");
+						for (int i = 0; i < 27; i++) {
+							inv.setItem(i, blue_glass);
+						}
+					}
+
+
+					newItemMeta.getPersistentDataContainer().set(itemUUIDNamespaceKey, new UUIDType(), uuid);
+					newItemMeta.getPersistentDataContainer().set(itemMetaUUIDNamespaceKey, PersistentDataType.STRING, InventoryConverter.toBase64(inv));
+				}
+
+				if(item.getType().equals("Wand")) {
+					UUID uuid = UUID.randomUUID();
+					Inventory inv = null;
+					ItemStack blue_glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+					ItemMeta itemM = blue_glass.getItemMeta();
+					itemM.setDisplayName("   ");
+					blue_glass.setItemMeta(itemM);
+					inv = Bukkit.createInventory(null, 27, "Bag");
+					for (int i = 0; i < 27; i++) {
+						inv.setItem(i, blue_glass);
+					}
+
+					newItemMeta.getPersistentDataContainer().set(itemUUIDNamespaceKey, new UUIDType(), uuid);
+					newItemMeta.getPersistentDataContainer().set(itemMetaUUIDNamespaceKey, PersistentDataType.STRING, InventoryConverter.toBase64(inv));
+				}
 				newItem.setItemMeta(newItemMeta);
 				return newItem;
 			}
@@ -74,6 +123,7 @@ public class CustomItemStack {
 		for(Reforge reforge:CustomReforges) {
 			if(reforge.getCodeName().contains(CodeName)) {
 				ItemStack newItem = new ItemStack(reforge.getReforgeItemStack());
+				UUID uuid = UUID.randomUUID();
 				ItemMeta newItemMeta = newItem.getItemMeta();
 				newItemMeta.getPersistentDataContainer().set(customItemNamespaceKey, PersistentDataType.BOOLEAN, true);
 				newItemMeta.getPersistentDataContainer().set(customReforgeNamespaceKey, PersistentDataType.BOOLEAN, true);
@@ -94,6 +144,8 @@ public class CustomItemStack {
 				newItemMeta.getPersistentDataContainer().set(customItemReforgeNamespaceKey, PersistentDataType.STRING, "None");
 				newItemMeta.getPersistentDataContainer().set(customItemNameNamespaceKey, PersistentDataType.STRING, reforge.getName());
 				newItemMeta.getPersistentDataContainer().set(customItemReforgeNameNamespaceKey, PersistentDataType.STRING, reforge.getReforgeName());
+				newItemMeta.getPersistentDataContainer().set(itemUUIDNamespaceKey, new UUIDType(), uuid);
+
 				newItem.setItemMeta(newItemMeta);
 				return newItem;
 			}

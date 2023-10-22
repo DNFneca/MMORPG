@@ -30,12 +30,15 @@ public class itemTabComplete implements TabCompleter {
 			if (s.getAbilityName().toUpperCase().contains(args[0].toUpperCase())) {
 				p.add(s.getCodeName());
 			}
-			if (s.getAbilityCost() != 0 && args[0] != "" && String.valueOf(s.getAbilityCost()).equals(args[0])) {
+			if (s.getAbilityCost() != 0 && args[0] != "" && String.valueOf(s.getAbilityCost()).contains(args[0])) {
 				p.add(s.getCodeName());
 			}
 		}
 		for (Reforge customReforge : CustomReforges) {
-			if(null != customReforge.getName() && customReforge.getCodeName().contains(args[0])) {
+			if (null != customReforge.getCodeName() && customReforge.getCodeName().toUpperCase().contains(args[0].toUpperCase())) {
+				p.add(customReforge.getCodeName());
+			}
+			if (customReforge.getReforgeName().toUpperCase().contains(args[0].toUpperCase())) {
 				p.add(customReforge.getCodeName());
 			}
 		}

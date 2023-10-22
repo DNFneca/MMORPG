@@ -107,7 +107,7 @@ public class ForgeMenuListener implements Listener {
 					e.getInventory().setItem(40, none);
 				}
 
-				if (e.getSlot() == 40 && e.getCurrentItem().getType() != Material.BARRIER && e.getInventory().getItem(11) != null && e.getInventory().getItem(15) != null) {
+				if (e.getSlot() == 40 && e.getCurrentItem().getType() != Material.BARRIER && e.getRawSlot() == 40 && e.getInventory().getItem(11) != null && e.getInventory().getItem(15) != null) {
 					e.getInventory().setItem(11, new ItemStack(Material.AIR, 1));
 					e.getInventory().setItem(15, new ItemStack(Material.AIR, 1));
 					isChecking[0] = false;
