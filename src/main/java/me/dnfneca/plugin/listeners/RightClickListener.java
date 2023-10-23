@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 
 import static me.dnfneca.plugin.Plugin.*;
 import static me.dnfneca.plugin.utilities.GUI.GUI.MainMenu;
-import static me.dnfneca.plugin.utilities.GUI.Spellbook.OpenMenu;
+import static me.dnfneca.plugin.utilities.GUI.Bag.OpenMenu;
 
 public class RightClickListener implements Listener {
 

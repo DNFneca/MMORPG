@@ -280,7 +280,7 @@ public class CustomItemStack {
 	}
 
 	public static String getItemType(ItemStack itemStack) {
-		if(!isItemCustomItem(itemStack)) {
+		if(itemStack == null || itemStack.getItemMeta() == null || !isItemCustomItem(itemStack)) {
 			return null;
 		}
 		return itemStack.getItemMeta().getPersistentDataContainer().get(customItemTypeNamespaceKey, PersistentDataType.STRING);

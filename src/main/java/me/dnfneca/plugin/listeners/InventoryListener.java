@@ -1,6 +1,7 @@
 package me.dnfneca.plugin.listeners;
 
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.GUI.Bag;
 import me.dnfneca.plugin.utilities.GUI.ClassMenus;
 import me.dnfneca.plugin.utilities.GUI.LevelsMenu;
 import me.dnfneca.plugin.utilities.GUI.ReforgeMenu;
@@ -96,63 +97,6 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onInventoryEvent(InventoryOpenEvent e) {
-		if(e.getView().getTitle().contains("Bag")) {
-			Player player = (Player) e.getPlayer();
-			for(Item item : CustomItems) {
-				if(player.getInventory().getItemInMainHand().getItemMeta() == null) return;
-				List<String> Lore = player.getInventory().getItemInMainHand().getItemMeta().getLore();
-				for (String s : Lore) {
-					if(s.contains(item.getRarity()) && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(item.getName())) {
-						String rarity = item.getRarity().toUpperCase();
-						Inventory openedInventory = e.getInventory();
-						switch (rarity) {
-							case "COMMON":
-								for(int i = 1; i < 27; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 1 && i != 7 && i != 8 && i != 9 && i != 10 && i != 16 && i != 17 && i != 18 && i != 19 && i != 25 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-							case "UNCOMMON":
-								for(int i = 1; i < 27; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && i != 8 && i != 9 && i != 17 && i != 18 && i != 26 && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-							case "RARE":
-								for(int i = 0; i < 27 ; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-							case "EPIC":
-								for(int i = 0; i < 36 ; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-							case "LEGENDARY":
-								for(int i = 0; i < 45 ; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-							case "MYTHIC":
-								for(int i = 0; i < 54 ; i++) {
-									if(openedInventory.getItem(i) != null && openedInventory.getItem(i).getItemMeta() != null && openedInventory.getItem(i).getItemMeta().getDisplayName().equals("   ")) {
-										openedInventory.setItem(i, null);
-									}
-								}
-								break;
-						}
-					}
-				}
-			}
-		}
 		if(e.getView().getTitle().contains("Wand")) {
 			Player player = (Player) e.getPlayer();
 			for(Item item : CustomItems) {
@@ -218,13 +162,31 @@ public class InventoryListener implements Listener {
 		updatePlayerActionBar(PlayerStats.getPlayerStats(p.getUniqueId()));
 
 		if(p.getInventory().getItemInOffHand().getItemMeta() == null && p.getInventory().getItemInMainHand().getItemMeta() == null) {
+			e.setCancelled(true);
+			return;
+		}
+		if(p.getInventory().getItemInMainHand().getType() == Material.NETHER_STAR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Menu")) {
+			e.setCancelled(true);
 			return;
 		}
 
 		if(CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.isItemCustomItem(p.getInventory().getItemInMainHand())) {
 			if(!CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand") && !CustomItemStack.getItemType(p.getInventory().getItemInMainHand()).equals("Wand")) {
+				e.setCancelled(true);
 				return;
 			}
+		}
+
+
+		if(CustomItemStack.isItemCustomItem(e.getMainHandItem()) && CustomItemStack.getItemType(e.getMainHandItem()).equals("Spell") && PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if(CustomItemStack.isItemCustomItem(e.getOffHandItem()) && CustomItemStack.getItemType(e.getOffHandItem()).equals("Wand") && PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()
+		&& CustomItemStack.isItemCustomItem(e.getMainHandItem()) && CustomItemStack.getItemType(e.getMainHandItem()).equals("Spell")) {
+			e.setCancelled(true);
+			return;
 		}
 
 		List<String> lore = new ArrayList<>();
@@ -234,26 +196,39 @@ public class InventoryListener implements Listener {
 		e.setMainHandItem(e.getOffHandItem());
 		e.setOffHandItem(i);
 		ItemStack offHand = e.getOffHandItem();
+		ItemStack mainHand = e.getMainHandItem();
 
 
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 
+				boolean found = false;
+
+				if(CustomItemStack.isItemCustomItem(mainHand) && CustomItemStack.getItemType(mainHand).equals("Bag")) {
+					Bag.OpenMenu(p);
+					e.setCancelled(true);
+					return;
+				}
 
 				if (PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
 					if (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand")) {
 						PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
 						ShowPlayerHotbar.ShowHotbar(p);
+						for(int i = 0; i < 8 ; i++) {
+							if(p.getInventory().getItem(i) != null && p.getInventory().getItem(i).equals(offHand)) {
+								found = true;
+							}
+						}
 						if(p.getInventory().getItemInMainHand() == null) {
 							p.getInventory().setItemInMainHand(offHand);
-						} else {
+						} else if(!found) {
 							p.getInventory().addItem(offHand);
 						}
 						SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
 					}
 				} else {
-					if (!CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) || (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && !CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand"))) {
+					if (!CustomItemStack.isItemCustomItem(offHand) || (CustomItemStack.isItemCustomItem(offHand) && !CustomItemStack.getItemType(offHand).equals("Wand"))) {
 						PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(true);
 						SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
 						p.getInventory().setItemInOffHand(p.getInventory().getItemInMainHand());
@@ -261,7 +236,7 @@ public class InventoryListener implements Listener {
 					}
 				}
 			}
-		}.runTaskLater(Plugin.getInstance(), 1);
+		}.runTaskLater(Plugin.getInstance(), 0);
 	}
 
 	@EventHandler
@@ -271,22 +246,81 @@ public class InventoryListener implements Listener {
 		Inventory inv = e.getInventory();
 
 		ItemStack offhand = p.getInventory().getItemInOffHand();
-
+		ItemStack mainhand = p.getInventory().getItemInMainHand();
 		ItemStack itemInCursor = e.getCurrentItem();
+
+		if(e.getClick().isCreativeAction()) {
+			return;
+		}
+
+		if(itemInCursor != null && itemInCursor.getItemMeta() != null && CustomItemStack.isItemCustomItem(itemInCursor) && CustomItemStack.getItemType(itemInCursor).equals("Bag") && (e.getClick().isKeyboardClick() || e.getClick().isRightClick())){
+			e.setCancelled(true);
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					Bag.OpenMenu(p, itemInCursor);
+				}
+			}.runTaskLater(Plugin.getInstance(), 0);
+			return;
+		}
+
+		if(e.getClick().isKeyboardClick() && e.getSlot() == 40) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if(PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive() && e.getSlot() == 40) {
+//			e.setCancelled(true);
+			PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
+			ShowPlayerHotbar.ShowHotbar(p, itemInCursor);
+			return;
+		}
+
+		if(PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive() && e.getClick().isKeyboardClick()) {
+//			e.setCancelled(true);
+//			if(e.getSlot() < 8) {
+//				p.getInventory().setItem(e.getSlot(), new ItemStack(Material.AIR));
+//				p.getInventory().setItem(e.getSlot(), offhand);
+//				p.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
+//			}
+			PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
+			ShowPlayerHotbar.ShowHotbar(p, p.getInventory().getItemInOffHand());
+			return;
+		}
+
+		if(offhand != null && offhand.getItemMeta() != null && CustomItemStack.isItemCustomItem(offhand) && CustomItemStack.getItemType(offhand).equals("Wand")) {
+			if(itemInCursor == offhand) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+
+		if(offhand != null && offhand.getItemMeta() != null && CustomItemStack.isItemCustomItem(offhand) && CustomItemStack.getItemType(offhand).equals("Wand")) {
+			if(itemInCursor != null && itemInCursor.getItemMeta() != null && CustomItemStack.isItemCustomItem(itemInCursor) && CustomItemStack.getItemType(itemInCursor).equals("Spell")) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+
+
+
+		if(itemInCursor != null && itemInCursor.getType() != Material.AIR && CustomItemStack.isItemCustomItem(itemInCursor) && !CustomItemStack.getItemType(itemInCursor).equals("Wand") && PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+			if(!CustomItemStack.getItemType(itemInCursor).equals("Bag")) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (CustomItemStack.isItemCustomItem(offhand) && CustomItemStack.getItemType(offhand).equals("Wand") && PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
-					PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(false);
-					ShowPlayerHotbar.ShowHotbar(p, itemInCursor);
-//					SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
-				} else if (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand") && !PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
+				if (CustomItemStack.isItemCustomItem(p.getInventory().getItemInOffHand()) && CustomItemStack.getItemType(p.getInventory().getItemInOffHand()).equals("Wand") && !PlayerStats.getPlayerStats(p.getUniqueId()).isSpellsActive()) {
 					SaveHotbarToDB.SaveHotbarToDB(p, p.getInventory());
 					ShowPlayerSpells.ShowSpells(p, 0);
 					PlayerStats.getPlayerStats(p.getUniqueId()).setSpellsActive(true);
 				}
 			}
-		}.runTaskLater(Plugin.getInstance(), 1);
+		}.runTaskLater(Plugin.getInstance(), 0);
 
 
 		ItemStack ClickedItem = null;
