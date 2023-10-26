@@ -2,12 +2,14 @@ package me.dnfneca.plugin.Commands;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
 import me.dnfneca.plugin.Plugin;
+import me.dnfneca.plugin.utilities.Dungeons.Dungeon;
 import me.dnfneca.plugin.utilities.Guild.CreateNew;
 import me.dnfneca.plugin.utilities.InventoryConverter;
 import me.dnfneca.plugin.utilities.ItemStackType;
 import me.dnfneca.plugin.utilities.UUIDType;
 import me.dnfneca.plugin.utilities.managers.Item.Item;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -37,6 +39,8 @@ public class test implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(sender instanceof Player player) {
+
+			new Dungeon(args[0], player.getLocation());
 
 //			CreateNew.Guild(args[0], args[1]);
 

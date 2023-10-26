@@ -2,6 +2,7 @@ package me.dnfneca.plugin.utilities.managers.Item;
 
 import me.dnfneca.plugin.Plugin;
 import me.dnfneca.plugin.utilities.InventoryConverter;
+import net.minecraft.world.level.block.JigsawBlock;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

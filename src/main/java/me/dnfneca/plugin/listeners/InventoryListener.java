@@ -253,6 +253,12 @@ public class InventoryListener implements Listener {
 			return;
 		}
 
+		if (itemInCursor != null && itemInCursor.getItemMeta() != null &&itemInCursor.getItemMeta().getDisplayName().contains("Menu")) {
+			e.setCancelled(true);
+			MainMenu(p);
+			return;
+		}
+
 		if(itemInCursor != null && itemInCursor.getItemMeta() != null && CustomItemStack.isItemCustomItem(itemInCursor) && CustomItemStack.getItemType(itemInCursor).equals("Bag") && (e.getClick().isKeyboardClick() || e.getClick().isRightClick())){
 			e.setCancelled(true);
 			new BukkitRunnable() {

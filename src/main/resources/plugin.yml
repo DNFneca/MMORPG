@@ -3,6 +3,9 @@ version: '${project.version}'
 main: me.dnfneca.plugin.Plugin
 api-version: 1.18
 authors: [ DNFneca ]
+libraries:
+  - com.github.shynixn.structureblocklib:structureblocklib-bukkit-api:2.12.0
+  - com.github.shynixn.structureblocklib:structureblocklib-bukkit-core:2.12.0
 commands:
   summonmob:
     description: summon a custom mob from the plugin

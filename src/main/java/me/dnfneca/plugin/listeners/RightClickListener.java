@@ -49,9 +49,9 @@ public class RightClickListener implements Listener {
 					e.setCancelled(true);
 				}
 			}
-			if(playerStats == null) {
-				p.kickPlayer("Your user has been bugged, contact the server owners and/or admins");
-			}
+//			if(playerStats == null) {
+//				p.kickPlayer("Your user has been bugged, contact the server owners and/or admins");
+//			}
 			if(Action.RIGHT_CLICK_BLOCK == action) {
 				if(playerStats.getTown() != null && playerStats.getTown().getCityMayor() != null && playerStats.getTown().getCityMayor().getMayorEvent() != null) {
 					for (Dig d:Digs) {
